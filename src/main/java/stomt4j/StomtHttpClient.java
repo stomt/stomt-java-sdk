@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
@@ -15,24 +17,26 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-public class StomtHttpClient implements HttpVariables{
+public class StomtHttpClient implements HttpVariables {
 
 	private final Map<String, String> requestHeaders;
 
 	public StomtHttpClient(StomtClient client) {
 		requestHeaders = new HashMap<String, String>();
 		requestHeaders.put("appid", client.getAppid());
-		
-		// Evtl nur wo login required abfragen oder garnicht handlen? -> MAX: Exception fliegen lassen falls login req und nicht gesetzt
-//		if (client.getAuthorization().getAccesstoken() != null) {
-//			requestHeaders.put("accesstoken", client.getAuthorization().getAccesstoken());
-//		}
+
+		// Evtl nur wo login required abfragen oder garnicht handlen? -> MAX:
+		// Exception fliegen lassen falls login req und nicht gesetzt
+		// if (client.getAuthorization().getAccesstoken() != null) {
+		// requestHeaders.put("accesstoken",
+		// client.getAuthorization().getAccesstoken());
+		// }
 	}
 
 	public Map<String, String> getRequestHeaders() {
 		return requestHeaders;
 	}
-	
+
 	public void setTypeHeader() {
 		requestHeaders.put("Content-Type", contentType);
 	}
@@ -44,16 +48,18 @@ public class StomtHttpClient implements HttpVariables{
 	/**
 	 * Transform StomtHttpRequest to a valid HttpRequest and executes it.
 	 * 
-	 * @param request The {@code StomtHttpRequest}
+	 * @param request
+	 *            The {@code StomtHttpRequest}
 	 * @return The {@code HttpResponse}
 	 */
 	protected HttpResponse execute(StomtHttpRequest request) {
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		HttpResponse response = null;
-		
+
 		try {
 			if (request.getMethod() == RequestMethod.GET) {
-				HttpGet httpRequest = get(request);		// StomtHttpRequest -> HttpRequest
+				HttpGet httpRequest = get(request); // StomtHttpRequest ->
+													// HttpRequest
 				response = httpClient.execute(httpRequest);
 				// To do: HttpResponse -> StomtHttpResponse
 				// ... -> return type: StomtHttpResponse
@@ -84,6 +90,7 @@ public class StomtHttpClient implements HttpVariables{
 	 */
 	private HttpGet get(StomtHttpRequest request) {
 		HttpGet getRequest = new HttpGet(request.getPath());
+
 		setHeaders(getRequest, request);
 		return getRequest;
 	}
@@ -95,21 +102,22 @@ public class StomtHttpClient implements HttpVariables{
 		HttpPost httpRequest = new HttpPost(request.getPath());
 		setHeaders(httpRequest, request);
 		// set request-body
-		
+
 		try {
 			httpRequest.setEntity(new StringEntity(request.bodyToJSON()));
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("Invalid Http body.");
 			e.printStackTrace();
 		}
-		
-//		try {
-//			httpRequest.setEntity(new StringEntity(request.toString().toString()));
-//		} catch (UnsupportedEncodingException e) {
-//			System.out.println("Can not set entity for HTTP-Request!");
-//			e.printStackTrace();
-//		}
-//		// Evtl.? UrlEncodedFormEntity entity = buildEntityBody(params);
+
+		// try {
+		// httpRequest.setEntity(new
+		// StringEntity(request.toString().toString()));
+		// } catch (UnsupportedEncodingException e) {
+		// System.out.println("Can not set entity for HTTP-Request!");
+		// e.printStackTrace();
+		// }
+		// // Evtl.? UrlEncodedFormEntity entity = buildEntityBody(params);
 		return httpRequest;
 	}
 
@@ -119,21 +127,21 @@ public class StomtHttpClient implements HttpVariables{
 	private HttpPut put(StomtHttpRequest request) {
 		HttpPut httpRequest = new HttpPut(request.getPath());
 		setHeaders(httpRequest, request);
-		
+
 		try {
 			httpRequest.setEntity(new StringEntity(request.bodyToJSON()));
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("Invalid Http body.");
 			e.printStackTrace();
 		}
-		
-//		try {
-//			httpRequest.setEntity(new StringEntity(request.toString()));
-//		} catch (UnsupportedEncodingException e) {
-//			System.out.println("Can not set entity for HTTP-Request!");
-//			e.printStackTrace();
-//		}
-		// Evtl.?  UrlEncodedFormEntity entity = buildEntityBody(params);
+
+		// try {
+		// httpRequest.setEntity(new StringEntity(request.toString()));
+		// } catch (UnsupportedEncodingException e) {
+		// System.out.println("Can not set entity for HTTP-Request!");
+		// e.printStackTrace();
+		// }
+		// Evtl.? UrlEncodedFormEntity entity = buildEntityBody(params);
 		return httpRequest;
 	}
 
@@ -145,17 +153,19 @@ public class StomtHttpClient implements HttpVariables{
 		setHeaders(httpRequest, request);
 		return httpRequest;
 	}
-	
+
 	/**
 	 * Set all headers defined in StomtHttpRequest.
 	 * 
-	 * @param methodRequest The valid {@code HttpRequest}
-	 * @param request The {@code StomtHttpRequest}
+	 * @param methodRequest
+	 *            The valid {@code HttpRequest}
+	 * @param request
+	 *            The {@code StomtHttpRequest}
 	 */
 	public void setHeaders(HttpRequestBase methodRequest, StomtHttpRequest request) {
 		for (Map.Entry<String, String> entry : request.getRequestHeaders().entrySet()) {
 			methodRequest.setHeader(entry.getKey(), entry.getValue());
 		}
 	}
-	
+
 }
