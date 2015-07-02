@@ -77,10 +77,9 @@ public class StomtClient implements HttpVariables {
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
 		return new Target(data.getAsJsonObject("user"));
-		// return data.get("user").toString();
 	}
 
-	public String/* Target */verifyEmail(String userid, String verification_code) throws ParseException, IOException {
+	public Target verifyEmail(String userid, String verification_code) throws ParseException, IOException, StomtException {
 		Map<String, String> bodyParameters = new HashMap<String, String>();
 		bodyParameters.put("userid", userid);
 		bodyParameters.put("verification_code", verification_code);
@@ -95,18 +94,18 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			return o.getAsJsonObject("error").get("0").getAsString();
+			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
-		// return new Target(data.getAsJsonObject("user"));
-		return data.get("user").toString();
+		return new Target(data.getAsJsonObject("user"));
+		//return data.get("user").toString();
 	}
 
-	public String/* Target */login(String emailUsername, String password) throws ParseException, IOException {
+	public Target login(String emailUsername, String password) throws ParseException, IOException, StomtException {
 		Map<String, String> bodyParameters = new HashMap<String, String>();
 		bodyParameters.put("login_method", "normal");
 		bodyParameters.put("emailusername", emailUsername);
@@ -122,18 +121,17 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			return o.getAsJsonObject("error").get("0").getAsString();
+			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
-		// return new Target(data.getAsJsonObject("user"));
-		return data.get("user").toString();
+		return new Target(data.getAsJsonObject("user"));
 	}
 
-	public String/* Target */loginFacebook(String fb_access_token, String fb_user_id) throws ParseException, IOException {
+	public Target loginFacebook(String fb_access_token, String fb_user_id) throws ParseException, IOException, StomtException {
 		Map<String, String> bodyParameters = new HashMap<String, String>();
 		bodyParameters.put("login_method", "facebook");
 		bodyParameters.put("fb_access_token", fb_access_token);
@@ -149,15 +147,14 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			return o.getAsJsonObject("error").get("0").getAsString();
+			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
-		// return new Target(data.getAsJsonObject("user"));
-		return data.get("user").toString();
+		return new Target(data.getAsJsonObject("user"));
 	}
 
 	public boolean logout() throws ParseException, IOException, StomtException {
@@ -180,7 +177,7 @@ public class StomtClient implements HttpVariables {
 		return Boolean.valueOf(data.get("success").getAsString());
 	}
 
-	public String/* Target */refreshAccessToken() throws ParseException, IOException {
+	public Target refreshAccessToken() throws ParseException, IOException, StomtException {
 		httpClient.addRequestHeader("accesstoken", this.auth.getAccesstoken());
 		httpClient.addRequestHeader("refreshtoken", this.auth.getRefreshtoken());
 
@@ -194,15 +191,14 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			return o.getAsJsonObject("error").get("0").getAsString();
+			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
-		// return new Target(data.getAsJsonObject("user"));
-		return data.get("user").toString();
+		return new Target(data.getAsJsonObject("user"));
 	}
 
 	public boolean checkAccessToken() throws ParseException, IOException, StomtException {
@@ -305,8 +301,44 @@ public class StomtClient implements HttpVariables {
 
 	/* Stomts */
 
-	// undefined
-	public Collection createStomt() {
+	//{"anonym":false,"negative":true,"prefetched":false,"text":"would abcdefgh1234","creator":{"id":"test1337","displayname":"test1337","category":{"id":"users","displayname":"Users"},"images":{"avatar":{"url":"https://test.rest.stomt.com/placeholders/30/4.png","w":30,"h":42}},"ownedTargets":[],"roles":[],"lang":"en","ownedTargetsArray":[]},"target_id":"stomt"}
+
+	
+	
+//	public String createStomt(String target_id, boolean negative, String text, String url, boolean anonym,
+//			String img_name, String lonlat) throws ParseException, IOException, StomtException {
+	public String createStomt(boolean anonym, String creator, String img_name, boolean negative, boolean prefetched, String target_id, String text, String url,  String lonlat) throws ParseException, IOException, StomtException {
+	//	httpClient.addRequestHeader("accesstoken", this.auth.getAccesstoken());
+		
+		Map<String, String> bodyParameters = new HashMap<String, String>();
+		bodyParameters.put("anonym", Boolean.toString(anonym));
+		//bodyParameters.put("creator", creator);
+		//bodyParameters.put("img_name", img_name);
+		bodyParameters.put("negative", Boolean.toString(negative));
+		bodyParameters.put("prefetched", Boolean.toString(prefetched));
+		bodyParameters.put("target_id", target_id);
+		bodyParameters.put("text", text);
+		//bodyParameters.put("url", url);
+		//bodyParameters.put("lonlat", lonlat);
+
+		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + stomt,
+				httpClient.getRequestHeaders(), bodyParameters, this.auth);
+		HttpResponse response = httpClient.execute(request);
+		HttpEntity entity = response.getEntity();
+		String json = EntityUtils.toString(entity, "UTF-8");
+
+		JsonParser parser = new JsonParser();
+		JsonObject o = (JsonObject) parser.parse(json);
+
+		if (response.getStatusLine().getStatusCode() != 200) {
+			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
+		}
+
+		JsonObject data = o.getAsJsonObject("data");
+
+
+		// return new Target(data.getAsJsonObject("user"));
+		return data.getAsString();
 
 	}
 

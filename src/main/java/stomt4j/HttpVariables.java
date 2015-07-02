@@ -20,6 +20,7 @@ public interface HttpVariables {
 	  public static final String login = "/session";
 	  public static final String check = "/check";
 	  public static final String refresh = "/refresh";
+	  public static final String stomt = "/stomt";
 	  public static final String contentType = "application/json";
 
 }

@@ -2,7 +2,8 @@ import java.io.IOException;
 
 import org.apache.http.ParseException;
 
-import stomt4j.*;
+import stomt4j.StomtClient;
+import stomt4j.StomtException;
 
 public class test {
 
@@ -13,6 +14,11 @@ public class test {
 
 		// Create StomtClient
 		StomtClient client = new StomtClient(appid);
+		
+		
+		
+
+		
 
 		// Authentification
 
@@ -49,6 +55,15 @@ public class test {
 
 		System.out.println(client.getAuthorization().getAccesstoken());
 		System.out.println(client.getAuthorization().getRefreshtoken());
+		
+		
+		
+		
+		
+		
+		System.out.println(client.createStomt(true, null, null, true, false, "stomt", "Ich bin ein durch die Rest Api erstellter Stomt!", null, null));
+		
+		
 
 		/*
 		 * Login FB
