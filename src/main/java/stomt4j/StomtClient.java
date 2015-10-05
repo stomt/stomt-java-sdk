@@ -51,13 +51,13 @@ public class StomtClient implements HttpVariables {
 
 	/* Authentification */
 
-	public Target registerAnUser(String username, String email, String password, String fullname)
+	public Target registerAnUser(String username, String email, String password, String displayname)
 			throws ParseException, IOException, StomtException {
 		Map<String, String> bodyParameters = new HashMap<String, String>();
 		bodyParameters.put("username", username);
 		bodyParameters.put("email", email);
 		bodyParameters.put("password", password);
-		bodyParameters.put("fullname", fullname);
+		bodyParameters.put("displayname", displayname);
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + authentication,
 				httpClient.getRequestHeaders(), bodyParameters, this.auth);
@@ -69,7 +69,7 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
+			throw new StomtException(o);
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
@@ -79,6 +79,8 @@ public class StomtClient implements HttpVariables {
 		return new Target(data.getAsJsonObject("user"));
 	}
 
+	
+	// Aktuell noch nicht getestet!
 	public Target verifyEmail(String userid, String verification_code) throws ParseException, IOException, StomtException {
 		Map<String, String> bodyParameters = new HashMap<String, String>();
 		bodyParameters.put("userid", userid);
@@ -94,7 +96,7 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
+			throw new StomtException(o);
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
@@ -121,7 +123,7 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
+			throw new StomtException(o);
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
@@ -147,7 +149,7 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
+			throw new StomtException(o);
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
@@ -170,7 +172,7 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
+			throw new StomtException(o);
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
@@ -191,7 +193,7 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
+			throw new StomtException(o);
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
@@ -214,7 +216,7 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
+			throw new StomtException(o);
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
@@ -238,7 +240,7 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
+			throw new StomtException(o);
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
@@ -260,7 +262,7 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
+			throw new StomtException(o);
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
@@ -300,26 +302,18 @@ public class StomtClient implements HttpVariables {
 	}
 
 	/* Stomts */
-
-	//{"anonym":false,"negative":true,"prefetched":false,"text":"would abcdefgh1234","creator":{"id":"test1337","displayname":"test1337","category":{"id":"users","displayname":"Users"},"images":{"avatar":{"url":"https://test.rest.stomt.com/placeholders/30/4.png","w":30,"h":42}},"ownedTargets":[],"roles":[],"lang":"en","ownedTargetsArray":[]},"target_id":"stomt"}
-
 	
-	
-//	public String createStomt(String target_id, boolean negative, String text, String url, boolean anonym,
-//			String img_name, String lonlat) throws ParseException, IOException, StomtException {
-	public String createStomt(boolean anonym, String creator, String img_name, boolean negative, boolean prefetched, String target_id, String text, String url,  String lonlat) throws ParseException, IOException, StomtException {
-	//	httpClient.addRequestHeader("accesstoken", this.auth.getAccesstoken());
+	public String createStomt(boolean anonym, String img_name, boolean positive, boolean prefetched, String target_id, String text, String url,  String lonlat) throws ParseException, IOException, StomtException {
 		
 		Map<String, String> bodyParameters = new HashMap<String, String>();
 		bodyParameters.put("anonym", Boolean.toString(anonym));
-		//bodyParameters.put("creator", creator);
-		//bodyParameters.put("img_name", img_name);
-		bodyParameters.put("negative", Boolean.toString(negative));
+		bodyParameters.put("img_name", img_name);
+		bodyParameters.put("positive", Boolean.toString(positive));
 		bodyParameters.put("prefetched", Boolean.toString(prefetched));
 		bodyParameters.put("target_id", target_id);
 		bodyParameters.put("text", text);
-		//bodyParameters.put("url", url);
-		//bodyParameters.put("lonlat", lonlat);
+		bodyParameters.put("url", url);
+		bodyParameters.put("lonlat", lonlat);
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + stomt,
 				httpClient.getRequestHeaders(), bodyParameters, this.auth);
@@ -331,7 +325,7 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o.getAsJsonObject("error").get("0").getAsString());
+			throw new StomtException(o);
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
