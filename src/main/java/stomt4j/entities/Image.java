@@ -1,5 +1,7 @@
 package stomt4j.entities;
 
+import com.google.gson.JsonObject;
+
 public class Image {
 	
 	String context;
@@ -8,5 +10,9 @@ public class Image {
 	String url;
 	int width;
 	int height;
+	
+	public Image (JsonObject image) {
+		
+	}
 	
 }

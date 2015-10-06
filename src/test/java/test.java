@@ -15,9 +15,7 @@ public class test {
 		// Create StomtClient
 		StomtClient client = new StomtClient(appid);
 		
-		
-		
-
+	
 		
 
 		// Authentification
