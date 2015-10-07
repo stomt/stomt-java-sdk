@@ -1,4 +1,4 @@
-# sdk-java
+# stomt Java SDK
 Java SDK for the stomt API
 
 ## Contribution
