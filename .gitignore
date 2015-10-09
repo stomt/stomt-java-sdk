@@ -13,3 +13,10 @@ hs_err_pid*
 
 # Compiled Files #
 target/
+
+# ide
+.idea
+.settings
+.project
+RemoteSystemsTempFiles
+.metadata
