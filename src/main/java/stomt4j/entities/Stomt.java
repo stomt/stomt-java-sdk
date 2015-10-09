@@ -72,19 +72,19 @@ public class Stomt {
 		this.amountComments = stomt.get("amountComments").getAsInt();
 		
 		// TODO: implement!
-		this.labels = ;
-		this.agreements = ;
+//		this.labels = null;
+//		this.agreements = null;
 		
 		this.anonym = stomt.get("anonym").getAsBoolean();
 		this.target = new Target(stomt.getAsJsonObject("target"));
 		
 		// TODO: implement!
-		this.highlights = ;
+//		this.highlights = null;
 
 		this.creator = new Target(stomt.getAsJsonObject("creator"));
 	
 		// TODO: implement!
-		this.urls = ;
+//		this.urls = null;
 		
 		this.agreed = new AgreementEntity(stomt.getAsJsonObject("agreed"));
 	}
