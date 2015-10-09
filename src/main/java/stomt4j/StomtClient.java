@@ -298,7 +298,7 @@ public class StomtClient implements HttpVariables {
 	/* Feeds */
 
 	public/* Feeds[] */Stomt[] getFeed(String type) {
-
+		return null;
 	}
 
 	/* Stomts */
@@ -338,37 +338,38 @@ public class StomtClient implements HttpVariables {
 
 	// undefined
 	public Collection readStomt(String stomt_id) {
-
+		return null;
 	}
 
 	public boolean deleteStomt(String stomt_id) {
-
+		return false;
 	}
 
 	/* Agreements */
 
 	// Wofür im Request "negative" mitschicken??
 	public Collection readAgreement(String stomt_id, boolean negative) {
-
+		return null;
 	}
 
 	public boolean deleteAgreement(String stomt_id) {
-
+		return false;
 	}
 
 	/* Comments */
 
 	public Collection readComments(String stomt_id) {
-
+		return null;
 	}
 
 	public Collection createComment(String parent_id, String text, boolean reaction) {
 		// Überprüfen ob reaction auf true gesetzt werden darf weil nur target
 		// owner reagieren können
+		return null;
 	}
 
 	public boolean deleteComment(String stomt_id, String comment_id) {
-
+		return false;
 	}
 
 	/*
@@ -392,26 +393,26 @@ public class StomtClient implements HttpVariables {
 	/* Comment Reaction */
 
 	public boolean markCommentAsReaction(String stomt_id, String comment_id) {
-
+		return false;
 	}
 
 	public boolean unmarkCommentAsReaction(String stomt_id, String comment_id) {
-
+		return false;
 	}
 
 	/* Targets */
 
 	// undefined
 	public Target createTarget() {
-
+		return null;
 	}
 
 	public Target getTarget(String target_id) {
-
+		return null;
 	}
 
 	public Target updateTarget(String target_id) {
-
+		return null;
 	}
 
 	/* Target Following - Version 2 */
@@ -435,29 +436,29 @@ public class StomtClient implements HttpVariables {
 	/* Target Stomts */
 
 	public Collection getTargetStomts(String target_id, String type, String secondType) {
-
+		return null;
 	}
 
 	/* Categories */
 
 	public Category[] getAllCategories() {
-
+		return null;
 	}
 
 	/* Reports */
 
 	public boolean createReport(String report_type, String repor_type_id, String report_weight) {
-
+		return false;
 	}
 
 	/* Notifications */
 
 	public Notification[] getNotifications(boolean unseen, String last_notification, int offset, int limit) {
-
+		return null;
 	}
 
 	public boolean updateNotifications(String id, boolean seen, boolean clicked) {
-
+		return false;
 	}
 
 	/* Images - Version 2 */
@@ -469,26 +470,26 @@ public class StomtClient implements HttpVariables {
 
 	/* Search */
 
-	public Collection<Target> searchTarget(String searchItem) {
-
+	public Target[] searchTarget(String searchItem) {
+		return null;
 	}
 
 	public Stomt[] hashtag(String tag) {
-
+		return null;
 	}
 
 	/* Target Invitations */
 
 	public Invitation createInvitation(String target_id, String invite_to_type, boolean invite_as_owner) {
-
+		return null;
 	}
 
 	public Invitation[] getInvitations(String target_id) {
-
+		return null;
 	}
 
 	public Invitation checkValidity(String target_id, String code) {
-
+		return null;
 	}
 
 	/* Helper functions */
