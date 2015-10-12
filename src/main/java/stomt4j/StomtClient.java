@@ -1,26 +1,15 @@
 package stomt4j;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import stomt4j.auth.*;
 import stomt4j.entities.*;
 
@@ -269,7 +258,7 @@ public class StomtClient implements HttpVariables {
 		return Boolean.valueOf(data.get("success").getAsString());
 	}
 
-	public String/* Target */resetPassword(String resetcode, String newPassword) throws ParseException, IOException {
+	public Target resetPassword(String resetcode, String newPassword) throws ParseException, IOException, StomtException {
 		Map<String, String> bodyParameters = new HashMap<String, String>();
 		bodyParameters.put("resetcode", resetcode);
 		bodyParameters.put("newpassword", newPassword);
@@ -284,23 +273,27 @@ public class StomtClient implements HttpVariables {
 		JsonObject o = (JsonObject) parser.parse(json);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
-			return o.getAsJsonObject("error").get("0").getAsString();
+			throw new StomtException(o);
 		}
 
 		JsonObject data = o.getAsJsonObject("data");
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
-		// return new Target(data.getAsJsonObject("user"));
-		return data.get("user").toString();
+		return new Target(data.getAsJsonObject("user"));
 	}
 
 	/* Feeds */
 
-	public/* Feeds[] */Stomt[] getFeed(String type) {
-		return null;
-	}
+	
+	/*
+	 * Return mb. Feeds[]
+	
+	public Stomt[] getFeed(String type) {
 
+	}
+	 */
+	
 	/* Stomts */
 	
 	public String createStomt(boolean anonym, String img_name, boolean positive, boolean prefetched, String target_id, String text, String url,  String lonlat) throws ParseException, IOException, StomtException {
@@ -470,7 +463,7 @@ public class StomtClient implements HttpVariables {
 
 	/* Search */
 
-	public Target[] searchTarget(String searchItem) {
+	public Collection searchTarget(String searchItem) {
 		return null;
 	}
 

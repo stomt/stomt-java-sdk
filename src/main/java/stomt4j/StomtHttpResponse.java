@@ -1,34 +1,39 @@
 package stomt4j;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.http.HttpResponse;
+//import java.io.BufferedReader;
+//import java.io.IOException;
+//import java.io.InputStream;
+//import java.io.InputStreamReader;
+//import java.io.Reader;
+//import org.apache.http.HttpResponse;
+//import com.google.gson.JsonObject;
 
 
 public class StomtHttpResponse {
 
-//	private HttpResponse response;
-//    protected int statusCode;
-//    protected String responseAsString = null;
-//    protected InputStream is;
-//    private boolean streamConsumed = false;
-//
-//    public StomtHttpResponse(HttpResponse response) {
-//    	this.response = response;
-//    	this.statusCode = response.getStatusLine().getStatusCode();
-//    }
-//
-//    public int getStatusCode() {
-//        return statusCode;
-//    }
-//
-//
+	/*
+	 * 
+	 * This Class is not used yet!!!
+	 * 
+	 */
+	
+	/*
+	//private HttpResponse response;
+    protected int statusCode;
+    protected String responseAsString = null;
+    protected InputStream is;
+    private boolean streamConsumed = false;
+    
+    public StomtHttpResponse(HttpResponse response) {
+    	//this.response = response;
+    	this.statusCode = response.getStatusLine().getStatusCode();
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+*/
+
 //    /**
 //     * Returns the response stream.<br>
 //     * This method cannot be called after calling asString() or asDcoument()<br>
@@ -39,60 +44,65 @@ public class StomtHttpResponse {
 //     * @return response body stream
 //     * @see #disconnect()
 //     */
-//    public InputStream asStream() {
-//        if (streamConsumed) {
-//            throw new IllegalStateException("Stream has already been consumed.");
-//        }
-//        return is;
-//    }
-//
-//    /**
-//     * Returns the response body as string.<br>
-//     * Disconnects the internal HttpURLConnection silently.
-//     *
-//     * @return response body
-//     * @throws StomtException
-//     */
-//    public String asString() throws StomtException {
-//        if (null == responseAsString) {
-//            BufferedReader br = null;
-//            InputStream stream = null;
-//            try {
-//                stream = asStream();
-//                if (null == stream) {
-//                    return null;
-//                }
-//                br = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
-//                StringBuilder buf = new StringBuilder();
-//                String line;
-//                while ((line = br.readLine()) != null) {
-//                    buf.append(line).append("\n");
-//                }
-//                this.responseAsString = buf.toString();
-//                stream.close();
-//                streamConsumed = true;
-//            } catch (IOException ioe) {
-//                throw new StomtException(ioe.getMessage(), ioe);
-//            } finally {
-//                if (stream != null) {
-//                    try {
-//                        stream.close();
-//                    } catch (IOException ignore) {
-//                    }
-//                }
-//                if (br != null) {
-//                    try {
-//                        br.close();
-//                    } catch (IOException ignore) {
-//                    }
-//                }
-//            }
-//        }
-//        return responseAsString;
-//    }
-//
-//    private JSONObject json = null;
-//
+	
+	/*
+    public InputStream asStream() {
+        if (streamConsumed) {
+            throw new IllegalStateException("Stream has already been consumed.");
+        }
+        return is;
+    }
+
+    /**
+     * Returns the response body as string.<br>
+     * Disconnects the internal HttpURLConnection silently.
+     *
+     * @return response body
+     * @throws StomtException
+     */
+	
+	/*
+    public String asString() throws StomtException {
+        if (null == responseAsString) {
+            BufferedReader br = null;
+            InputStream stream = null;
+            try {
+                stream = asStream();
+                if (null == stream) {
+                    return null;
+                }
+                br = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+                StringBuilder buf = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    buf.append(line).append("\n");
+                }
+                this.responseAsString = buf.toString();
+                stream.close();
+                streamConsumed = true;
+            } catch (IOException ioe) {
+                throw new StomtException(ioe.getMessage());
+            } finally {
+                if (stream != null) {
+                    try {
+                        stream.close();
+                    } catch (IOException ignore) {
+                    }
+                }
+                if (br != null) {
+                    try {
+                        br.close();
+                    } catch (IOException ignore) {
+                    }
+                }
+            }
+        }
+        return responseAsString;
+    }
+
+    private JsonObject json = null;
+    */
+
 //    /**
 //     * Returns the response body as Stomt4j.JSONObject.<br>
 //     * Disconnects the internal HttpURLConnection silently.
@@ -100,18 +110,18 @@ public class StomtHttpResponse {
 //     * @return response body as Stomt4j.JSONObject
 //     * @throws StomtException
 //     */
-//    public JSONObject asJSONObject() throws StomtException {
+//    public JsonObject asJSONObject() throws StomtException {
 //        if (json == null) {
 //            Reader reader = null;
 //            try {
 //                if (responseAsString == null) {
 //                    reader = asReader();
-//                    json = new JSONObject(new JSONTokener(reader));
+//                    json = new JsonObject(new JsonTokener(reader));
 //                } else {
-//                    json = new JSONObject(responseAsString);
+//                    json = new JsonObject(responseAsString);
 //                }
-//
-//            } catch (JSONException jsone) {
+//           
+//            } catch (JsonException jsone) {
 //                if (responseAsString == null) {
 //                    throw new StomtException(jsone.getMessage(), jsone);
 //                } else {
@@ -172,14 +182,15 @@ public class StomtHttpResponse {
 //        }
 //        return jsonArray;
 //    }
-//
-//    public Reader asReader() {
-//        try {
-//            return new BufferedReader(new InputStreamReader(is, "UTF-8"));
-//        } catch (java.io.UnsupportedEncodingException uee) {
-//            return new InputStreamReader(is);
-//        }
-//    }
+/*
+    public Reader asReader() {
+        try {
+            return new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        } catch (java.io.UnsupportedEncodingException uee) {
+            return new InputStreamReader(is);
+        }
+    }
+    */
 //
 //    private void disconnectForcibly() {
 //        try {
@@ -189,7 +200,7 @@ public class StomtHttpResponse {
 //    }
 //
 //    public abstract void disconnect() throws IOException;
-//
+
 //    public String toString() {
 //        return "HttpResponse{" +
 //                "statusCode=" + statusCode +
@@ -198,4 +209,5 @@ public class StomtHttpResponse {
 //                ", streamConsumed=" + streamConsumed +
 //                '}';
 //    }
+    
 }

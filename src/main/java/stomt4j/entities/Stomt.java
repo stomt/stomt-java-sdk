@@ -1,6 +1,5 @@
 package stomt4j.entities;
 
-import java.util.Locale;
 import com.google.gson.JsonObject;
 
 public class Stomt {
@@ -8,34 +7,23 @@ public class Stomt {
 	private String id;
 	private boolean positive;
 	private String text;
+	// optional - TODO: Only one picture per stomt?
+	private Image images;
 	// TODO: Change type from String to Locale
 	private String lang;
 	private String created_at;
-	private boolean anonym;
-
-	// optional
-	// TODO: Only one picture per stomt?
-	private Image images;
-
-	private Target creator;
-
-	private Target target;
-
 	private int amountAgreements;
 	private int amountComments;
-
+	private Label[] labels;
+	private Agreement[] agreements;
+	private boolean anonym;
+	private Target target;
+	private Highlight[] highlights;
+	private Target creator;
+	private Url[] urls;
 	// only exists if agreed
 	private AgreementEntity agreed;
 
-	private Boolean agreementNegative;
-	private String visible_at;
-
-//	public Stomt(String id, boolean negative, String text, Locale lang,
-//			String created_at, boolean anonym) {
-//
-//	}
-	
-	
 //	{"meta":[],"data":{
 //		"id":"test2",
 //		"positive":false,
@@ -54,7 +42,7 @@ public class Stomt {
 //		"urls":["www.test.com"],
 //		"agreed":{"positive":true,"id":"5ctbakD9ApVDdPxegytbbLTPu"}
 //		}}
-	
+		
 	public Stomt (JsonObject stomt) {
 		this.id = stomt.get("id").getAsString();
 		this.positive = stomt.get("positive").getAsBoolean();
@@ -72,19 +60,20 @@ public class Stomt {
 		this.amountComments = stomt.get("amountComments").getAsInt();
 		
 		// TODO: implement!
-//		this.labels = null;
-//		this.agreements = null;
+		this.labels = null;
+		// TODO: implement!
+		this.agreements = null;
 		
 		this.anonym = stomt.get("anonym").getAsBoolean();
 		this.target = new Target(stomt.getAsJsonObject("target"));
 		
 		// TODO: implement!
-//		this.highlights = null;
+		this.highlights = null;
 
 		this.creator = new Target(stomt.getAsJsonObject("creator"));
 	
 		// TODO: implement!
-//		this.urls = null;
+		this.urls = null;
 		
 		this.agreed = new AgreementEntity(stomt.getAsJsonObject("agreed"));
 	}
@@ -167,7 +156,6 @@ public class Stomt {
 				amountAgreements--;
 			}
 		}
-
 		agreed = new AgreementEntity(id, negative);
 		
 		if (negative) {
@@ -177,8 +165,18 @@ public class Stomt {
 		}
 	}
 
-	public String/*Locale*/ getLang() {
+	// Change Return Type from String to Locale
+	public String getLang() {
 		return lang;
+	}
+	
+	@Override
+	public String toString() {
+		return "Stomt [id=" + id + "positive=" + positive + "text=" + text + "images=" + images.toString() + "lang="
+				+ lang + "created_at=" + created_at + "amountAgreements=" + amountAgreements + "amountComments="
+				+ amountComments + "labels=" + labels.toString() + "agreements=" + agreements.toString() + "anonym="
+				+ anonym + "target=" + target.toString() + "highlights=" + highlights.toString() + "creator="
+				+ creator.toString() + "urls=" + urls.toString() + "agreed=" + agreed.toString() + "]";
 	}
 
 	private class AgreementEntity {
@@ -193,6 +191,11 @@ public class Stomt {
 		private AgreementEntity (String id, boolean positive) {
 			this.id = id;
 			this.positive = positive;
+		}
+		
+		@Override
+		public String toString() {
+			return "AgreementEntity [id=" + id + "positive=" + positive + "]";
 		}
 	}
 }

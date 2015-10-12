@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
@@ -101,15 +99,13 @@ public class StomtHttpClient implements HttpVariables {
 	private HttpPost post(StomtHttpRequest request) {
 		HttpPost httpRequest = new HttpPost(request.getPath());
 		setHeaders(httpRequest, request);
-		// set request-body
-
+		
 		try {
 			httpRequest.setEntity(new StringEntity(request.bodyToJSON()));
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("Invalid Http body.");
 			e.printStackTrace();
 		}
-
 		// try {
 		// httpRequest.setEntity(new
 		// StringEntity(request.toString().toString()));
@@ -134,14 +130,6 @@ public class StomtHttpClient implements HttpVariables {
 			System.out.println("Invalid Http body.");
 			e.printStackTrace();
 		}
-
-		// try {
-		// httpRequest.setEntity(new StringEntity(request.toString()));
-		// } catch (UnsupportedEncodingException e) {
-		// System.out.println("Can not set entity for HTTP-Request!");
-		// e.printStackTrace();
-		// }
-		// Evtl.? UrlEncodedFormEntity entity = buildEntityBody(params);
 		return httpRequest;
 	}
 

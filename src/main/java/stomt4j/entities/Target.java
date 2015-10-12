@@ -6,16 +6,6 @@ import com.google.gson.JsonObject;
 
 public class Target {
 
-	// Target = User
-	/*
-	 * id displayname category (categoryObject.toString()) images
-	 * (imagesObject.toString()) ownedTargets (Array) roles (Array)
-	 */
-
-	// {"id":"test88576","displayname":"test88576","category":{"id":"users","displayname":"Users"},
-	// "images":{"avatar":{"url":"https://test.rest.stomt.com/placeholders/30/5.png","w":30,"h":42}},
-	// "ownedTargets":[],"roles":[]}
-
 	public Target(JsonObject target) {
 		this.id = target.get("id").getAsString();
 		this.displayname = target.get("displayname").getAsString();
