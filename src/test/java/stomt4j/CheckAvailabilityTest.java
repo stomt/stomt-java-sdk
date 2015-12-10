@@ -1,36 +1,32 @@
 package stomt4j;
 
 import static org.junit.Assert.*;
-
 import java.io.IOException;
-
 import org.apache.http.ParseException;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
+ */
 public class CheckAvailabilityTest {
 
-	String property;
-	String value;
-	boolean expected;
-	boolean target;
-	String randomAsString;
+	private static String randomAsString;
 	
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
 		double random = Math.random() * 100000;
 		randomAsString = Integer.toString((int) random);
-		reset();
 	}
 
 	@Test
 	public void checkAvailabilityAvailable() throws ParseException, IOException, StomtException {
-		System.out.println("Check Availability - available.");
+		System.out.println("->TEST: checkAvailabilityAvailable() - available.");
 		
-		property = "username";
-		value = "test" + randomAsString;
-		expected = true;
-		target = false;
+		String property = "username";
+		String value = "test" + randomAsString;
+		boolean expected = true;
+		boolean target = false;
 		
 		System.out.println("Expect: " + expected);
 		
@@ -38,17 +34,16 @@ public class CheckAvailabilityTest {
 		System.out.println("Get: " + target);
 		
 		assertTrue(expected == target);
-		reset();
 	}
 	
 	@Test
 	public void checkAvailabilityUnavailable() throws ParseException, IOException, StomtException {
-		System.out.println("Check Availability - unavailable.");
+		System.out.println("->TEST: checkAvailabilityUnavailable() - test not available.");
 		
-		property = "username";
-		value = "test";
-		expected = false;
-		target = true;
+		String property = "username";
+		String value = "test";
+		boolean expected = false;
+		boolean target = true;
 		
 		System.out.println("Expect: " + expected);
 		
@@ -56,15 +51,15 @@ public class CheckAvailabilityTest {
 		System.out.println("Get: " + target);
 		
 		assertTrue(expected == target);
-		reset();
 	}
 	
 	@Test(expected=StomtException.class)
 	public void checkAvailabilityIllegal() throws ParseException, IOException, StomtException {
-		System.out.println("Check Availability - Bad Request");
+		System.out.println("->TEST: checkAvailabilityIllegal() - Bad Request");
 		
-		property = "usernam";
-		value = "test";
+		// Wrong property -> Bad request.
+		String property = "usernam";
+		String value = "test";
 		String expected = "Status = 400 - Message = Test not available.";
 
 		System.out.println("Expect: " + expected);
@@ -73,12 +68,5 @@ public class CheckAvailabilityTest {
 		System.out.println("Get: " + target);
 		
 		assertEquals(expected, target);
-		reset();
 	}
-	
-	private void reset() {
-		property = null;
-		value = null;
-	}
-
 }

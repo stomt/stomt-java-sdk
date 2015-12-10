@@ -15,6 +15,9 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+/**
+ * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
+ */
 public class StomtHttpClient implements HttpVariables {
 
 	private final Map<String, String> requestHeaders;
@@ -22,13 +25,6 @@ public class StomtHttpClient implements HttpVariables {
 	public StomtHttpClient(StomtClient client) {
 		requestHeaders = new HashMap<String, String>();
 		requestHeaders.put("appid", client.getAppid());
-
-		// Evtl nur wo login required abfragen oder garnicht handlen? -> MAX:
-		// Exception fliegen lassen falls login req und nicht gesetzt
-		// if (client.getAuthorization().getAccesstoken() != null) {
-		// requestHeaders.put("accesstoken",
-		// client.getAuthorization().getAccesstoken());
-		// }
 	}
 
 	public Map<String, String> getRequestHeaders() {

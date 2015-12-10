@@ -1,13 +1,9 @@
 package stomt4j;
 
-/*
- * To do:
- * 
- * 	- Nur von Stomt genutzte StatusCodes implementieren
- */
+// TODO: Implement Stomt Statuscodes
 
 /**
- * @author Christoph Weidemeyer - christoph.weidemeyer at gmx.de
+ * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
 public interface HttpVariables {
 	
@@ -20,7 +16,8 @@ public interface HttpVariables {
 	  public static final String login = "/session";
 	  public static final String check = "/check";
 	  public static final String refresh = "/refresh";
-	  public static final String stomt = "/stomt";
+	  public static final String stomts = "/stomts";
+	  public static final String feeds = "/feeds/";
 	  public static final String contentType = "application/json";
-
+	  public static final String images = "/images";
 }

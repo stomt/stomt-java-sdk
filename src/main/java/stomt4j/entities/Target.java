@@ -1,226 +1,109 @@
 package stomt4j.entities;
 
-import java.util.Arrays;
-
 import com.google.gson.JsonObject;
 
+/**
+ * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
+ */
 public class Target {
-
+	
+	/*
+	 * Not implemented: ownedTargets, roles, widgets
+	 */
+	
+	private String id;
+	private String displayname;
+	private Category category;
+	private Images images;
+	private boolean verified;
+	private Stats stats;
+	
 	public Target(JsonObject target) {
+		this.category = new Category(target.getAsJsonObject("category"));
+		target.remove("category");
 		this.id = target.get("id").getAsString();
 		this.displayname = target.get("displayname").getAsString();
-		this.category = new Category(target.getAsJsonObject("category"));
-		// this.images = new Image[3]();
-		// this.ownedTargets = new
-		// this.roles
-	}
-
-	// user information
-	private String id;
-	private ImagesEntity images;
-	private Target[] ownedTargets;
-	private String email;
-	private String name;
-	private String lang;
-	private InfluenceStatus influencestatus;
-	private String roles;
-
-	// additional target information
-
-	private Category category;
-	private boolean amIFollowing;
-	private DetailsEntity details;
-	private String type;
-	private Stomt[] stomts;
-
-	private StatsEntity stats;
-	private String displayname;
-	private String follows;
-	private String follower;
-	private int influencelevel;
-	private String memberSince;
-
-	public String getName() {
-		if (name != null)
-			return name;
-
-		if (displayname != null)
-			return displayname;
-
-		if (details != null && details.name != null)
-			return details.name;
-
-		return null;
-	}
-
-	public String getLang() {
-		return lang;
-	}
-
-	public String getId() {
-		if (id != null)
-			return id;
-
-		if (details != null)
-			return details.id;
-
-		return null;
-	}
-
-	/**
-	 * @return images's url or null if not available
-	 */
-	public String getAvatarSidebar() {
-		if (images != null) {
-			return images.avatar_sidebar.url;
-		}
-
-		return null;
-	}
-
-	/**
-	 * @return images's url or null if not available
-	 */
-	public String getAvatarHeader() {
-		if (images != null) {
-			return images.avatar_header.url;
-		}
-
-		return null;
-	}
-
-	/**
-	 * @return images's url or null if not available
-	 */
-	public String getAvatarTarget() {
-		if (images != null && images.avatar_target != null && images.avatar_target.url != null)
-			return images.avatar_target.url;
-
-		return null;
-	}
-
-	/**
-	 * @return images's url or null if not available
-	 */
-	public String getAvatarStomt() {
-		if (images != null) {
-			return images.avatar_stomt.url;
-		}
-
-		return null;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public int getAmountFollows() {
-		if (stats != null)
-			return stats.amountFollows;
-
-		return -1;
-	}
-
-	public int getAmountFollowers() {
-		if (stats != null)
-			return stats.amountFollowers;
-
-		return -1;
-	}
-
-	public int getAmountStomtsCreated() {
-		if (stats != null)
-			return stats.amountStomtsCreated;
-
-		return -1;
-	}
-
-	public int getActualInfluenceLevel() {
-		if (details != null && details.influencestatus != null)
-			return details.influencestatus.actualInfluenceLevel;
-
-		return -1;
-	}
-
-	public String getAvatarFollower() {
-		if (images != null) {
-			return images.avatar_follower.url;
-		}
-
-		return null;
-	}
-
-	public boolean getAmIFollowing() {
-		return amIFollowing;
-	}
-
-	public void setAmIFollowing(boolean amIFollowing) {
-		this.amIFollowing = amIFollowing;
-	}
-
-	public Stomt[] getStomts() {
-		return stomts;
-	}
-
-	public int getAmountStomtsReceived() {
-		if (stats != null)
-			return stats.amountStomtsReceived;
-
-		return -1;
-	}
-
-	// public void createStomt(Context context) {
-	// Intent intent = new Intent(context, CreateStomtActivity.class);
-	// intent.putExtra(CreateStomtActivity.KEY_TARGET, Utils.GSON.toJson(this));
-	// context.startActivity(intent);
-	// }
-
-	private class ImagesEntity {
-		private ImageEntity avatar_sidebar;
-		private ImageEntity avatar_header;
-		private ImageEntity avatar_stomt;
-		private ImageEntity avatar_target;
-		private ImageEntity avatar_follower;
-		private ImageEntity avatar_comment;
-
-		private class ImageEntity {
-			private String url;
+		this.images = new Images(target.getAsJsonObject("images"));
+		this.verified = target.get("verified").getAsBoolean();
+		if (target.has("stats")) {
+			this.stats = new Stats(target.getAsJsonObject("stats"));
 		}
 	}
-
-	private class StatsEntity {
-		private int amountStomtsReceived;
-		private int amountStomtsCreated;
-		private int amountFollows;
-		private int amountFollowers;
-		private int amountStomts;
-	}
-
-	private class DetailsEntity {
-		private String id;
-		private String email;
-		private String name;
-		private ImagesEntity images;
-		private String lang;
-		private InfluenceStatus influencestatus;
-	}
-
-	private class InfluenceStatus {
-		private int nextLevelPoints;
-		private int nextLevel;
-		private int actualInfluenceLevel;
-		private int nextLevelPointsDifference;
-		private int actualInfluencePoints;
-		private int influenceLevelBarPercentage;
-	}
+	
 
 	@Override
 	public String toString() {
-		return "Target [id=" + id + ", images=" + images + ", ownedTargets=" + Arrays.toString(ownedTargets)
-				+ ", email=" + email + ", name=" + name + ", lang=" + lang + ", influencestatus=" + influencestatus
-				+ ", roles=" + roles + ", category=" + category + ", amIFollowing=" + amIFollowing + ", details="
-				+ details + ", type=" + type + ", stomts=" + Arrays.toString(stomts) + ", stats=" + stats
-				+ ", displayname=" + displayname + ", follows=" + follows + ", follower=" + follower
-				+ ", influencelevel=" + influencelevel + ", memberSince=" + memberSince + "]";
+		if (stats != null) {
+			return "Target [id=" + id + ", displayname=" + displayname + ", category=" + category.toString() +  ", images=" + images.toString() +  ", verified=" + verified +  ", stats=" + stats.toString() + "]";
+		}
+		return "Target [id=" + id + ", displayname=" + displayname + ", category=" + category.toString() +  ", images=" + images.toString() +  ", verified=" + verified + "]";
+	}
+	
+	private static class Stats {
+		
+		private int amountFollowers;
+		private int amountFollows;
+		private int amountStomtsCreated;
+		private int amountStomtsReceived;
+		
+		public Stats(JsonObject stats) {
+			this.amountFollowers = stats.get("amountFollowers").getAsInt();
+			this.amountFollows = stats.get("amountFollows").getAsInt();
+			this.amountStomtsCreated = stats.get("amountStomtsCreated").getAsInt();
+			this.amountStomtsReceived = stats.get("amountStomtsReceived").getAsInt();
+		}
+		
+		@Override
+		public String toString() {
+			return "Stats [amountFollowers=" + amountFollowers + ", amountFollows=" + amountFollows + ", amountStomtsCreated=" + amountStomtsCreated + ", amountStomtsReceived=" + amountStomtsReceived + "]";
+		}
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getDisplayname() {
+		return displayname;
+	}
+
+	public void setDisplayname(String displayname) {
+		this.displayname = displayname;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Images getImages() {
+		return images;
+	}
+
+	public void setImages(Images images) {
+		this.images = images;
+	}
+
+	public boolean isVerified() {
+		return verified;
+	}
+
+	public void setVerified(boolean verified) {
+		this.verified = verified;
+	}
+
+	public Stats getStats() {
+		return stats;
+	}
+
+	public void setStats(Stats stats) {
+		this.stats = stats;
 	}
 }

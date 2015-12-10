@@ -2,6 +2,9 @@ package stomt4j.entities;
 
 import com.google.gson.JsonObject;
 
+/**
+ * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
+ */
 public class Category {
 
 	private String id;

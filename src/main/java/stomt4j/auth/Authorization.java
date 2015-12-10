@@ -1,5 +1,8 @@
 package stomt4j.auth;
 
+/**
+ * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
+ */
 public class Authorization {
 	
     private String accesstoken;
@@ -13,6 +16,14 @@ public class Authorization {
     public Authorization(String access, String refresh) {
         this.accesstoken = access;
         this.refreshtoken = refresh;
+    }
+    
+    public boolean hasAccesstoken() {
+    	if (this.accesstoken == null) {
+    		return false;
+    	} else {
+    		return true;
+    	}
     }
 
     public void setAccesstoken(String token) {
@@ -36,5 +47,21 @@ public class Authorization {
     		return false;
     	}
     	return true;
+    }
+    
+    @Override
+    public String toString() {
+    	String auth = "[Accesstoken: ";
+    	if(accesstoken == null) {
+    		auth += "null; Refreshtoken: ";
+    	} else {
+    		auth += "not null; Refreshtoken: ";
+    	}
+    	if(refreshtoken == null) {
+    		auth += "null]";
+    	} else {
+    		auth += "not null]";
+    	}
+    	return auth;
     }
 }

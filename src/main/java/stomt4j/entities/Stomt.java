@@ -2,13 +2,15 @@ package stomt4j.entities;
 
 import com.google.gson.JsonObject;
 
+/**
+ * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
+ */
 public class Stomt {
 	
 	private String id;
 	private boolean positive;
 	private String text;
-	// optional - TODO: Only one picture per stomt?
-	private Image images;
+	private Images images;
 	// TODO: Change type from String to Locale
 	private String lang;
 	private String created_at;
@@ -20,41 +22,38 @@ public class Stomt {
 	private Target target;
 	private Highlight[] highlights;
 	private Target creator;
-	private Url[] urls;
+	// TODO: Expand to url array - Backend does not support at moment
+	private String url;
 	// only exists if agreed
-	private AgreementEntity agreed;
-
-//	{"meta":[],"data":{
-//		"id":"test2",
-//		"positive":false,
-//		"text":"would test2.",
-//		"images":{"stomt":{"url":"https:\/\/test.rest.stomt.com\/uploads\/42wQ\/s300x300\/42wQX5Ew7845CVBTfWjKOAtIsquCvj0WALaIxcgb_s300x300.png","w":300,"h":300}},
-//		"lang":"en",
-//		"created_at":"2015-10-05T17:05:38+0000",
-//		"amountAgreements":1,
-//		"amountComments":0,
-//		"labels":[],
-//		"agreements":[{"id":"5ctbakD9ApVDdPxegytbbLTPu","positive":true,"user":"test","avatar":{"url":"https:\/\/test.rest.stomt.com\/uploads\/F6uV\/s42x42\/F6uVZHmG3f27j8tYlO5ce0LbdsTbexLYX94Nl9Ji_s42x42.png","w":42,"h":42}}],
-//		"anonym":false,
-//		"target":{"id":"test2","displayname":"test2","category":{"id":"users","displayname":"Users"},"images":{"avatar":{"url":"https:\/\/test.rest.stomt.com\/placeholders\/30\/4.png","w":30,"h":42}},"verified":true},
-//		"highlights":[],
-//		"creator":{"id":"test","displayname":"test","category":{"id":"users","displayname":"Users"},"images":{"avatar":{"url":"https:\/\/test.rest.stomt.com\/uploads\/F6uV\/s42x42\/F6uVZHmG3f27j8tYlO5ce0LbdsTbexLYX94Nl9Ji_s42x42.png","w":42,"h":42}},"verified":false},
-//		"urls":["www.test.com"],
-//		"agreed":{"positive":true,"id":"5ctbakD9ApVDdPxegytbbLTPu"}
-//		}}
-		
+	private AgreedEntity agreed;
+	
+	/**
+	 * Constructor for stomt-object
+	 * 
+	 * @param stomt A stomt-object in json.
+	 */
 	public Stomt (JsonObject stomt) {
+		
+		if (stomt.has("agreed")) {
+			this.agreed = new AgreedEntity(stomt.get("agreed").getAsJsonObject());
+			//stomt.remove("agreed");
+		}
+		
 		this.id = stomt.get("id").getAsString();
 		this.positive = stomt.get("positive").getAsBoolean();
 		this.text = stomt.get("text").getAsString();
 		
-		if (stomt.get("images").getAsString() == "") {
-			this.images = null;
+		this.target = new Target(stomt.getAsJsonObject("target"));
+		stomt.remove("target");
+		
+		
+		if (stomt.get("images").isJsonObject()) {
+			this.images = new Images(stomt.get("images").getAsJsonObject());
 		} else {
-			this.images = new Image(stomt.getAsJsonObject("images"));
+			this.images = null;
 		}
 		
-		this.lang = stomt.get("lang").getAsString(); //LocaleUtils.toLocale(stomt.get("lang").getAsString());
+		this.lang = stomt.get("lang").getAsString();
 		this.created_at = stomt.get("created_at").getAsString();
 		this.amountAgreements = stomt.get("amountAgreements").getAsInt();
 		this.amountComments = stomt.get("amountComments").getAsInt();
@@ -65,137 +64,155 @@ public class Stomt {
 		this.agreements = null;
 		
 		this.anonym = stomt.get("anonym").getAsBoolean();
-		this.target = new Target(stomt.getAsJsonObject("target"));
+		
+		if (anonym == true) {
+			this.creator = null;
+		} else {
+			this.creator = new Target(stomt.getAsJsonObject("creator"));
+		}
 		
 		// TODO: implement!
 		this.highlights = null;
-
-		this.creator = new Target(stomt.getAsJsonObject("creator"));
 	
-		// TODO: implement!
-		this.urls = null;
-		
-		this.agreed = new AgreementEntity(stomt.getAsJsonObject("agreed"));
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public String getTargetName() {
-		return target.getName();
-	}
-
-	public String getPhotoTarget() {
-		return target.getAvatarStomt();
-	}
-
-	public String getPhotoCreator() {
-		return creator.getAvatarStomt();
-	}
-
-	public String getCreatorName() {
-		return creator.getName();
-	}
-
-	public int getAmountComments() {
-		return amountComments;
-	}
-
-	public void removeAgreement() {
-		if (agreed != null) {
-			if (agreed.positive) {
-				amountAgreements++;
-			} else { // positive
-				amountAgreements--;
-			}
-			agreed = null;
+		if (stomt.has("urls")) {
+			this.url = stomt.get("urls").getAsString();
 		}
-	}
-
-	public int getAmountAgreements() {
-		return amountAgreements;
-	}
-
-	public String getTargetId() {
-		return target.getId();
-	}
-
-	public String getCreated_at() {
-		return created_at;
-	}
-
-	public boolean isNegative() {
-		return positive;
-	}
-
-	public String getCreatorId() {
-		return creator.getId();
-	}
-
-	public boolean isAgreed() {
-		return agreed != null;
-	}
-
-	public Boolean isAgreementNegative() {
-		if (agreed != null) {
-			return agreed.positive;
-		}
-		return null;
 	}
 
 	public String getId() {
 		return id;
 	}
 
-	public void setAgreement(String id, boolean negative) {
-		if (agreed != null) {
-			if (agreed.positive) {
-				amountAgreements++;
-			} else { // positive
-				amountAgreements--;
-			}
-		}
-		agreed = new AgreementEntity(id, negative);
-		
-		if (negative) {
-			amountAgreements--;
-		} else { // positive
-			amountAgreements++;
-		}
+	public boolean isPositive() {
+		return positive;
 	}
 
-	// Change Return Type from String to Locale
+	public String getText() {
+		return text;
+	}
+
+	public Images getImages() {
+		return images;
+	}
+
 	public String getLang() {
 		return lang;
+	}
+
+	public String getCreated_at() {
+		return created_at;
+	}
+
+	public int getAmountAgreements() {
+		return amountAgreements;
+	}
+
+	public int getAmountComments() {
+		return amountComments;
+	}
+
+	public Label[] getLabels() {
+		return labels;
+	}
+
+	public Agreement[] getAgreements() {
+		return agreements;
+	}
+
+	public boolean isAnonym() {
+		return anonym;
+	}
+
+	public Target getTarget() {
+		return target;
+	}
+
+	public Highlight[] getHighlights() {
+		return highlights;
+	}
+
+	public Target getCreator() {
+		return creator;
+	}
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public AgreedEntity getAgreed() {
+		return agreed;
 	}
 	
 	@Override
 	public String toString() {
-		return "Stomt [id=" + id + "positive=" + positive + "text=" + text + "images=" + images.toString() + "lang="
-				+ lang + "created_at=" + created_at + "amountAgreements=" + amountAgreements + "amountComments="
-				+ amountComments + "labels=" + labels.toString() + "agreements=" + agreements.toString() + "anonym="
-				+ anonym + "target=" + target.toString() + "highlights=" + highlights.toString() + "creator="
-				+ creator.toString() + "urls=" + urls.toString() + "agreed=" + agreed.toString() + "]";
+		
+		String imagesString;
+		if (images == null) {
+			imagesString = "";
+		} else {
+			imagesString = images.toString();
+		}
+		
+		String labelsString;
+		if (labels == null) {
+			labelsString = "";
+		} else {
+			labelsString = labels.toString();
+		}
+		
+		String agreementsString;
+		if (agreements == null) {
+			agreementsString = "";
+		} else {
+			agreementsString = agreements.toString();
+		}
+		
+		String highlightsString;
+		if (highlights == null) {
+			highlightsString= "";
+		} else {
+			highlightsString = highlights.toString();
+		}
+		
+		String creatorString;
+		if (creator == null) {
+			creatorString = "";
+		} else {
+			creatorString = creator.toString();
+		}
+		
+		String agreedString;
+		if (agreed == null) {
+			agreedString = "";
+		} else {
+			agreedString = agreed.toString();
+		}
+		
+		String urlString;
+		if (url == null) {
+			urlString = "";
+		} else {
+			urlString = url;
+		}
+		
+		return "Stomt [id=" + id + ", positive=" + positive + ", text=" + text + ", images=" + imagesString + ", lang="
+				+ lang + ", created_at=" + created_at + ", amountAgreements=" + amountAgreements + ", amountComments="
+				+ amountComments + ", labels=" + labelsString + ", agreements=" + agreementsString + ", anonym="
+				+ anonym + ", target=" + target.toString() + ", highlights=" + highlightsString + ", creator="
+				+ creatorString + ", url=" + urlString + ", agreed=" + agreedString + "]";
 	}
-
-	private class AgreementEntity {
-		private String id;
+	
+	public static class AgreedEntity {
 		private boolean positive;
 		
-		private AgreementEntity (JsonObject agreed) {
-			this.id = agreed.get("id").getAsString();
+		public AgreedEntity(JsonObject agreed) {
 			this.positive = agreed.get("positive").getAsBoolean();
-		}
-
-		private AgreementEntity (String id, boolean positive) {
-			this.id = id;
-			this.positive = positive;
 		}
 		
 		@Override
 		public String toString() {
-			return "AgreementEntity [id=" + id + "positive=" + positive + "]";
+			return "AgreedEntity [positive=" + positive + "]";
 		}
+		
 	}
 }

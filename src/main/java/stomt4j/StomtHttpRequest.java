@@ -6,19 +6,15 @@ import com.google.gson.Gson;
 
 import stomt4j.auth.Authorization;
 
+/**
+ * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
+ */
 public class StomtHttpRequest {
 
 	private final RequestMethod method;
-
 	private final String path;
-
-	private final Map<String, String> bodyParameters;
-
-	// zb. für update notifications
-	// private final Collection bodyCollection;
-
+	private final Map<String, Object> bodyParameters;
 	private final Authorization authorization;
-
 	private final Map<String, String> requestHeaders;
 
 	/**
@@ -34,7 +30,7 @@ public class StomtHttpRequest {
 	 *            request headers
 	 */
 	public StomtHttpRequest(RequestMethod method, String path, Map<String, String> requestHeaders,
-			Map<String, String> bodyParameters, Authorization authorization) {
+			Map<String, Object> bodyParameters, Authorization authorization) {
 		this.method = method;
 		this.path = path;
 		this.bodyParameters = bodyParameters;
@@ -46,8 +42,13 @@ public class StomtHttpRequest {
 		return this.method;
 	}
 
-	public Map<String, String> getBodyParameters() {
+	public Map<String, Object> getBodyParameters() {
 		return this.bodyParameters;
+	}
+	
+	private String getBodyParametersAsString() {
+		// TODO: String Buffer ...
+		return null;
 	}
 
 	public String getPath() {
@@ -61,6 +62,11 @@ public class StomtHttpRequest {
 	public Map<String, String> getRequestHeaders() {
 		return this.requestHeaders;
 	}
+	
+	private String getRequestHeadersAsString() {
+		// TODO: String Buffer ...
+		return null;
+	}
 
 	public String bodyToJSON() {
 		Gson gson = new Gson();
@@ -69,8 +75,8 @@ public class StomtHttpRequest {
 
 	@Override
 	public String toString() {
-		return "StomtHttpRequest [method=" + method + ", path=" + path + ", bodyParameters=" + bodyParameters
-				+ ", authorization=" + authorization + ", requestHeaders=" + requestHeaders + "]";
+		return "StomtHttpRequest [method=" + getMethod() + ", path=" + getPath() + ", bodyParameters=" + getBodyParametersAsString()
+				+ ", authorization=" + getAuthorization().toString() + ", requestHeaders=" + getRequestHeadersAsString() + "]";
 	}
 
 }

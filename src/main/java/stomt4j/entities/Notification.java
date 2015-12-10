@@ -1,8 +1,7 @@
 package stomt4j.entities;
 
 /**
- * Representation of the Notification Entity
- * @author Christoph Weidemeyer
+ * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
 public class Notification {
 	
