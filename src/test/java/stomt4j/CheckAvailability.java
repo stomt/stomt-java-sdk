@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
-public class CheckAvailabilityTest {
+public class CheckAvailability {
 
 	private static String randomAsString;
 	
@@ -60,12 +60,12 @@ public class CheckAvailabilityTest {
 		// Wrong property -> Bad request.
 		String property = "usernam";
 		String value = "test";
-		String expected = "Status = 400 - Message = Test not available.";
+		String expected = "\"Test not available.\"";
 
 		System.out.println("Expect: " + expected);
-		
+		System.out.print("Get: ");
+
 		String target = Boolean.toString(StomtClientTest.client.checkAvailability(property, value));
-		System.out.println("Get: " + target);
 		
 		assertEquals(expected, target);
 	}

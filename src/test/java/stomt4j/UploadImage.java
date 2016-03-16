@@ -16,11 +16,11 @@ public class UploadImage {
 	@Test
 	public void uploadAvatarWithString() throws ParseException, IOException, StomtException {
 
+		System.out.println("-> TEST: uploadAvatarWithString()");
+
 		File img = new File("/home/chris/Pictures/javaTEST/test-user.png");
 		String myAvatar = fileToBase64(img);
-		
-		System.out.println("-> TEST: uploadAvatarWithString()");
-		
+				
 		StomtClient stomtClient = new StomtClient(StomtClientTest.appid);		
 				
 		stomtClient.login(StomtClientTest.usernamePassword, StomtClientTest.usernamePassword);
@@ -55,14 +55,17 @@ public class UploadImage {
 	@Test(expected=StomtException.class)
 	public void uploadImageWrongContext() throws ParseException, IOException, StomtException {
 
-		File avatar = new File("/home/chris/Pictures/javaTEST/test-user.png");
-		String myAvatar = fileToBase64(avatar);
-		
 		System.out.println("-> TEST: uploadImageWrongContext() - StomtException");
 		
+		File avatar = new File("/home/chris/Pictures/javaTEST/test-user.png");
+		String myAvatar = fileToBase64(avatar);
+				
 		StomtClient stomtClient = new StomtClient(StomtClientTest.appid);		
 				
 		stomtClient.login(StomtClientTest.usernamePassword, StomtClientTest.usernamePassword);
+		
+		System.out.println("Expect: The attribut context is invalid!!");
+		System.out.print("Get: ");
 
 		stomtClient.uploadImage("ABC", myAvatar);
 	}
@@ -70,13 +73,15 @@ public class UploadImage {
 	@Test(expected=StomtException.class)
 	public void uploadImageNotBase64() throws ParseException, IOException, StomtException {
 
-		String myAvatar = "abc";
-		
 		System.out.println("-> TEST: uploadImageNotBase64() - StomtException");
-		
+
+		String myAvatar = "abc";		
 		StomtClient stomtClient = new StomtClient(StomtClientTest.appid);		
 				
 		stomtClient.login(StomtClientTest.usernamePassword, StomtClientTest.usernamePassword);
+		
+		System.out.println("Expect: The image is not Base64 encoded!");
+		System.out.print("Get: ");
 
 		stomtClient.uploadImage("avatar", myAvatar);
 	}
@@ -88,7 +93,6 @@ public class UploadImage {
 	 * @throws StomtException
 	 */
 	private String fileToBase64(File data) throws StomtException {
-		
 		String imageDataString = null;
 		
         try {
@@ -102,9 +106,6 @@ public class UploadImage {
         } catch (IOException e) {
             e.printStackTrace();
         }
-		 
         return imageDataString;
-		
 	}
-	
 }

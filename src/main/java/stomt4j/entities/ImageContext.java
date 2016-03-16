@@ -1,5 +1,5 @@
 package stomt4j.entities;
 
 public enum ImageContext {
-	avatar, cover, stomt
+	avatar, cover, stomt, profile
 }

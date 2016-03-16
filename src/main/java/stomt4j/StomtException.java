@@ -1,5 +1,6 @@
 package stomt4j;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 /**
@@ -13,10 +14,15 @@ public class StomtException extends Throwable {
 	
 	public StomtException(JsonObject o) {
 		
-		JsonObject error = o.getAsJsonObject("error");
+//		JsonObject error = o.getAsJsonObject("error");
 		
-		System.out.println("Status = " + error.get("status").getAsString() 
-				+ " - Message = " + error.get("message").getAsString());
+		JsonElement error = o.get("error");
+
+		
+		System.out.println(error.toString());
+		
+//		System.out.println("Status = " + error.get("status").getAsString() 
+//				+ " - Message = " + error.get("message").getAsString());
 	}
 
 }

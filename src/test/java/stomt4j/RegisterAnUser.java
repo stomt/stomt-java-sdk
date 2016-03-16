@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
-public class RegisterAnUserTest {
+public class RegisterAnUser {
 	
 	// TODO: Check for valid Email (Status = 400 - Message = E-Mail invalid.)
 	

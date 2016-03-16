@@ -8,7 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
 @RunWith(Suite.class)
-@SuiteClasses({ LoginTest.class, LogoutTest.class, CheckAvailabilityTest.class, ForgotPasswordTest.class, CreateAnonymStomt.class, CreateStomtTest.class })
+@SuiteClasses({ Login.class, Logout.class, CheckAvailability.class, ForgotPassword.class, CreateAnonymStomt.class, CreateAnonymStomtWithImage.class, CreateStomt.class, CreateStomtWithImage.class, UploadImage.class, UploadImageAsFile.class, UploadImageViaUrl.class })
 public class StomtClientTest {
 	
 	// Set stomt application id
@@ -19,5 +19,11 @@ public class StomtClientTest {
 	
 	// Login name and password for tests
 	public static final String usernamePassword = "test";
+	
+	// The test target - all stomts are directed to 
+	public static final String target_id = "stomt-java";
+	
+	// The präfix for the required parameter text
+	public static final String textMessage = "Java-SDK test ";
 	
 }

@@ -7,30 +7,30 @@ import com.google.gson.JsonObject;
  */
 public class Stomt {
 	
-	private String id;
+	private String id = null;
 	private boolean positive;
-	private String text;
-	private Images images;
+	private String text = null;
+	private Images images = null;
 	// TODO: Change type from String to Locale
-	private String lang;
-	private String created_at;
-	private int amountAgreements;
-	private int amountComments;
-	private Label[] labels;
-	private Agreement[] agreements;
-	private boolean anonym;
-	private Target target;
-	private Highlight[] highlights;
-	private Target creator;
+	private String lang = null;
+	private String created_at = null;
+	private int amountAgreements = -1;
+	private int amountComments = -1;
+	private Label[] labels = null;
+	private Agreement[] agreements = null;
+	private boolean anonym = false;
+	private Target target = null;
+	private Highlight[] highlights = null;
+	private Target creator = null;
 	// TODO: Expand to url array - Backend does not support at moment
-	private String url;
+	private String url = null;
 	// only exists if agreed
-	private AgreedEntity agreed;
+	private AgreedEntity agreed = null;
 	
 	/**
-	 * Constructor for stomt-object
+	 * Constructor for stomt-objects
 	 * 
-	 * @param stomt A stomt-object in json.
+	 * @param stomt A stomt-object in json-format.
 	 */
 	public Stomt (JsonObject stomt) {
 		
@@ -49,8 +49,6 @@ public class Stomt {
 		
 		if (stomt.get("images").isJsonObject()) {
 			this.images = new Images(stomt.get("images").getAsJsonObject());
-		} else {
-			this.images = null;
 		}
 		
 		this.lang = stomt.get("lang").getAsString();

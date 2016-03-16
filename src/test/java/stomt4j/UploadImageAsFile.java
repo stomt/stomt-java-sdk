@@ -22,7 +22,12 @@ public class UploadImageAsFile {
 				
 		stomtClient.login(StomtClientTest.usernamePassword, StomtClientTest.usernamePassword);
 
+		System.out.println("BIS HIER");
+		
 		Image get = stomtClient.uploadImage("avatar", avatar);
+		
+		
+		System.out.println("get: " + get);
 		
 		stomtClient.logout();
 
@@ -88,19 +93,25 @@ public class UploadImageAsFile {
 //		assertEquals(get.toString(), expect.toString());
 //	}
 	
-	@Test(expected=StomtException.class)
-	public void uploadAsFileWrongDirectory() throws ParseException, IOException, StomtException {
-
-		File img = new File("");
-		
-		System.out.println("-> TEST: uploadAsFileNoBase64() - StomtException");
-		
-		StomtClient stomtClient = new StomtClient(StomtClientTest.appid);		
-				
-		stomtClient.login(StomtClientTest.usernamePassword, StomtClientTest.usernamePassword);
-
-		stomtClient.uploadImage("avatar", img);
-	}
+	
+	
+	
+	
+	
+	
+//	@Test(expected=StomtException.class)
+//	public void uploadAsFileWrongDirectory() throws ParseException, IOException, StomtException {
+//
+//		File img = new File("");
+//		
+//		System.out.println("-> TEST: uploadAsFileNoBase64() - StomtException");
+//		
+//		StomtClient stomtClient = new StomtClient(StomtClientTest.appid);		
+//				
+//		stomtClient.login(StomtClientTest.usernamePassword, StomtClientTest.usernamePassword);
+//
+//		stomtClient.uploadImage("avatar", img);
+//	}
 
 
 

@@ -16,15 +16,15 @@ import stomt4j.entities.Stomt;
 
 public class CreateAnonymStomtWithImage {
 
-	String random;
-	private String expected;
-	private String stomt;
-	private boolean positive;
-	private String target_id;
-	private String text;
-	private URL url;
-	private File img;
-	private URL imgUrl;
+	private String random = null;
+	private String expected = null;
+	private String stomt = null;
+	private boolean positive = false;
+	private String target_id = null;
+	private String text = null;
+	private URL url = null;
+	private File img = null;
+	private URL imgUrl = null;
 
 	@Test
 	public void createAnonymStomtMinimalFalse_File()
@@ -42,13 +42,9 @@ public class CreateAnonymStomtWithImage {
 				positive, target_id, text, "stomt", img);
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", "
-				+ "images=Images [avatar=, stomt=Image [url=" + stomtObject.getImages().getStomt().getUrl() + ", "
-						+ "width=" + stomtObject.getImages().getStomt().getWidth() +", height=" + stomtObject.getImages().getStomt().getHeight() + "], profile=], "
-								+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
-										+ "target=Target [id=stomt-java, displayname=Stomt Java, category=Category [id=software, displayname=Software], "
-										+ "images=Images [avatar=Image [url=https://test.cdn.stomt.com/uploads/YQhY/origin/YQhYFmNBsYfTjvZFg6DskobhPxBiacNfek1RNPom_origin.png, "
-										+ "width=42, height=42], stomt=, profile=], verified=false], highlights=, creator=, url=null, agreed=]";
+		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
+				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=, url=, agreed=]";
 		
 		System.out.println("Expect: " + expected);
 		System.out.println("Get: " + stomt);
@@ -71,13 +67,9 @@ public class CreateAnonymStomtWithImage {
 				positive, target_id, text, "stomt", img);
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", "
-				+ "images=Images [avatar=, stomt=Image [url=" + stomtObject.getImages().getStomt().getUrl() + ", "
-						+ "width=" + stomtObject.getImages().getStomt().getWidth() +", height=" + stomtObject.getImages().getStomt().getHeight() + "], profile=], "
-								+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
-										+ "target=Target [id=stomt-java, displayname=Stomt Java, category=Category [id=software, displayname=Software], "
-										+ "images=Images [avatar=Image [url=https://test.cdn.stomt.com/uploads/YQhY/origin/YQhYFmNBsYfTjvZFg6DskobhPxBiacNfek1RNPom_origin.png, "
-										+ "width=42, height=42], stomt=, profile=], verified=false], highlights=, creator=, url=null, agreed=]";
+		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
+				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=, url=, agreed=]";
 		
 		System.out.println("Expect: " + expected);
 		System.out.println("Get: " + stomt);
@@ -101,13 +93,9 @@ public class CreateAnonymStomtWithImage {
 				positive, target_id, text, url, "stomt", img);
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", "
-				+ "images=Images [avatar=, stomt=Image [url=" + stomtObject.getImages().getStomt().getUrl() + ", "
-						+ "width=" + stomtObject.getImages().getStomt().getWidth() +", height=" + stomtObject.getImages().getStomt().getHeight() + "], profile=], "
-								+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
-										+ "target=Target [id=stomt-java, displayname=Stomt Java, category=Category [id=software, displayname=Software], "
-										+ "images=Images [avatar=Image [url=https://test.cdn.stomt.com/uploads/YQhY/origin/YQhYFmNBsYfTjvZFg6DskobhPxBiacNfek1RNPom_origin.png, "
-										+ "width=42, height=42], stomt=, profile=], verified=false], highlights=, creator=, url=" + stomtObject.getUrl() + ", agreed=]";
+		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
+				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=, url=" + stomtObject.getUrl() + ", agreed=]";
 		
 		System.out.println("Expect: " + expected);
 		System.out.println("Get: " + stomt);
@@ -126,17 +114,12 @@ public class CreateAnonymStomtWithImage {
 		text = "Java-SDK test " + random;
 		imgUrl = new URL("https://upload.wikimedia.org/wikipedia/commons/7/75/Internet1.jpg");
 
-		Stomt stomtObject = StomtClientTest.client.createAnonymStomtWithImage(
-				positive, target_id, text, "stomt", imgUrl);
+		Stomt stomtObject = StomtClientTest.client.createAnonymStomtWithImage(positive, target_id, text, "stomt", imgUrl);
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", "
-				+ "images=Images [avatar=, stomt=Image [url=" + stomtObject.getImages().getStomt().getUrl() + ", "
-						+ "width=" + stomtObject.getImages().getStomt().getWidth() +", height=" + stomtObject.getImages().getStomt().getHeight() + "], profile=], "
-								+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
-										+ "target=Target [id=stomt-java, displayname=Stomt Java, category=Category [id=software, displayname=Software], "
-										+ "images=Images [avatar=Image [url=https://test.cdn.stomt.com/uploads/YQhY/origin/YQhYFmNBsYfTjvZFg6DskobhPxBiacNfek1RNPom_origin.png, "
-										+ "width=42, height=42], stomt=, profile=], verified=false], highlights=, creator=, url=null, agreed=]";
+		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
+				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=, url=, agreed=]";
 		
 		System.out.println("Expect: " + expected);
 		System.out.println("Get: " + stomt);
@@ -157,17 +140,12 @@ public class CreateAnonymStomtWithImage {
 		url = new URL("http://stomt.com");
 
 
-		Stomt stomtObject = StomtClientTest.client.createAnonymStomtWithImage(
-				positive, target_id, text, url, "stomt", imgUrl);
+		Stomt stomtObject = StomtClientTest.client.createAnonymStomtWithImage(positive, target_id, text, url, "stomt", imgUrl);
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", "
-				+ "images=Images [avatar=, stomt=Image [url=" + stomtObject.getImages().getStomt().getUrl() + ", "
-						+ "width=" + stomtObject.getImages().getStomt().getWidth() +", height=" + stomtObject.getImages().getStomt().getHeight() + "], profile=], "
-								+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
-										+ "target=Target [id=stomt-java, displayname=Stomt Java, category=Category [id=software, displayname=Software], "
-										+ "images=Images [avatar=Image [url=https://test.cdn.stomt.com/uploads/YQhY/origin/YQhYFmNBsYfTjvZFg6DskobhPxBiacNfek1RNPom_origin.png, "
-										+ "width=42, height=42], stomt=, profile=], verified=false], highlights=, creator=, url=" + stomtObject.getUrl() + ", agreed=]";
+		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
+				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=, url=" + stomtObject.getUrl() + ", agreed=]";
 		
 		System.out.println("Expect: " + expected);
 		System.out.println("Get: " + stomt);
@@ -190,13 +168,9 @@ public class CreateAnonymStomtWithImage {
 				positive, target_id, text, "stomt", FileToBase64(img));
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", "
-				+ "images=Images [avatar=, stomt=Image [url=" + stomtObject.getImages().getStomt().getUrl() + ", "
-						+ "width=" + stomtObject.getImages().getStomt().getWidth() +", height=" + stomtObject.getImages().getStomt().getHeight() + "], profile=], "
-								+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
-										+ "target=Target [id=stomt-java, displayname=Stomt Java, category=Category [id=software, displayname=Software], "
-										+ "images=Images [avatar=Image [url=https://test.cdn.stomt.com/uploads/YQhY/origin/YQhYFmNBsYfTjvZFg6DskobhPxBiacNfek1RNPom_origin.png, "
-										+ "width=42, height=42], stomt=, profile=], verified=false], highlights=, creator=, url=null, agreed=]";
+		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
+				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=, url=, agreed=]";
 		
 		System.out.println("Expect: " + expected);
 		System.out.println("Get: " + stomt);
@@ -220,13 +194,9 @@ public class CreateAnonymStomtWithImage {
 				positive, target_id, text, url, "stomt", FileToBase64(img));
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", "
-				+ "images=Images [avatar=, stomt=Image [url=" + stomtObject.getImages().getStomt().getUrl() + ", "
-						+ "width=" + stomtObject.getImages().getStomt().getWidth() +", height=" + stomtObject.getImages().getStomt().getHeight() + "], profile=], "
-								+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
-										+ "target=Target [id=stomt-java, displayname=Stomt Java, category=Category [id=software, displayname=Software], "
-										+ "images=Images [avatar=Image [url=https://test.cdn.stomt.com/uploads/YQhY/origin/YQhYFmNBsYfTjvZFg6DskobhPxBiacNfek1RNPom_origin.png, "
-										+ "width=42, height=42], stomt=, profile=], verified=false], highlights=, creator=, url=" + stomtObject.getUrl() + ", agreed=]";
+		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, "
+				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=, url=" + stomtObject.getUrl() + ", agreed=]";
 		
 		System.out.println("Expect: " + expected);
 		System.out.println("Get: " + stomt);

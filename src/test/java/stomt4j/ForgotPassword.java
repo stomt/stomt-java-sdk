@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
-public class ForgotPasswordTest {
+public class ForgotPassword {
 	
 	@Test
 	public void forgotPasswordValid() throws ParseException, IOException, StomtException {
@@ -27,12 +27,12 @@ public class ForgotPasswordTest {
 	}
 	
 	@Test(expected=StomtException.class)
-	public void forgotPasswordUnvalid() throws ParseException, IOException, StomtException {
-		System.out.println("->TEST: forgotPasswordUnvalid() - Username does not exist.");
+	public void forgotPasswordInvalid() throws ParseException, IOException, StomtException {
+		System.out.println("->TEST: forgotPasswordInvalid() - Username does not exist.");
 		
 		String usernameOrEmail = "test123456789123456789";
 		
-		System.out.println("Expect: Status = 401 - Message = Username does not exist.");
+		System.out.println("Expect: \"Username does not exist.\"");
 		System.out.print("Get: ");
 
 		StomtClientTest.client.forgotPassword(usernameOrEmail);

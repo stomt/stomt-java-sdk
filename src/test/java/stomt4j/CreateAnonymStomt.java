@@ -22,7 +22,7 @@ public class CreateAnonymStomt {
 	
 	@Test
 	public void createAnonymStomtMinimalFalse() throws ParseException, IOException, StomtException {
-		System.out.println("-> TEST: Create minimal i-wish-Stomt - accept.");
+		System.out.println("-> TEST: createAnonymStomtMinimalFalse()");
 		
 		String random = getRandomString();
 		
@@ -35,7 +35,10 @@ public class CreateAnonymStomt {
 		Stomt stomtObject = StomtClientTest.client.createAnonymStomt(positive, target_id, text);
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " +  random + ", images=, lang=en, created_at=" + stomtObject.getCreated_at() +", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, target=Target [id=stomt-java, displayname=Stomt Java, category=Category [id=software, displayname=Software], images=Images [avatar=Image [url=https://test.cdn.stomt.com/uploads/YQhY/origin/YQhYFmNBsYfTjvZFg6DskobhPxBiacNfek1RNPom_origin.png, width=42, height=42], stomt=, profile=], verified=false], highlights=, creator=, url=null, agreed=]";
+		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " +  random + ", images=, lang=en, created_at=" + stomtObject.getCreated_at() +
+				", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, target=Target [id=stomt-java, displayname=stomt-java, "
+				+ "category=Category [id=targets, displayname=Targets],"
+				+ " images=" + stomtObject.getTarget().getImages()  + ", verified=false], highlights=, creator=, url=, agreed=]";
 
 		System.out.println("Expect: " + expected);
 		System.out.println("Get: " + stomt);
@@ -45,7 +48,7 @@ public class CreateAnonymStomt {
 	
 	@Test
 	public void createAnonymStomtMinimalPositive() throws ParseException, IOException, StomtException {
-		System.out.println("-> TEST: Create minimal i-like-Stomt - accept.");
+		System.out.println("-> TEST: createAnonymStomtMinimalPositive()");
 		
 		String random = getRandomString();
 		
@@ -58,8 +61,11 @@ public class CreateAnonymStomt {
 		Stomt stomtObject = StomtClientTest.client.createAnonymStomt(positive, target_id, text);
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " +  random + ", images=, lang=en, created_at=" + stomtObject.getCreated_at() +", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, target=Target [id=stomt-java, displayname=Stomt Java, category=Category [id=software, displayname=Software], images=Images [avatar=Image [url=https://test.cdn.stomt.com/uploads/YQhY/origin/YQhYFmNBsYfTjvZFg6DskobhPxBiacNfek1RNPom_origin.png, width=42, height=42], stomt=, profile=], verified=false], highlights=, creator=, url=null, agreed=]";
-
+		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " +  random + ", images=, lang=en, created_at=" + stomtObject.getCreated_at() +
+				", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, target=Target [id=stomt-java, displayname=stomt-java, "
+				+ "category=Category [id=targets, displayname=Targets],"
+				+ " images=" + stomtObject.getTarget().getImages()  + ", verified=false], highlights=, creator=, url=, agreed=]";
+		
 		System.out.println("Expect: " + expected);
 		System.out.println("Get: " + stomt);
 		
@@ -68,7 +74,7 @@ public class CreateAnonymStomt {
 	
 	@Test
 	public void createAnonymStomtWithUrl() throws ParseException, IOException, StomtException {
-		System.out.println("-> TEST: Create Stomt with url - accept.");
+		System.out.println("-> TEST: createAnonymStomtWithUrl()");
 		
 		String random = getRandomString();
 		
@@ -82,32 +88,17 @@ public class CreateAnonymStomt {
 		Stomt stomtObject = StomtClientTest.client.createAnonymStomt(positive, target_id, text, url);
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " +  random + ", images=, lang=en, created_at=" + stomtObject.getCreated_at() +", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, target=Target [id=stomt-java, displayname=Stomt Java, category=Category [id=software, displayname=Software], images=Images [avatar=Image [url=https://test.cdn.stomt.com/uploads/YQhY/origin/YQhYFmNBsYfTjvZFg6DskobhPxBiacNfek1RNPom_origin.png, width=42, height=42], stomt=, profile=], verified=false], highlights=, creator=, url=" + url + ", agreed=]";
+		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " +  random + ", images=, lang=en, created_at=" + stomtObject.getCreated_at() +
+				", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, target=Target [id=stomt-java, displayname=stomt-java, "
+				+ "category=Category [id=targets, displayname=Targets],"
+				+ " images=" + stomtObject.getTarget().getImages()  + ", verified=false], highlights=, creator=, url=" + url + ", agreed=]";
 
 		System.out.println("Expect: " + expected);
 		System.out.println("Get: " + stomt);
 		
 		assertEquals(expected, stomt);
 	}
-	
 
-//	@Test(expected=StomtException.class)
-//	public void createAnonymStomtWithWrongUrl() throws ParseException, IOException, StomtException {
-//		System.out.println("-> TEST: Create Stomt with wrong url - StomtException.");
-//		
-//		String random = getRandomString();
-//		
-//		positive = false;
-//		target_id = "stomt-java";
-//		text = "Java-SDK test " + random;
-//		url = new URL("www.stomt.com");
-//				
-//		System.out.println("Expect: No valid URL!");
-//		System.out.print("Get: ");
-//		
-//		StomtClientTest.client.createAnonymStomt(positive, target_id, text, url);
-//	}
-	
 	private String getRandomString() {
 		double random = Math.random() * 100000;
 		return Integer.toString((int) random);

@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
-public class LogoutTest {
+public class Logout {
 
 	@Test
 	public void logoutAccept() throws ParseException, IOException, StomtException {
@@ -33,7 +33,7 @@ public class LogoutTest {
 		
 		StomtClient stomtClient = new StomtClient(StomtClientTest.appid);
 		
-		System.out.println("Expect: User is not logged in - no accesstoken.");
+		System.out.println("Expect: \"User is not logged in - no accesstoken.\"");
 		System.out.print("Get: ");
 
 		stomtClient.logout();
@@ -46,7 +46,7 @@ public class LogoutTest {
 		StomtClient stomtClient = new StomtClient(StomtClientTest.appid);
 		stomtClient.getAuthorization().setAccesstoken("xAuLF8P2e0qrYSqDdIIByEpWvePpTNBlvCpuWJmO");
 
-		System.out.println("Expect: Status = 419 - Message = Forbidden: Session invalid. Request a new access-token via login or refresh token.");
+		System.out.println("Expect: \"Forbidden: Session invalid. Request a new access-token via login or refresh token.\"");
 		System.out.print("Get: ");
 
 		stomtClient.logout();
@@ -59,7 +59,7 @@ public class LogoutTest {
 		StomtClient stomtClient = new StomtClient(StomtClientTest.appid);
 		stomtClient.getAuthorization().setAccesstoken("1234123123213");
 
-		System.out.println("Expect: Status = 403 - Message = Forbidden: Invalid access token.");
+		System.out.println("Expect: \"Forbidden: Invalid access token.\"");
 		System.out.print("Get: ");
 
 		stomtClient.logout();

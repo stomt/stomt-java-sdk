@@ -10,16 +10,24 @@ public class Images {
 	private Image avatar;
 	private Image stomt;
 	private Image profile;
+	private Image cover;
 	
 	public Images(JsonObject images) {
 		if (images.has("avatar")) {
 			this.avatar = new Image(images.getAsJsonObject("avatar"));
+			this.avatar.setContext(ImageContext.avatar.toString());
 		}
 		if (images.has("stomt")) {
 			this.stomt = new Image(images.getAsJsonObject("stomt"));
+			this.stomt.setContext(ImageContext.stomt.toString());
 		}
 		if (images.has("profile")) {
 			this.profile = new Image(images.getAsJsonObject("profile"));
+			this.profile.setContext(ImageContext.profile.toString());
+		}
+		if (images.has("cover")) {
+			this.cover = new Image(images.getAsJsonObject("cover"));
+			this.cover.setContext(ImageContext.cover.toString());
 		}
 	}
 	
@@ -33,6 +41,10 @@ public class Images {
 
 	public Image getProfile() {
 		return profile;
+	}
+	
+	public Image getCover() {
+		return cover;
 	}
 	
 	@Override
@@ -60,44 +72,4 @@ public class Images {
 		return "Images [avatar=" + avatarString + ", stomt=" + stomtString + ", profile=" + profileString + "]";
 	}
 	
-	public class Image {
-		
-//		private String context;
-//		private String name;
-//		private String data;
-		private String url;
-		private int width;
-		private int height;
-		
-		public Image(JsonObject image) {
-			if (image.has("url")) {
-				this.url= image.get("url").getAsString();
-			}
-			if (image.has("w")) {
-				this.width= image.get("w").getAsInt();
-			}
-			if (image.has("h")) {
-				this.height= image.get("h").getAsInt();
-			} else {
-				
-			}
-		}
-
-		public String getUrl() {
-			return url;
-		}
-
-		public int getWidth() {
-			return width;
-		}
-
-		public int getHeight() {
-			return height;
-		}
-		
-		@Override
-		public String toString() {
-			return "Image [url=" + url + ", width=" + width + ", height=" + height + "]";
-		}
-	}
 }

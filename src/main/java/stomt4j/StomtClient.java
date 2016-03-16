@@ -131,7 +131,6 @@ public class StomtClient implements HttpVariables {
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
 		return new Target(data.getAsJsonObject("user"));
-		//return data.get("user").toString();
 	}
 
 	/**
@@ -165,6 +164,8 @@ public class StomtClient implements HttpVariables {
 		JsonObject data = o.getAsJsonObject("data");
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
+		
+		System.out.println(data.getAsJsonObject("user"));
 		
 		return new Target(data.getAsJsonObject("user"));
 	}
@@ -737,6 +738,7 @@ public class StomtClient implements HttpVariables {
 		return createStomt(positive, target_id, text, null, true, img.getName(), lonlat);	
 	}
 	
+	// TODO: Not tested!
 	/**
 	 * Read a single stomt
 	 * 
@@ -919,7 +921,6 @@ public class StomtClient implements HttpVariables {
 	 */
 	private Image uploadImage(String id, String context, String data, URL url) throws StomtException, ParseException, IOException {
 		
-		// Defensive Programming?!
 		if (data == null && url == null || data != null && url != null) {
 			throw new StomtException("You can not set data and url!");
 		}
@@ -976,9 +977,12 @@ public class StomtClient implements HttpVariables {
 			throw new StomtException(o);
 		}
 
-		JsonObject responseData = o.getAsJsonObject("data");
-	
-		return new Image(responseData.getAsJsonObject("images"));
+		JsonObject responseData = o.getAsJsonObject("data");		
+			
+		Image responseImage = new Image(responseData.getAsJsonObject("images").getAsJsonObject(context));
+		responseImage.setContext(context);
+		
+		return responseImage;
 	}
 	
 	/**
