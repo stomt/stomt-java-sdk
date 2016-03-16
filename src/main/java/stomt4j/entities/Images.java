@@ -12,6 +12,11 @@ public class Images {
 	private Image profile;
 	private Image cover;
 	
+	/**
+	 * Constructor for images collection
+	 * 
+	 * @param images A images collection in json-format
+	 */
 	public Images(JsonObject images) {
 		if (images.has("avatar")) {
 			this.avatar = new Image(images.getAsJsonObject("avatar"));
@@ -31,22 +36,39 @@ public class Images {
 		}
 	}
 	
+	/**
+	 * @return The image object avatar
+	 */
 	public Image getAvatar() {
 		return avatar;
 	}
 
+	/**
+	 * @return The image object stomt
+	 */
 	public Image getStomt() {
 		return stomt;
 	}
 
+	/**
+	 * @return The image object profile
+	 */
 	public Image getProfile() {
 		return profile;
 	}
 	
+	/**
+	 * @return The image object cover
+	 */
 	public Image getCover() {
 		return cover;
 	}
 	
+	/**
+	 * A toString() method for the images collection - used for unit tests.
+	 * 
+	 * @return A condensed form of the image collection as String representation.
+	 */
 	@Override
 	public String toString() {
 		String avatarString;

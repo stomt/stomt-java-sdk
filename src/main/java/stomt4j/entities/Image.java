@@ -3,6 +3,8 @@ package stomt4j.entities;
 import com.google.gson.JsonObject;
 
 /**
+ * The entity Image.
+ * 
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
 public class Image {
@@ -23,7 +25,7 @@ public class Image {
 	/**
 	 * Constructor for image-object
 	 * 
-	 * @param stomt A image-object in json.
+	 * @param image A image-object in json.
 	 */
 	public Image(JsonObject image) {
 		if (image.has("url")) {
@@ -97,7 +99,7 @@ public class Image {
 	}
 
 	/**
-	 * @param url The context of the image (cover, stomt, profile, avatar - cf. ImageContext.java)
+	 * @param context The context of the image (cover, stomt, profile, avatar - cf. ImageContext.java)
 	 */
 	public void setContext(String context) {
 		this.context = context;
@@ -111,7 +113,7 @@ public class Image {
 	}
 
 	/**
-	 * @param The URL of the thumbnail - only if it exists (e.g. for GIFs)
+	 * @param thumb The URL of the thumbnail - only if it exists (e.g. for GIFs)
 	 */
 	public void setThumb(String thumb) {
 		this.thumb = thumb;

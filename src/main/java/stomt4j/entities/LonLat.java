@@ -1,6 +1,8 @@
 package stomt4j.entities;
 
 /**
+ * The entity of a GPS-object.
+ * 
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
 public class LonLat {
@@ -11,8 +13,8 @@ public class LonLat {
 	/**
 	 * Constructor for GPS coordinates.
 	 * 
-	 * @param latitude Latitude of GPS-object.
-	 * @param longitude Longitude of GPS-object.
+	 * @param latitude Latitude of GPS-object
+	 * @param longitude Longitude of GPS-object
 	 */
 	public LonLat(float latitude, float longitude) {
 		this.latitude = latitude;
@@ -20,18 +22,14 @@ public class LonLat {
 	}
 
 	/**
-	 * Getter for the latitude.
-	 * 
-	 * @return The latitude.
+	 * @return The latitude
 	 */
 	public float getLatitude() {
 		return latitude;
 	}
 
 	/**
-	 * Getter for the longitude.
-	 * 
-	 * @return The longitude.
+	 * @return The longitude
 	 */
 	public float getLongitude() {
 		return longitude;
@@ -40,7 +38,7 @@ public class LonLat {
 	/**
 	 * Represents String representation of LonLat-Object.
 	 * 
-	 * @return The String representation.
+	 * @return The String representation
 	 */
 	@Override
 	public String toString() {

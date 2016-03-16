@@ -3,6 +3,8 @@ package stomt4j.entities;
 import com.google.gson.JsonObject;
 
 /**
+ * The entity Stomt.
+ * 
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
 public class Stomt {
@@ -30,7 +32,7 @@ public class Stomt {
 	/**
 	 * Constructor for stomt-objects
 	 * 
-	 * @param stomt A stomt-object in json-format.
+	 * @param stomt A stomt-object in json-format
 	 */
 	public Stomt (JsonObject stomt) {
 		
@@ -77,70 +79,123 @@ public class Stomt {
 		}
 	}
 
+	/**
+	 * @return The stomt identifier
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * @return true for 'I like' and false for 'I wish'
+	 */
 	public boolean isPositive() {
 		return positive;
 	}
 
+	/**
+	 * @return The text of the stomt
+	 */
 	public String getText() {
 		return text;
 	}
 
+	/**
+	 * @return An instance of the images collection
+	 */
 	public Images getImages() {
 		return images;
 	}
 
+	/**
+	 * @return The language of the stomt
+	 */
 	public String getLang() {
 		return lang;
 	}
 
+	/**
+	 * @return The timestamp of the stomt
+	 */
 	public String getCreated_at() {
 		return created_at;
 	}
 
+	/**
+	 * @return The amount of agreements of the stomt
+	 */
 	public int getAmountAgreements() {
 		return amountAgreements;
 	}
 
+	/**
+	 * @return The amount of comments of the stomt
+	 */
 	public int getAmountComments() {
 		return amountComments;
 	}
 
+	/**
+	 * @return The labels of the stomt as array
+	 */
 	public Label[] getLabels() {
 		return labels;
 	}
 
+	/**
+	 * @return The agreements of the stomt as array
+	 */
 	public Agreement[] getAgreements() {
 		return agreements;
 	}
 
+	/**
+	 * @return true if the stomt is anonym, otherwise false
+	 */
 	public boolean isAnonym() {
 		return anonym;
 	}
 
+	/**
+	 * @return The target of the stomt
+	 */
 	public Target getTarget() {
 		return target;
 	}
 
+	/**
+	 * @return The highlights of the stomt
+	 */
 	public Highlight[] getHighlights() {
 		return highlights;
 	}
 
+	/**
+	 * @return The creator of the stomt
+	 */
 	public Target getCreator() {
 		return creator;
 	}
 	
+	/**
+	 * @return The added link of the stomt
+	 */
 	public String getUrl() {
 		return url;
 	}
 
+	/**
+	 * @return The agreed-entity of the stomt
+	 */
 	public AgreedEntity getAgreed() {
 		return agreed;
 	}
 	
+	/**
+	 * A toString() method for the entity Stomt - used for unit tests.
+	 * 
+	 * @return A String representation of the stomt entity
+	 */
 	@Override
 	public String toString() {
 		
@@ -203,10 +258,20 @@ public class Stomt {
 	public static class AgreedEntity {
 		private boolean positive;
 		
+		/**
+		 * Constructor - used to handle Stomt-Objects in json-format.
+		 * 
+		 * @param agreed The AgreedEntity as Json-Object
+		 */
 		public AgreedEntity(JsonObject agreed) {
 			this.positive = agreed.get("positive").getAsBoolean();
 		}
 		
+		/**
+		 * A toString() method for the agreed entity - used for unit tests.
+		 * 
+		 * @return A String representation of the agreed entity
+		 */
 		@Override
 		public String toString() {
 			return "AgreedEntity [positive=" + positive + "]";
