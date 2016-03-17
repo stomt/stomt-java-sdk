@@ -5,6 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
+ * TestSuite for Stomt Java SDK.
+ * 
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
 @RunWith(Suite.class)
