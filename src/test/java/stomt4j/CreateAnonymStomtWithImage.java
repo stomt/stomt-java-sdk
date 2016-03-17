@@ -25,6 +25,7 @@ public class CreateAnonymStomtWithImage {
 	private URL url = null;
 	private File img = null;
 	private URL imgUrl = null;
+	StomtClient client = new StomtClient(StomtClientTest.appid);
 
 	@Test
 	public void createAnonymStomtMinimalFalse_File()
@@ -38,7 +39,7 @@ public class CreateAnonymStomtWithImage {
 		text = "Java-SDK test " + random;
 		img = new File("/home/chris/Pictures/javaTEST/test.gif");
 
-		Stomt stomtObject = StomtClientTest.client.createAnonymStomtWithImage(
+		Stomt stomtObject = client.createAnonymStomtWithImage(
 				positive, target_id, text, "stomt", img);
 		stomt = stomtObject.toString();
 		
@@ -63,7 +64,7 @@ public class CreateAnonymStomtWithImage {
 		text = "Java-SDK test " + random;
 		img = new File("/home/chris/Pictures/javaTEST/test.gif");
 
-		Stomt stomtObject = StomtClientTest.client.createAnonymStomtWithImage(
+		Stomt stomtObject = client.createAnonymStomtWithImage(
 				positive, target_id, text, "stomt", img);
 		stomt = stomtObject.toString();
 		
@@ -81,6 +82,7 @@ public class CreateAnonymStomtWithImage {
 	public void createAnonymStomtWithUrl_File()
 			throws ParseException, IOException, StomtException {
 		System.out.println("-> TEST: createAnonymStomtWithUrl_File()");
+		
 
 		random = getRandomString();
 		positive = true;
@@ -88,8 +90,8 @@ public class CreateAnonymStomtWithImage {
 		text = "Java-SDK test " + random;
 		img = new File("/home/chris/Pictures/javaTEST/test.gif");
 		url = new URL("http://stomt.com");
-
-		Stomt stomtObject = StomtClientTest.client.createAnonymStomtWithImage(
+		
+		Stomt stomtObject = client.createAnonymStomtWithImage(
 				positive, target_id, text, url, "stomt", img);
 		stomt = stomtObject.toString();
 		
@@ -114,7 +116,7 @@ public class CreateAnonymStomtWithImage {
 		text = "Java-SDK test " + random;
 		imgUrl = new URL("https://upload.wikimedia.org/wikipedia/commons/7/75/Internet1.jpg");
 
-		Stomt stomtObject = StomtClientTest.client.createAnonymStomtWithImage(positive, target_id, text, "stomt", imgUrl);
+		Stomt stomtObject = client.createAnonymStomtWithImage(positive, target_id, text, "stomt", imgUrl);
 		stomt = stomtObject.toString();
 		
 		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
@@ -140,7 +142,7 @@ public class CreateAnonymStomtWithImage {
 		url = new URL("http://stomt.com");
 
 
-		Stomt stomtObject = StomtClientTest.client.createAnonymStomtWithImage(positive, target_id, text, url, "stomt", imgUrl);
+		Stomt stomtObject = client.createAnonymStomtWithImage(positive, target_id, text, url, "stomt", imgUrl);
 		stomt = stomtObject.toString();
 		
 		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
@@ -164,7 +166,7 @@ public class CreateAnonymStomtWithImage {
 		text = "Java-SDK test " + random;
 		img = new File("/home/chris/Pictures/javaTEST/test.gif");
 
-		Stomt stomtObject = StomtClientTest.client.createAnonymStomtWithImage(
+		Stomt stomtObject = client.createAnonymStomtWithImage(
 				positive, target_id, text, "stomt", FileToBase64(img));
 		stomt = stomtObject.toString();
 		
@@ -190,7 +192,7 @@ public class CreateAnonymStomtWithImage {
 		img = new File("/home/chris/Pictures/javaTEST/test.gif");
 		url = new URL("http://stomt.com");
 
-		Stomt stomtObject = StomtClientTest.client.createAnonymStomtWithImage(
+		Stomt stomtObject = client.createAnonymStomtWithImage(
 				positive, target_id, text, url, "stomt", FileToBase64(img));
 		stomt = stomtObject.toString();
 		
