@@ -23,6 +23,9 @@ import stomt4j.auth.*;
 import stomt4j.entities.*;
 
 /**
+ * The StomtClient is needed to use the Stomt Java SDK.
+ * After generate an instance of the StomtClient the user can execute the main methods of this SDK with {@code INSTANCE_OF_STOMTCLIENT.NAME_OF_METHOD()}.
+ * 
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
 public class StomtClient implements HttpVariables {
@@ -44,14 +47,23 @@ public class StomtClient implements HttpVariables {
 		this.httpClient.setTypeHeader();
 	}
 
+	/**
+	 * @return The Application identifier
+	 */
 	public String getAppid() {
 		return appid;
 	}
 
+	/**
+	 * @return The {@code Authorization}-object
+	 */
 	public Authorization getAuthorization() {
 		return auth;
 	}
 
+	/**
+	 * @param appid The Application identifier
+	 */
 	public void setAppid(String appid) {
 		this.appid = appid;
 	}
@@ -61,11 +73,11 @@ public class StomtClient implements HttpVariables {
 	/**
 	 * Register an user.
 	 * 
-	 * @param username The desired username - used to login.
-	 * @param email The users email.
-	 * @param password The desired password.
-	 * @param displayname The desired displayname - used to display on stomt-platform.
-	 * @return The user-object.
+	 * @param username The desired username - used to login
+	 * @param email The users email
+	 * @param password The desired password
+	 * @param displayname The desired displayname - used to display on stomt-platform
+	 * @return The user-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -104,8 +116,8 @@ public class StomtClient implements HttpVariables {
 	 * Verify the users email address. 
 	 * <br>The user gets a link with /verify/{verification_code}.
 	 * 
-	 * @param verification_code The verification code the user gets.
-	 * @return The user-object.
+	 * @param verification_code The verification code the user gets
+	 * @return The user-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -136,9 +148,9 @@ public class StomtClient implements HttpVariables {
 	/**
 	 * Normal authentication with credentials.
 	 * 
-	 * @param emailUsername The users email or username.
-	 * @param password The users password.
-	 * @return The user-object.
+	 * @param emailUsername The users email or username
+	 * @param password The users password
+	 * @return The user-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -174,9 +186,9 @@ public class StomtClient implements HttpVariables {
 	 * Normal authentication with Facebook-Connect. 
 	 * <br>For FB-Connect you need to sign-in client-side to receive an accesstoken from Facebook.
 	 * 
-	 * @param fb_access_token The accesstoken the user receive from Facebook.
-	 * @param fb_user_id The user id the user receive from Facebook.
-	 * @return The user-object.
+	 * @param fb_access_token The accesstoken the user receive from Facebook
+	 * @param fb_user_id The user id the user receive from Facebook
+	 * @return The user-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -209,7 +221,7 @@ public class StomtClient implements HttpVariables {
 	/**
 	 * Logout existing session.
 	 * 
-	 * @return true if logout succeed.
+	 * @return true if logout succeed
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -242,9 +254,9 @@ public class StomtClient implements HttpVariables {
 	/**
 	 * Check if displayname or email is still available.
 	 * 
-	 * @param property Check for existing "username" or "email".
-	 * @param value Value to check.
-	 * @return true if displayname or email is still available.
+	 * @param property Check for existing "username" or "email"
+	 * @param value Value to check
+	 * @return true if displayname or email is still available
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -275,8 +287,8 @@ public class StomtClient implements HttpVariables {
 	/**
 	 * Sends the user an email to reset his password.
 	 * 
-	 * @param usernameOrEmail The users username or email.
-	 * @return true if username or email is valid.
+	 * @param usernameOrEmail The users username or email
+	 * @return true if username or email is valid
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -305,9 +317,9 @@ public class StomtClient implements HttpVariables {
 	/**
 	 * Resets the users password and responds with a new session.
 	 * 
-	 * @param resetcode The submitted resetcode.
-	 * @param newPassword The new password.
-	 * @return The user-object.
+	 * @param resetcode The submitted resetcode
+	 * @param newPassword The new password
+	 * @return The user-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -343,8 +355,8 @@ public class StomtClient implements HttpVariables {
 	/**
 	 * Get a specific feed.
 	 * 
-	 * @param type The requested feed.
-	 * @return A Json-String of stomt-objects.
+	 * @param type The requested feed
+	 * @return A Json-String of stomt-objects
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -371,13 +383,13 @@ public class StomtClient implements HttpVariables {
 	 * Create a stomt.
 	 * 
 	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
-	 * @param target_id To whom the stomt is adressed.
-	 * @param text The text of a stomt.
-	 * @param url The appended URL. 
-	 * @param anonym Create anonym (anonym=true) stomt - no login required. Otherwise login required to send accesstoken (anonym = false).
-	 * @param img_name The name of the appended image.
-	 * @param lonlat The GPS coordinates.
-	 * @return The created stomt-object.
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param anonym Create anonym (anonym=true) stomt - no login required. Otherwise login required to send accesstoken (anonym = false)
+	 * @param img_name The name of the appended image
+	 * @param lonlat The GPS coordinates
+	 * @return The created stomt-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -442,12 +454,12 @@ public class StomtClient implements HttpVariables {
 	 * Create non-anonym stomt.
 	 * 
 	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
-	 * @param target_id To whom the stomt is adressed.
-	 * @param text The text of a stomt.
-	 * @param url The appended URL. 
-	 * @param img_name The name of the appended image.
-	 * @param lonlat The GPS coordinates.
-	 * @return The created stomt-object.
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param img_name The name of the appended image
+	 * @param lonlat The GPS coordinates
+	 * @return The created stomt-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -460,11 +472,11 @@ public class StomtClient implements HttpVariables {
 	 * Create non-anonym stomt.
 	 * 
 	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
-	 * @param target_id To whom the stomt is adressed.
-	 * @param text The text of a stomt.
-	 * @param url The appended URL. 
-	 * @param img_name The name of the appended image.
-	 * @return The created stomt-object.
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL 
+	 * @param img_name The name of the appended image
+	 * @return The created stomt-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -477,11 +489,11 @@ public class StomtClient implements HttpVariables {
 	 * Create non-anonym stomt.
 	 * 
 	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
-	 * @param target_id To whom the stomt is adressed.
-	 * @param text The text of a stomt.
-	 * @param url The appended URL. 
-	 * @param lonlat The GPS coordinates.
-	 * @return The created stomt-object.
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param lonlat The GPS coordinates
+	 * @return The created stomt-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -494,10 +506,10 @@ public class StomtClient implements HttpVariables {
 	 * Create non-anonym stomt.
 	 * 
 	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
-	 * @param target_id To whom the stomt is adressed.
-	 * @param text The text of a stomt.
-	 * @param url The appended URL. 
-	 * @return The created stomt-object.
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @return The created stomt-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -510,9 +522,9 @@ public class StomtClient implements HttpVariables {
 	 * Create non-anonym stomt.
 	 * 
 	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
-	 * @param target_id To whom the stomt is adressed.
-	 * @param text The text of a stomt.
-	 * @return The created stomt-object.
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @return The created stomt-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -522,64 +534,246 @@ public class StomtClient implements HttpVariables {
 	}
 	
 	// Upload via URL
+	
+	/**
+	 * Create stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via URL.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param imgUrl The URL of the appended image
+	 * @param lonlat The GPS - latitude, longitude
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, URL imgUrl, LonLat lonlat) throws ParseException, IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, url, false, img.getName(), lonlat);	
 	}
 	
+	/**
+	 * Create stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via URL.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param imgUrl The URL of the appended image
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, URL imgUrl) throws ParseException, IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, url, false, img.getName(), null);	
 	}
 	
+	/**
+	 * Create stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via URL.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param imgUrl The URL of the appended image
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, URL imgUrl) throws ParseException, IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, null, false, img.getName(), null);	
 	}
-
+	
+	/**
+	 * Create stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via URL.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param imgUrl The URL of the appended image
+	 * @param lonlat The GPS - latitude, longitude
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, URL imgUrl, LonLat lonlat) throws ParseException, IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, null, false, img.getName(), lonlat);	
 	}
 	
-	
 	// Upload via Base64 String
+	
+	/**
+	 * Create stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via Base64 String.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The Base64 String of the appended image
+	 * @param lonlat The GPS - latitude, longitude
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, String data, LonLat lonlat) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, false, img.getName(), lonlat);	
 	}
 
+	/**
+	 * Create stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via Base64 String.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The Base64 String of the appended image
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, String data) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, false, img.getName(), null);	
 	}
 
+	/**
+	 * Create stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via Base64 String.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The Base64 String of the appended image
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, String data) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, false, img.getName(), null);	
 	}
 
+	/**
+	 * Create stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via Base64 String.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The Base64 String of the appended image
+	 * @param lonlat The GPS - latitude, longitude
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, String data, LonLat lonlat) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, false, img.getName(), lonlat);	
 	}
 	
 	// Upload via File
+	
+	/**
+	 * Create stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via file.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The file of the appended image
+	 * @param lonlat The GPS - latitude, longitude
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, File data, LonLat lonlat) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, false, img.getName(), lonlat);	
 	}
 
+	/**
+	 * Create stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via file.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The file of the appended image
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, File data) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, false, img.getName(), null);	
 	}
 	
+	/**
+	 * Create stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via file.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The file of the appended image
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, File data) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, false, img.getName(), null);	
 	}
 
+	/**
+	 * Create stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via file.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The file of the appended image
+	 * @param lonlat The GPS - latitude, longitude
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, File data, LonLat lonlat) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, false, img.getName(), lonlat);	
@@ -593,12 +787,12 @@ public class StomtClient implements HttpVariables {
 	 * Create anonym stomt.
 	 * 
 	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
-	 * @param target_id To whom the stomt is adressed.
-	 * @param text The text of a stomt.
-	 * @param url The appended URL. 
-	 * @param img_name The name of the appended image.
-	 * @param lonlat The GPS coordinates.
-	 * @return The created stomt-object.
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param img_name The name of the appended image
+	 * @param lonlat The GPS coordinates
+	 * @return The created stomt-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -611,11 +805,11 @@ public class StomtClient implements HttpVariables {
 	 * Create anonym stomt.
 	 * 
 	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
-	 * @param target_id To whom the stomt is adressed.
-	 * @param text The text of a stomt.
-	 * @param url The appended URL. 
-	 * @param img_name The name of the appended image.
-	 * @return The created stomt-object.
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL 
+	 * @param img_name The name of the appended image
+	 * @return The created stomt-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -628,11 +822,11 @@ public class StomtClient implements HttpVariables {
 	 * Create anonym stomt.
 	 * 
 	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
-	 * @param target_id To whom the stomt is adressed.
-	 * @param text The text of a stomt.
-	 * @param url The appended URL. 
-	 * @param lonlat The GPS coordinates.
-	 * @return The created stomt-object.
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL 
+	 * @param lonlat The GPS coordinates
+	 * @return The created stomt-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -645,10 +839,10 @@ public class StomtClient implements HttpVariables {
 	 * Create anonym stomt.
 	 * 
 	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
-	 * @param target_id To whom the stomt is adressed.
-	 * @param text The text of a stomt.
-	 * @param url The appended URL.
-	 * @return The created stomt-object.
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @return The created stomt-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -661,9 +855,9 @@ public class StomtClient implements HttpVariables {
 	 * Create anonym stomt.
 	 * 
 	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
-	 * @param target_id To whom the stomt is adressed.
-	 * @param text The text of a stomt.
-	 * @return The created stomt-object.
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @return The created stomt-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -672,67 +866,247 @@ public class StomtClient implements HttpVariables {
 		return createStomt(positive, target_id, text, null, true, null, null);
 	}
 	
-	
-	
 	// Upload via URL
+		
+	/**
+	 * Create anonym stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via URL.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param imgUrl The URL of the appended image
+	 * @param lonlat The GPS - latitude, longitude
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, URL imgUrl, LonLat lonlat) throws ParseException, IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, url, true, img.getName(), lonlat);	
 	}
 	
+	/**
+	 * Create anonym stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via URL.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param imgUrl The URL of the appended image
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, URL imgUrl) throws ParseException, IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, url, true, img.getName(), null);	
 	}
 	
+	/**
+	 * Create anonym stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via URL.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param imgUrl The URL of the appended image
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, URL imgUrl) throws ParseException, IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, null, true, img.getName(), null);	
 	}
 
+	/**
+	 * Create anonym stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via URL.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param imgUrl The URL of the appended image
+	 * @param lonlat The GPS - latitude, longitude
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, URL imgUrl, LonLat lonlat) throws ParseException, IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, null, true, img.getName(), lonlat);	
 	}
 	
-	
 	// Upload via Base64 String
+	
+	/**
+	 * Create anonym stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via Base64 String.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The Base64 String of the appended image
+	 * @param lonlat The GPS - latitude, longitude
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, String data, LonLat lonlat) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, true, img.getName(), lonlat);	
 	}
 
+	/**
+	 * Create anonym stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via Base64 String.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The Base64 String of the appended image
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, String data) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, true, img.getName(), null);	
 	}
 
+	/**
+	 * Create anonym stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via Base64 String.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The Base64 String of the appended image
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, String data) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, true, img.getName(), null);	
 	}
 
+	/**
+	 * Create anonym stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via Base64 String.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The Base64 String of the appended image
+	 * @param lonlat The GPS - latitude, longitude
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, String data, LonLat lonlat) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, true, img.getName(), lonlat);	
 	}
 	
 	// Upload via File
+	
+	/**
+	 * Create anonym stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via file.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The file of the appended image
+	 * @param lonlat The GPS - latitude, longitude
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, File data, LonLat lonlat) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, true, img.getName(), lonlat);	
 	}
 
+	/**
+	 * Create anonym stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via file.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param url The appended URL
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The file of the appended image
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, File data) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, true, img.getName(), null);	
 	}
 	
+	/**
+	 * Create anonym stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via file.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The file of the appended image
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, File data) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, true, img.getName(), null);	
 	}
 
+	/**
+	 * Create anonym stomt with an appended image for a specific {@code context}.
+	 * This method uses image upload via file.
+	 * 
+	 * @param positive “I wish” (positive=false) / “I like”(positive=true)
+	 * @param target_id To whom the stomt is adressed
+	 * @param text The text of a stomt
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The file of the appended image
+	 * @param lonlat The GPS - latitude, longitude
+	 * @return The created stomt-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
 	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, File data, LonLat lonlat) throws ParseException, IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, true, img.getName(), lonlat);	
@@ -910,11 +1284,12 @@ public class StomtClient implements HttpVariables {
 
 	/**
 	 * Upload an image for a specific {@code context}.
-	 * @param id Target-id to upload image for owned target.
-	 * @param context The specific context - available: avatar, cover (Cover image in targets profile), stomt (Picture attached to a stomt).
-	 * @param data Base64 encoded image.
-	 * @param url External image URL - enables image-upload via URL.
-	 * @return 
+	 * 
+	 * @param id Target-id to upload image for owned target
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data Base64 encoded image
+	 * @param url External image URL - enables image-upload via URL
+	 * @return The uploaded image as stomt related image-object
 	 * @throws StomtException
 	 * @throws IOException 
 	 * @throws ParseException 
@@ -987,11 +1362,12 @@ public class StomtClient implements HttpVariables {
 	
 	/**
 	 * Upload an image for a specific {@code context}.
-	 * @param id Target-id to upload image for owned target.
-	 * @param context The specific context - available: avatar, cover (Cover image in targets profile), stomt (Picture attached to a stomt).
-	 * @param data The image file.
-	 * @param url External image URL - enables image-upload via URL.
-	 * @return 
+	 * 
+	 * @param id Target-id to upload image for owned target
+	 * @param context The specific context  (cf. {@code ImageContext.java})
+	 * @param data The image file
+	 * @param url External image URL - enables image-upload via URL
+	 * @return The uploaded image as stomt related image-object
 	 * @throws StomtException
 	 * @throws IOException 
 	 * @throws ParseException 
@@ -1020,9 +1396,9 @@ public class StomtClient implements HttpVariables {
 	/**
 	 * Upload an image for a specific {@code context} via URL.
 	 * @param id Target-id to upload image for owned target.
-	 * @param context The specific context - available: avatar, cover (Cover image in targets profile), stomt (Picture attached to a stomt).
+	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param url External image URL.
-	 * @return 
+	 * @return The uploaded image as stomt related image-object
 	 * @throws StomtException
 	 * @throws IOException 
 	 * @throws ParseException 
@@ -1033,9 +1409,9 @@ public class StomtClient implements HttpVariables {
 	
 	/**
 	 * Upload an image for a specific {@code context} via URL.
-	 * @param context The specific context - available: avatar, stomt (Picture attached to a stomt).
+	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param url External image URL.
-	 * @return 
+	 * @return The uploaded image as stomt related image-object
 	 * @throws StomtException
 	 * @throws IOException 
 	 * @throws ParseException 
@@ -1047,9 +1423,9 @@ public class StomtClient implements HttpVariables {
 	/**
 	 * Upload an image for a specific {@code context}.
 	 * @param id Target-id to upload image for owned target.
-	 * @param context The specific context - available: avatar, cover (Cover image in targets profile), stomt (Picture attached to a stomt).
+	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data Base64 encoded image.
-	 * @return 
+	 * @return The uploaded image as stomt related image-object
 	 * @throws StomtException
 	 * @throws IOException 
 	 * @throws ParseException 
@@ -1060,9 +1436,9 @@ public class StomtClient implements HttpVariables {
 	
 	/**
 	 * Upload an image for a specific {@code context}.
-	 * @param context The specific context - available: avatar, cover (Cover image in targets profile), stomt (Picture attached to a stomt).
+	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data Base64 encoded image.
-	 * @return 
+	 * @return The uploaded image as stomt related image-object
 	 * @throws StomtException
 	 * @throws IOException 
 	 * @throws ParseException 
@@ -1074,9 +1450,9 @@ public class StomtClient implements HttpVariables {
 	/**
 	 * Upload an image for a specific {@code context}.
 	 * @param id Target-id to upload image for owned target.
-	 * @param context The specific context - available: avatar, cover (Cover image in targets profile), stomt (Picture attached to a stomt).
+	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data The image file.
-	 * @return 
+	 * @return The uploaded image as stomt related image-object
 	 * @throws StomtException
 	 * @throws IOException 
 	 * @throws ParseException 
@@ -1087,9 +1463,9 @@ public class StomtClient implements HttpVariables {
 	
 	/**
 	 * Upload an image for a specific {@code context}.
-	 * @param context The specific context - available: avatar, cover (Cover image in targets profile), stomt (Picture attached to a stomt).
+	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data The image file.
-	 * @return 
+	 * @return The uploaded image as stomt related image-object
 	 * @throws StomtException
 	 * @throws IOException 
 	 * @throws ParseException 
@@ -1133,7 +1509,7 @@ public class StomtClient implements HttpVariables {
 	/**
 	 * Check if there is a {@code accesstoken} in {@code Authorization}.
 	 * 
-	 * @throws StomtException if {@code accesstoken} is {@code null}.
+	 * @throws StomtException if {@code accesstoken} is {@code null}
 	 */
 	private void setAccesstoken() throws StomtException {
 		if (this.getAuthorization().hasAccesstoken()) {
@@ -1143,7 +1519,13 @@ public class StomtClient implements HttpVariables {
 			throw new StomtException("Login required - no valid Accesstoken.");
 		}
 	}
-		
+	
+	/**
+	 * Check if the {@code url} is valid.
+	 * 
+	 * @param url The url which this method has to check.
+	 * @return {@code true} if the {@code url} is valid, otherwise {@code false}
+	 */
 	private boolean isUrl(String url) {
 		if (url.contains("http://") || url.contains("https://")) {
 			try {

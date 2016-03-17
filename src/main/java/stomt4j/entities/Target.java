@@ -90,6 +90,9 @@ public class Target {
 		return "Target [id=" + id + ", displayname=" + displayname + ", category=" + category.toString() +  ", images=" + images.toString() +  ", verified=" + verified + "]";
 	}
 	
+	/**
+	 * The entity Stats
+	 */
 	private static class Stats {
 		
 		private int amountFollowers;
