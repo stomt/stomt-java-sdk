@@ -1,18 +1,22 @@
 package stomt4j;
 
 import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.ParseException;
 import org.junit.Test;
-
 import stomt4j.entities.Stomt;
+import stomt4j.FileAsString;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 
 public class CreateAnonymStomtWithImage {
 
@@ -37,7 +41,7 @@ public class CreateAnonymStomtWithImage {
 		positive = false;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = new File("/home/chris/Pictures/javaTEST/test.gif");
+		img = generateFile();
 
 		Stomt stomtObject = client.createAnonymStomtWithImage(
 				positive, target_id, text, "stomt", img);
@@ -62,7 +66,7 @@ public class CreateAnonymStomtWithImage {
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = new File("/home/chris/Pictures/javaTEST/test.gif");
+		img = generateFile();
 
 		Stomt stomtObject = client.createAnonymStomtWithImage(
 				positive, target_id, text, "stomt", img);
@@ -88,7 +92,7 @@ public class CreateAnonymStomtWithImage {
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = new File("/home/chris/Pictures/javaTEST/test.gif");
+		img = generateFile();
 		url = new URL("http://stomt.com");
 		
 		Stomt stomtObject = client.createAnonymStomtWithImage(
@@ -164,7 +168,7 @@ public class CreateAnonymStomtWithImage {
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = new File("/home/chris/Pictures/javaTEST/test.gif");
+		img = generateFile();
 
 		Stomt stomtObject = client.createAnonymStomtWithImage(
 				positive, target_id, text, "stomt", FileToBase64(img));
@@ -189,7 +193,7 @@ public class CreateAnonymStomtWithImage {
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = new File("/home/chris/Pictures/javaTEST/test.gif");
+		img = generateFile();
 		url = new URL("http://stomt.com");
 
 		Stomt stomtObject = client.createAnonymStomtWithImage(
@@ -204,6 +208,28 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
+	}
+	
+	
+	private File generateFile() throws StomtException {
+	
+		byte[] imageArray = Base64.decodeBase64(FileAsString.imageString);
+		BufferedImage image = null;
+		ByteArrayInputStream bis = null;
+		File outputfile = null;
+		
+		try {
+			bis = new ByteArrayInputStream(imageArray);
+			image = ImageIO.read(bis);
+			bis.close();
+			outputfile = new File("image.jpg");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return outputfile;
+		
 	}
 
 
