@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -37,11 +39,22 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("-> TEST: createAnonymStomtMinimalFalse_File()");
 
 		random = getRandomString();
+		
+		File test = null;
+		try {
+			URI uri = new URI("https://lh4.googleusercontent.com/-zyqYSm9pAlw/AAAAAAAAAAI/AAAAAAAAAcU/XNhjrASxTaA/photo.jpg");
+			test = new File(uri);
+
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 		positive = false;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = generateFile();
+		img = test;
 
 		Stomt stomtObject = client.createAnonymStomtWithImage(
 				positive, target_id, text, "stomt", img);
