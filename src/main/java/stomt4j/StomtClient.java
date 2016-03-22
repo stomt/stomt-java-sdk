@@ -67,7 +67,9 @@ public class StomtClient implements HttpVariables {
 		this.appid = appid;
 	}
 
-	/* Authentification */
+	/*
+	 *  Authentification 
+	 */
 	
 	/**
 	 * Register an user.
@@ -455,36 +457,12 @@ public class StomtClient implements HttpVariables {
 		return new Target(data.getAsJsonObject("user"));
 	}
 
-	/* Feeds */
-	
-	// TODO: Change return type: An Array of stomt-objects.
-	
-	/**
-	 * Get a specific feed.
-	 * 
-	 * @param type The requested feed
-	 * @return A Json-String of stomt-objects
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	/*
+	 *  Stomts
+	 *  
+	 *  A single stomt object. The stomt resource is the central resource in the stomt API. 
+	 *  It represents one paste - a single stomt.
 	 */
-	public String getFeed(String type) throws ParseException, IOException, StomtException {
-		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.GET, root + feeds + type.toLowerCase(),
-				httpClient.getRequestHeaders(), null, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
-
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-		JsonArray data = o.getAsJsonArray("data");
-		return data.getAsString();
-	}
-	
-	/* Stomts */
 	
 	/**
 	 * Create a stomt.
@@ -1278,11 +1256,17 @@ public class StomtClient implements HttpVariables {
 		return Boolean.valueOf(data.get("success").getAsString());
 	}
 
-	/* Agreements */
-
+	/*
+	 * Stomt Agreements
+	 * 
+	 * A single agreement object. In case the user already agreed and wants to
+	 * revoke his (dis-)agreement, we do not want you to update the
+	 * positive-attribute of the existing agreement via PUT. Just DELETE the old
+	 * (dis-)agreement and POST a new one.
+	 */
+	
 	// TODO: Implement!
-	// Wofür im Request "negative" mitschicken??
-	public Collection readAgreement(String stomt_id, boolean negative) {
+	public Agreement createAgreement(String stomt_id, boolean positive, boolean anonym) {
 		return null;
 	}
 
@@ -1290,20 +1274,37 @@ public class StomtClient implements HttpVariables {
 	public boolean deleteAgreement(String stomt_id) {
 		return false;
 	}
+	
+	// TODO: Implement!
+	public Collection getVoters(String stomt_id) {
+		return null;
+	}
 
-	/* Comments */
+	/*
+	 * Stomt Comments
+	 * 
+	 * A stomt can have comments, which themselves can have comments again if a
+	 * user replied to a comment. They all can be voted and at most one comment
+	 * to a stomt can be marked as official reaction.
+	 */
+	
+	// TODO: Implement!
+	public Collection createComment(String stomt_id, String parent_id, String text, boolean reaction) {
+		// Überprüfen ob reaction auf true gesetzt werden darf weil nur target
+		// owner reagieren können
+		return null;
+	}
 
 	// TODO: Implement!
 	public Collection readComments(String stomt_id) {
 		return null;
 	}
-
+	
 	// TODO: Implement!
-	public Collection createComment(String parent_id, String text, boolean reaction) {
-		// Überprüfen ob reaction auf true gesetzt werden darf weil nur target
-		// owner reagieren können
-		return null;
+	public boolean editComment(String stomt_id, String comment_id, boolean anonym, String text, boolean reaction) {
+		return false;
 	}
+
 
 	// TODO: Implement!
 	public boolean deleteComment(String stomt_id, String comment_id) {
@@ -1311,110 +1312,275 @@ public class StomtClient implements HttpVariables {
 	}
 
 	/*
-	 * Comment Votes - Version 2
+	 * Stomt Comment Votes
 	 * 
-	 * A single vote on a comment
-	 * 
-	 * In case the user already voted and wants to revoke his voting, we do not
-	 * want you to update the negative-attribute of the existing comment via
-	 * PUT. Just DELETE the old voting and POST a new one.
+	 * A single vote on a comment. In case the user already voted and wants to
+	 * revoke his voting, we do not want you to update the positive-attribute of
+	 * the existing comment via PUT. Just DELETE the old voting and POST a new
+	 * one.
 	 */
 
-//	// TODO: Implement!
-//	public boolean voteComment(String stomt_id, String comment_id) {
-//
-//	}
-//
-//	// TODO: Implement!
-//	public boolean revokeVote(String stomt_id, String comment_id) {
-//
-//	}
-
-	/* Comment Reaction */
-
 	// TODO: Implement!
-	public boolean markCommentAsReaction(String stomt_id, String comment_id) {
+	public boolean voteComment(String stomt_id, String comment_id, boolean positive) {
 		return false;
 	}
 
 	// TODO: Implement!
-	public boolean unmarkCommentAsReaction(String stomt_id, String comment_id) {
+	public boolean revokeVote(String stomt_id, String comment_id) {
+		return false;
+	}
+	
+	/*
+	 * Stomt Labels
+	 * 
+	 * stomts can have labels which can be managed in the targets profile.
+	 * Labels can be archived or unarchived and they may be public or private.
+	 * Users can create labels, too, which are only visible to them except they
+	 * share the labels explicit URL.
+	 */
+	
+	// label a stomt
+	
+	// TODO: Implement!
+	public boolean labelStomt(String stomt_id, String name, String color, boolean as_target_owner) {
+		return false;
+	}
+	
+	// TODO: Implement!
+	public boolean labelStomt(String stomt_id, String name, String color) {
+		return false;
+	}
+	
+	// TODO: Implement!
+	public boolean labelStomt(String stomt_id, String name, boolean as_target_owner) {
+		return false;
+	}
+	
+	// TODO: Implement!
+	public boolean labelStomt(String stomt_id, String name) {
+		return false;
+	}
+	
+	// unlabel a stomt
+
+	// TODO: Implement!
+	public boolean unlabelStomt(String stomt_id, String label, boolean as_target_owner) {
+		return false;
+	}
+	
+	// TODO: Implement!
+	public boolean unlabelStomt(String stomt_id, String label) {
 		return false;
 	}
 
-	/* Targets */
+	/*
+	 * Feeds
+	 */
+	
+	// TODO: Change return type: An Array of stomt-objects. Write Test case!
+	
+	/**
+	 * Get a specific feed.
+	 * 
+	 * @param type The requested feed
+	 * @return A Json-String of stomt-objects
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
+	public String getFeed(String type) throws ParseException, IOException, StomtException {
+		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.GET, root + feeds + type.toLowerCase(),
+				httpClient.getRequestHeaders(), null, this.auth);
+		HttpResponse response = httpClient.execute(request);
+		HttpEntity entity = response.getEntity();
+		String json = EntityUtils.toString(entity, "UTF-8");
+		JsonParser parser = new JsonParser();
+		JsonObject o = (JsonObject) parser.parse(json);
+
+		if (response.getStatusLine().getStatusCode() != 200) {
+			throw new StomtException(o);
+		}
+		JsonArray data = o.getAsJsonArray("data");
+		return data.getAsString();
+	}
+	
+	/*
+	 * Targets
+	 * 
+	 * Targets are the most important and complex resources. stomt is built to
+	 * feedback anything, even friends and general things (e.g. I wish life had
+	 * a pause button). Therefore nearly anything is saved as a Target and
+	 * depending on its type additional type specific data.
+	 */
+
 
 	// TODO: Implement!
-	public Target createTarget() {
+	/**
+	 * Create a new Target.
+	 * 
+	 * @param displayname The name of the new Target (required)
+	 * @param username An username for the new Target (optional, unique)
+	 * @param image An image for the new Target (optional, name of an uploaded image)
+	 * @param category_id A category for the new Target (required, must be an existing {@code category_id})
+	 * @param parent_id The {@code target_id} of the parent if the new target is a sub-target (optional)
+	 * @param isPrivate {@code true} if the new Target is private, otherwise false (optional, default: false)
+	 * @return
+	 */
+	public Target createTarget(String displayname, String username, String image, String category_id, String parent_id, boolean isPrivate) {
+		return null;
+	}
+	
+	// TODO: Implement!
+	/**
+	 * 
+	 * Currently only for Twitter (shorthandle = tw).
+	 *  
+	 * @param src Providers Shorthandle (e.g. "tw")
+	 * @param src_id {@code username} at the providers platform: e.g. twitter.com/stomt -> "stomt"
+	 * @return
+	 */
+	public Target preflight(String src, String src_id) {
 		return null;
 	}
 
 	// TODO: Implement!
+	/**
+	 * Get a specific Target.
+	 * 
+	 * @param target_id The specific identifier of a target (required)
+	 * @return The requested Target as object
+	 */
 	public Target getTarget(String target_id) {
 		return null;
 	}
-
+	
 	// TODO: Implement!
-	public Target updateTarget(String target_id) {
+	/**
+	 * Get the stomts of an specific Target.
+	 * 
+	 * @param target_id The specific identifier of a target (required)
+	 * @param type Which type of stomts should be shown? Possibilities: received, created, top (optional)
+	 * @param secondType All of one specific {@code type} or just the negative or positive ones? Possibilities: positive, negative (optional)
+	 * @param newer_than Only stomts newer than the unix-timestamp will be returned (optional)
+	 * @return An {@code ArrayList} of stomts will be returned
+	 */
+	public ArrayList<Stomt> getTargetStomts(String target_id, String type, String secondType, String newer_than) {
 		return null;
 	}
 
-	/* Target Following - Version 2 */
-
-//	// TODO: Implement!
-//	public Target[] getFollows(String target_id) {
-//
-//	}
-//
-//	// TODO: Implement!
-//	public Target[] getFollowers(String target_id) {
-//
-//	}
-//
-//	// TODO: Implement!
-//	public boolean followTarget(String target_id) {
-//
-//	}
-//
-//	// TODO: Implement!
-//	public boolean unfollowTarget(String target_id) {
-//
-//	}
-
-	/* Target Stomts */
-
 	// TODO: Implement!
-	public Collection getTargetStomts(String target_id, String type, String secondType) {
+	/**
+	 * Update a specific Target.
+	 * 
+	 * @param target_id The specific identifier of a target (required)
+	 * @param displayname The new displayname
+	 * @param passsword The new password
+	 * @return The updated Target as object
+	 */
+	public Target updateTarget(String target_id, String displayname, String passsword) {
+		// Login Required
 		return null;
 	}
 
-	/* Categories */
+	/*
+	 * Target Following
+	 */
+	
 
-	// 1
-	public Category[] getAllCategories() {
+	// TODO: Implement!
+	/**
+	 * Get Followers of a specific Target.
+	 * 
+	 * @param target_id The specific identifier of a target (required)
+	 * @return An {@code ArrayList} with all Followers (ArrayList of Targets)
+	 */
+	public ArrayList<Target> getFollowers(String target_id) {
 		return null;
 	}
 
-	/* Reports */
-
 	// TODO: Implement!
-	public boolean createReport(String report_type, String repor_type_id, String report_weight) {
+	/**
+	 * Follow a specific Target.
+	 * 
+	 * @param target_id The specific identifier of a target (required)
+	 * @return {@code true} if the follow of a specific target was successful, otherwise false
+	 */
+	public boolean followTarget(String target_id) {
+		// Login Required
 		return false;
 	}
 
-	/* Notifications */
+	// TODO: Implement!
+	/**
+	 * Unfollow a specific Target.
+	 * 
+	 * @param target_id The specific identifier of a target (required)
+	 * @return {@code true} if the unfollow of a specific target was successful, otherwise false
+	 */
+	public boolean unfollowTarget(String target_id) {
+		// Login Required
+		return false;
+	}
+	
+	// TODO: Same like getFollowers???? - otherwise implement!
+	public ArrayList<Target> getFollows(String target_id) {
+		return null;
+	}
+	
+	/*
+	 * Categories
+	 */
+	
+	/**
+	 * Get all categories.
+	 * 
+	 * @return An {@code Arraylist} of all categories.
+	 */
+	public ArrayList<Category> getAllCategories() {
+		return null;
+	}
+
+	/* 
+	 * Notifications 
+	 */
 
 	// TODO: Implement!
-	public Notification[] getNotifications(boolean unseen, String last_notification, int offset, int limit) {
+	/**
+	 * Get notifications.
+	 * 
+	 * @param unseen Set true to get only unseen notifications (optional)
+	 * @param last_notification Add a timestamp to get only notifications created after the provided timestamp (optinal)
+	 * @param offset Load more notifications for pagination (default: 0) (optional)
+	 * @param limit Load more notifications at once (default: 7) (optional)
+	 * @return An {@code ArrayList} of notifications
+	 */
+	public ArrayList<Notification> getNotifications(boolean unseen, String last_notification, int offset, int limit) {
+		// Login Required
 		return null;
 	}
 
 	// TODO: Implement!
+	/**
+	 * Update notifications.
+	 * 
+	 * If notifications are seen by the user (e.g. the user views a notification overview) set the seen-attribute to {@code true}. 
+	 * If the user clicks/taps on a notification set the clicked-attribute to {@code true}.
+	 * 
+	 * @param id 
+	 * @param seen
+	 * @param clicked
+	 * @return {@code true} if the update was successful, otherwise {@code false}
+	 */
 	public boolean updateNotifications(String id, boolean seen, boolean clicked) {
+		// Login Required
 		return false;
 	}
 
-	/* Images */
+	/*
+	 * Images
+	 * 
+	 * Images are uploaded in a specific context and Base64 encoded.
+	 */
 
 	/**
 	 * Upload an image for a specific {@code context}.
@@ -1608,38 +1774,59 @@ public class StomtClient implements HttpVariables {
 		return uploadImageAsFile(null, context, data, null);
 	}
 	
-	
-
-
-	/* Search */
-
-	// TODO: Implement!
-	public Collection searchTarget(String searchItem) {
-		return null;
-	}
+	/*
+	 * Search
+	 * 
+	 * To use the result you need the src and src_id. Currently all results have
+	 * src = s, because all results represent existing targets in stomt. The
+	 * src_id is the targets id.
+	 */
 
 	// TODO: Implement!
-	public Stomt[] hashtag(String tag) {
-		return null;
-	}
-
-	/* Target Invitations */
-
-	// TODO: Implement!
-	public Invitation createInvitation(String target_id, String invite_to_type, boolean invite_as_owner) {
-		return null;
-	}
-
-	// TODO: Implement!
-	public Invitation[] getInvitations(String target_id) {
+	public Collection searchTarget(String query) {
 		return null;
 	}
 	
 	// TODO: Implement!
-	public Invitation checkValidity(String target_id, String code) {
+	/**
+	 * Search stomt
+	 * 
+	 * @param q Term to search for in the stomt text
+	 * @param at {@code target-id} - Only show stomts that belong in some way to the given target (Please us at instead of an @-sign as request parameter)
+	 * @param to Filter for stomts the targets have received directly (list of target-ids)
+	 * @param from Filter for stomts created by these users (list of target-ids)
+	 * @param has Filter for stomts matching the criteria, the keywords can be negated by prefixing them with a “!”. Following keywords are available: votes, comments, reaction, image, labels, url 
+	 * @param is Either filter for likes (like) or wishes (wish)
+	 * @param label Filter for stomts that contain all given labels, labels can be negated
+	 * @param hashtag  Filter for stomts that contain all given hashtags, hashtags can be negated
+	 * @return An {@code ArrayList} of stomts which fulfilled the criteria (Current NULL - not implemented!)
+	 */
+	public ArrayList<Stomt> searchStomts(String q, String at, String to, String from, String has, String is, String label, String hashtag) {
+		return null;
+	}	
+
+	// TODO: Implement!
+	/**
+	 * Search hashtags similar to query.
+	 * 
+	 * @param query For which query this method should search similar hashtags
+	 * @return An {@code ArrayList} of hashtags.
+	 */
+	public ArrayList<String>[] searchHashtags(String query) {
 		return null;
 	}
 	
+	// TODO: Implement!
+	/**
+	 * Hashtag usage.
+	 * 
+	 * @param hashtag The hashtag you are looking for
+	 * @return An {@code ArrayList} of stomts which used {@code hashtag}
+	 */
+	public ArrayList<Stomt> searchHashtag(String hashtag) {
+		return null;
+	}
+
 	/**
 	 * Check if there is a {@code accesstoken} in {@code Authorization}.
 	 * 

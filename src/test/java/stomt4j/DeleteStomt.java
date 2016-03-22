@@ -33,10 +33,10 @@ public class DeleteStomt {
 	public void deleteStomt_logout() throws ParseException, IOException, StomtException {
 		System.out.println("->TEST: deleteStomt_logout()");
 		
-		StomtClientTest.client.deleteStomt(StomtClientTest.stomt_id);
-		
 		System.out.println("Expect: User is not logged in - no accesstoken.");
 		System.out.print("Get: ");
+		
+		StomtClientTest.client.deleteStomt(StomtClientTest.stomt_id);
 	}
 	
 	@Test(expected=StomtException.class)
@@ -46,11 +46,11 @@ public class DeleteStomt {
 		// create client and login
 		client = new StomtClient(StomtClientTest.appid);
 		client.login("test1","test1");
-		
-		client.deleteStomt(StomtClientTest.stomt_id);
-		
+				
 		System.out.println("Expect: Forbidden Dude! This stomt is not yours!");
 		System.out.print("Get: ");
+		
+		client.deleteStomt(StomtClientTest.stomt_id);
 	}
 
 	private String getRandomString() {
