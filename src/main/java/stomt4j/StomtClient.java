@@ -1219,7 +1219,6 @@ public class StomtClient implements HttpVariables {
 		return createStomt(positive, target_id, text, null, true, img.getName(), lonlat);	
 	}
 	
-	// TODO: Not tested!
 	/**
 	 * Read a single stomt
 	 * 
@@ -1242,7 +1241,6 @@ public class StomtClient implements HttpVariables {
 		if (response.getStatusLine().getStatusCode() != 200) {
 			throw new StomtException(o);
 		}
-		
 		return new Stomt(o.getAsJsonObject("data"));
 	}
 

@@ -26,8 +26,7 @@ public class Stomt {
 	private Target creator = null;
 	// TODO: Expand to url array - Backend does not support at moment
 	private String url = null;
-	// only exists if agreed
-	private AgreedEntity agreed = null;
+	private AgreedEntity agreed = null;	// only exists if agreed
 	
 	/**
 	 * Constructor for stomt-objects

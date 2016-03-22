@@ -9,6 +9,7 @@ public class SuggestUsernames {
 
 	@Test
 	public void suggestUsernames() throws ParseException, IOException, StomtException {
+		System.out.println("->TEST: suggestUsernames()");
 		ArrayList<String> suggestions = StomtClientTest.client.suggestUsernames("test");
 		
 		if (suggestions == null) {
@@ -19,7 +20,6 @@ public class SuggestUsernames {
 			if (suggestions.get(i) == null || suggestions.get(i).getClass() != String.class) {
 				throw new StomtException("suggestion is null or not type String.");
 			}
-			System.out.println(suggestions.get(i));
 		}
 	}
 
