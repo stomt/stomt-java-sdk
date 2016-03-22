@@ -4,7 +4,11 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.ParseException;
 import org.junit.Test;
@@ -12,13 +16,18 @@ import stomt4j.entities.Image;
 import stomt4j.entities.ImageContext;
 
 public class UploadImage {
+	
+	String random = null;
+	String sourceUri = "https://pixabay.com/static/uploads/photo/2012/04/26/19/43/profile-42914_960_720.png";
+	File img = null;
 
 	@Test
 	public void uploadAvatarWithString() throws ParseException, IOException, StomtException {
 
 		System.out.println("-> TEST: uploadAvatarWithString()");
 
-		File img = new File("/home/chris/Pictures/javaTEST/test-user.png");
+		random = getRandomString();
+		File img = generateFile(random);
 		String myAvatar = fileToBase64(img);
 				
 		StomtClient stomtClient = new StomtClient(StomtClientTest.appid);		
@@ -47,9 +56,11 @@ public class UploadImage {
 		
 		expect.setThumb(null);
 
+		System.out.println("Expect: " + expect.toString());
 		System.out.println("Get: " + get.toString());
 		
 		assertEquals(get.toString(), expect.toString());
+		deleteFile(img);
 	}
 	
 	@Test(expected=StomtException.class)
@@ -107,5 +118,40 @@ public class UploadImage {
             e.printStackTrace();
         }
         return imageDataString;
+	}
+	
+	public static void saveImage(String imageUrl, String destinationFile) throws IOException {
+		URL url = new URL(imageUrl);
+		InputStream is = url.openStream();
+		OutputStream os = new FileOutputStream(destinationFile);
+
+		byte[] b = new byte[2048];
+		int length;
+
+		while ((length = is.read(b)) != -1) {
+			os.write(b, 0, length);
+		}
+
+		is.close();
+		os.close();
+	}
+	
+	public void deleteFile(File toDelete) {
+		if (toDelete.exists()) {
+			toDelete.delete();
+		}
+	}
+
+	private File generateFile(String random) throws StomtException, IOException {
+	
+		String destinationFile = "image" + random + ".png";
+		saveImage(sourceUri, destinationFile);
+
+		return new File(destinationFile);
+	}
+	
+	private String getRandomString() {
+		double random = Math.random() * 100000;
+		return Integer.toString((int) random);
 	}
 }

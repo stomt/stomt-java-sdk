@@ -176,9 +176,7 @@ public class StomtClient implements HttpVariables {
 		JsonObject data = o.getAsJsonObject("data");
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
-		
-		System.out.println(data.getAsJsonObject("user"));
-		
+				
 		return new Target(data.getAsJsonObject("user"));
 	}
 
@@ -1356,7 +1354,7 @@ public class StomtClient implements HttpVariables {
 			
 		Image responseImage = new Image(responseData.getAsJsonObject("images").getAsJsonObject(context));
 		responseImage.setContext(context);
-		
+	
 		return responseImage;
 	}
 	

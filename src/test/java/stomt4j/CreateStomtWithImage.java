@@ -1,17 +1,17 @@
 package stomt4j;
 
 import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.ParseException;
 import org.junit.Test;
-
 import stomt4j.entities.Stomt;
 
 public class CreateStomtWithImage {
@@ -26,6 +26,37 @@ public class CreateStomtWithImage {
 	private File img;
 	private URL imgUrl;
 	private StomtClient client;
+	String sourceUri = "https://pixabay.com/static/uploads/photo/2012/04/26/19/43/profile-42914_960_720.png";
+
+	public static void saveImage(String imageUrl, String destinationFile) throws IOException {
+		URL url = new URL(imageUrl);
+		InputStream is = url.openStream();
+		OutputStream os = new FileOutputStream(destinationFile);
+
+		byte[] b = new byte[2048];
+		int length;
+
+		while ((length = is.read(b)) != -1) {
+			os.write(b, 0, length);
+		}
+
+		is.close();
+		os.close();
+	}
+	
+	public void deleteFile(File toDelete) {
+		if (toDelete.exists()) {
+			toDelete.delete();
+		}
+	}
+
+	private File generateFile(String random) throws StomtException, IOException {
+	
+		String destinationFile = "image" + random + ".png";
+		saveImage(sourceUri, destinationFile);
+
+		return new File(destinationFile);
+	}
 
 	@Test
 	public void createStomtMinimalFalse_File()
@@ -37,7 +68,7 @@ public class CreateStomtWithImage {
 		positive = false;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = new File("/home/chris/Pictures/javaTEST/test.gif");
+		img = generateFile(random);
 
 		client.login(StomtClientTest.usernamePassword, StomtClientTest.usernamePassword);
 
@@ -58,6 +89,7 @@ public class CreateStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
+		deleteFile(img);
 	}
 	
 	@Test
@@ -70,7 +102,7 @@ public class CreateStomtWithImage {
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = new File("/home/chris/Pictures/javaTEST/test.gif");
+		img = generateFile(random);
 
 		client.login(StomtClientTest.usernamePassword, StomtClientTest.usernamePassword);
 
@@ -89,6 +121,7 @@ public class CreateStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
+		deleteFile(img);
 	}
 	
 	@Test
@@ -101,7 +134,7 @@ public class CreateStomtWithImage {
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = new File("/home/chris/Pictures/javaTEST/test.gif");
+		img = generateFile(random);
 		url = new URL("http://stomt.com");
 
 		client.login(StomtClientTest.usernamePassword, StomtClientTest.usernamePassword);
@@ -121,6 +154,7 @@ public class CreateStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
+		deleteFile(img);
 	}
 	
 	@Test
@@ -196,7 +230,7 @@ public class CreateStomtWithImage {
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = new File("/home/chris/Pictures/javaTEST/string.png");
+		img = generateFile(random);
 
 		client.login(StomtClientTest.usernamePassword, StomtClientTest.usernamePassword);
 
@@ -215,6 +249,7 @@ public class CreateStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
+		deleteFile(img);
 	}
 	
 	@Test
@@ -227,7 +262,7 @@ public class CreateStomtWithImage {
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = new File("/home/chris/Pictures/javaTEST/string.png");
+		img = generateFile(random);
 		url = new URL("http://stomt.com");
 
 		client.login(StomtClientTest.usernamePassword, StomtClientTest.usernamePassword);
@@ -247,6 +282,7 @@ public class CreateStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
+		deleteFile(img);
 	}
 
 

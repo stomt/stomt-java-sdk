@@ -120,6 +120,17 @@ public class Image {
 	}
 	
 	/**
+	 * An asString() method for the entity Image - used for unit tests.
+	 * 
+	 * @return An image object as String.
+	 */
+	public String asString() {
+		return "Image [url=" + url + ", width=" + width + ", height=" + height + ", name=" + name + ", context=" + context + ", thumb=" + thumb +"]";
+	}
+	
+	
+	
+	/**
 	 * A toString() method for the entity Image - used for unit tests.
 	 * 
 	 * @return A condensed form of the image object as String representation.
@@ -128,4 +139,5 @@ public class Image {
 	public String toString() {
 		return "Image [url=" + url + ", width=" + width + ", height=" + height + "]";
 	}
+	
 }

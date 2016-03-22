@@ -9,10 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.ParseException;
-import org.junit.After;
 import org.junit.Test;
 import stomt4j.entities.Stomt;
 
@@ -29,12 +27,6 @@ public class CreateAnonymStomtWithImage {
 	private URL imgUrl = null;
 	StomtClient client = new StomtClient(StomtClientTest.appid);
 	String sourceUri = "https://pixabay.com/static/uploads/photo/2012/04/26/19/43/profile-42914_960_720.png";
-	
-	@After
-	public void tearDown() throws ParseException, IOException, StomtException {
-		// delete File image
-		deleteFile(img);
-	}
 
 	public static void saveImage(String imageUrl, String destinationFile) throws IOException {
 		URL url = new URL(imageUrl);
@@ -89,6 +81,7 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
+		deleteFile(img);
 	}
 	
 	@Test
@@ -114,6 +107,7 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
+		deleteFile(img);
 	}
 	
 	@Test
@@ -141,6 +135,7 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
+		deleteFile(img);
 	}
 	
 	@Test
@@ -216,6 +211,7 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
+		deleteFile(img);
 	}
 	
 	@Test
@@ -241,6 +237,7 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
+		deleteFile(img);
 	}
 	
 
