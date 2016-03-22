@@ -6,16 +6,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.util.EntityUtils;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -111,7 +110,6 @@ public class StomtClient implements HttpVariables {
 
 	
 	// TODO: Not tested!
-	
 	/**
 	 * Verify the users email address. 
 	 * <br>The user gets a link with /verify/{verification_code}.
@@ -215,7 +213,84 @@ public class StomtClient implements HttpVariables {
 
 		return new Target(data.getAsJsonObject("user"));
 	}
+	
 
+	// TODO: Not tested!
+	/**
+	 *  Normal authentication with reddit.
+	 * <br>For Connect with reddit you need to sign-in client-side to receive {@code code} and {@code state}.
+	 * 
+	 * @param code A one-time use code that may be exchanged for a bearer token. (c.f {@link https://github.com/reddit/reddit/wiki/OAuth2})
+	 * @param state A string of your choosing. (c.f {@link https://github.com/reddit/reddit/wiki/OAuth2})
+	 * @return The user-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
+	public Target loginReddit(String code, String state) throws ParseException, IOException, StomtException {
+		Map<String, Object> bodyParameters = new HashMap<String, Object>();
+		bodyParameters.put("login_method", new String("reddit"));
+		bodyParameters.put("code", code);
+		bodyParameters.put("state", state);
+
+		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + authentication + login,
+				httpClient.getRequestHeaders(), bodyParameters, this.auth);
+		HttpResponse response = httpClient.execute(request);
+		HttpEntity entity = response.getEntity();
+		String json = EntityUtils.toString(entity, "UTF-8");
+		JsonParser parser = new JsonParser();
+		JsonObject o = (JsonObject) parser.parse(json);
+
+		if (response.getStatusLine().getStatusCode() != 200) {
+			throw new StomtException(o);
+		}
+
+		JsonObject data = o.getAsJsonObject("data");
+		auth.setAccesstoken(data.get("accesstoken").getAsString());
+		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
+
+		return new Target(data.getAsJsonObject("user"));
+	}
+	
+	// TODO: Not tested!
+	/**
+	 *  Normal authentication with Twitter.
+	 * <br>For Connect with twitter you need to sign-in client-side to receive {@code oauth_token} and {@code oauth_verifier}.
+	 * 
+	 * @param code A one-time use code that may be exchanged for a bearer token. (c.f {@link https://github.com/reddit/reddit/wiki/OAuth2})
+	 * @param state A string of your choosing. (c.f {@link https://github.com/reddit/reddit/wiki/OAuth2})
+	 * @return The user-object
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
+	public Target loginTwitter(String oauth_token, String oauth_verifier) throws ParseException, IOException, StomtException {
+		Map<String, Object> bodyParameters = new HashMap<String, Object>();
+		bodyParameters.put("login_method", new String("twitter"));
+		bodyParameters.put("oauth_token", oauth_token);
+		bodyParameters.put("oauth_verifier", oauth_verifier);
+
+		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + authentication + login,
+				httpClient.getRequestHeaders(), bodyParameters, this.auth);
+		HttpResponse response = httpClient.execute(request);
+		HttpEntity entity = response.getEntity();
+		String json = EntityUtils.toString(entity, "UTF-8");
+		JsonParser parser = new JsonParser();
+		JsonObject o = (JsonObject) parser.parse(json);
+
+		if (response.getStatusLine().getStatusCode() != 200) {
+			throw new StomtException(o);
+		}
+
+		JsonObject data = o.getAsJsonObject("data");
+		auth.setAccesstoken(data.get("accesstoken").getAsString());
+		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
+
+		return new Target(data.getAsJsonObject("user"));
+	}
+
+	//TODO: Implement oAuth Login!
+	
 	/**
 	 * Logout existing session.
 	 * 
@@ -225,7 +300,6 @@ public class StomtClient implements HttpVariables {
 	 * @throws StomtException
 	 */
 	public boolean logout() throws ParseException, IOException, StomtException {
-		
 		// No Accesstoken? -> User not logged in
 		if (!this.auth.hasAccesstoken()) {
 			throw new StomtException("User is not logged in - no accesstoken.");
@@ -250,17 +324,16 @@ public class StomtClient implements HttpVariables {
 	}
 
 	/**
-	 * Check if displayname or email is still available.
+	 * Check if {@code displayname} or {@code email} is still available.
 	 * 
-	 * @param property Check for existing "username" or "email"
+	 * @param property Check for existing {@code username} or {@code email}
 	 * @param value Value to check
-	 * @return true if displayname or email is still available
+	 * @return true if {@code displayname} or {@code email} is still available
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
 	 */
 	public boolean checkAvailability(String property, String value) throws ParseException, IOException, StomtException {
-
 		URIBuilder builder = new URIBuilder();
 		builder.setPath(root + authentication + checkAvailability);
 		builder.setParameter("property", property);
@@ -280,6 +353,42 @@ public class StomtClient implements HttpVariables {
 
 		JsonObject data = o.getAsJsonObject("data");
 		return Boolean.valueOf(data.get("success").getAsString());
+	}
+	
+	/**
+	 * Suggest {@code usernames} based on {@code fullname}
+	 * 
+	 * @param fullname Suggest usernames based on {@code fullname}
+	 * @return An {@code ArrayList} with all suggested usernames
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
+	public ArrayList<String> suggestUsernames(String fullname) throws ParseException, IOException, StomtException {
+		URIBuilder builder = new URIBuilder();
+		builder.setPath(root + authentication + suggestedUsernames);
+		builder.setParameter("fullname", fullname);
+
+		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.GET, builder.toString(),
+				httpClient.getRequestHeaders(), null, this.auth);
+		HttpResponse response = httpClient.execute(request);
+		HttpEntity entity = response.getEntity();
+		String json = EntityUtils.toString(entity, "UTF-8");
+		JsonParser parser = new JsonParser();
+		JsonObject o = (JsonObject) parser.parse(json);
+
+		if (response.getStatusLine().getStatusCode() != 200) {
+			throw new StomtException(o);
+		}
+
+		JsonArray data = o.getAsJsonArray("data");				
+		ArrayList<String> suggestions= new ArrayList<String>();
+		
+		for (int i = 0; i < data.size(); i++) {
+			suggestions.add(data.get(i).getAsString());
+		}
+			
+		return suggestions;
 	}
 
 	/**

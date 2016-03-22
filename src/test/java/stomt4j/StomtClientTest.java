@@ -10,7 +10,9 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
 @RunWith(Suite.class)
-@SuiteClasses({ Login.class, Logout.class, CheckAvailability.class, ForgotPassword.class, CreateAnonymStomt.class, CreateAnonymStomtWithImage.class, CreateStomt.class, CreateStomtWithImage.class, UploadImage.class, UploadImageAsFile.class, UploadImageViaUrl.class })
+@SuiteClasses({ Login.class, Logout.class, CheckAvailability.class, ForgotPassword.class, CreateAnonymStomt.class,
+	CreateAnonymStomtWithImage.class, CreateStomt.class, CreateStomtWithImage.class, UploadImage.class,
+	UploadImageAsFile.class, UploadImageViaUrl.class, SuggestUsernames.class })
 public class StomtClientTest {
 	
 	// Set stomt application id

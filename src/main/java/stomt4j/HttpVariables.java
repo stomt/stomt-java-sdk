@@ -11,6 +11,7 @@ public interface HttpVariables {
 	  
 	  public static final String authentication = "/authentication";
 	  public static final String checkAvailability = "/checkAvailability";
+	  public static final String suggestedUsernames = "/suggestedUsernames";
 	  public static final String forgotPassword = "/forgotpassword";
 	  public static final String resetPassword = "/resetpassword";
 	  public static final String login = "/session";
