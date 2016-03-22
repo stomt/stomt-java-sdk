@@ -12,7 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ Login.class, Logout.class, CheckAvailability.class, ForgotPassword.class, CreateAnonymStomt.class,
 	CreateAnonymStomtWithImage.class, CreateStomt.class, CreateStomtWithImage.class, UploadImage.class,
-	UploadImageAsFile.class, UploadImageViaUrl.class, SuggestUsernames.class, ReadStomt.class })
+	UploadImageAsFile.class, UploadImageViaUrl.class, SuggestUsernames.class, ReadStomt.class, DeleteStomt.class })
 public class StomtClientTest {
 	
 	// Set stomt application id
@@ -29,5 +29,9 @@ public class StomtClientTest {
 	
 	// The präfix for the required parameter text
 	public static final String textMessage = "Java-SDK test ";
+	
+	// A single stomt_id and text which exists
+	public static final String stomt_id = "java-sdk-test-81637";	// stomt_id
+	public static final String stomt = "Java-SDK test 81637";		// text
 	
 }

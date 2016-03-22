@@ -1220,10 +1220,10 @@ public class StomtClient implements HttpVariables {
 	}
 	
 	/**
-	 * Read a single stomt
+	 * Read a single stomt.
 	 * 
-	 * @param stomt_id Slug of a stomt.
-	 * @return The requested stomt-object.
+	 * @param stomt_id The {@code stomt_id} of the stomt which is requested
+	 * @return The requested stomt-object
 	 * @throws ParseException
 	 * @throws IOException
 	 * @throws StomtException
@@ -1243,10 +1243,39 @@ public class StomtClient implements HttpVariables {
 		}
 		return new Stomt(o.getAsJsonObject("data"));
 	}
+	
+	/**
+	 * Delete a single stomt.
+	 * 
+	 * @param The {@code stomt_id} of the stomt which should be deleted
+	 * @return {@code true} if the stomt was deleted, otherwise {@code false}
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws StomtException
+	 */
+	public boolean deleteStomt(String stomt_id) throws ParseException, IOException, StomtException {
+		// No Accesstoken? -> User not logged in
+		if (!this.auth.hasAccesstoken()) {
+			throw new StomtException("User is not logged in - no accesstoken.");
+		}
+		
+		httpClient.addRequestHeader("accesstoken", this.auth.getAccesstoken());
 
-	// TODO: Implement!
-	public boolean deleteStomt(String stomt_id) {
-		return false;
+		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.DELETE, root + stomts + "/" + stomt_id,
+				httpClient.getRequestHeaders(), null, this.auth);
+		HttpResponse response = httpClient.execute(request);
+		HttpEntity entity = response.getEntity();
+		String json = EntityUtils.toString(entity, "UTF-8");
+		JsonParser parser = new JsonParser();
+		JsonObject o = (JsonObject) parser.parse(json);
+
+		if (response.getStatusLine().getStatusCode() != 200) {
+			throw new StomtException(o);
+		}
+
+		JsonObject data = o.getAsJsonObject("data");
+
+		return Boolean.valueOf(data.get("success").getAsString());
 	}
 
 	/* Agreements */

@@ -1,0 +1,61 @@
+package stomt4j;
+
+import static org.junit.Assert.*;
+import java.io.IOException;
+import org.apache.http.ParseException;
+import org.junit.Test;
+
+public class DeleteStomt {
+
+	StomtClient client = null;
+
+	@Test
+	public void deleteStomt_true() throws ParseException, IOException, StomtException {
+		System.out.println("->TEST: deleteStomt_true()");
+		// create client and login
+		client = new StomtClient(StomtClientTest.appid);
+		client.login(StomtClientTest.usernamePassword, StomtClientTest.usernamePassword);
+		
+		// create sample stomt
+		String random = getRandomString();
+		client.createStomt(true, StomtClientTest.target_id, StomtClientTest.textMessage + random);
+		
+		String stomt_id = "java-sdk-test-" + random;
+		boolean response = client.deleteStomt(stomt_id);
+		
+		System.out.println("Expect: true");
+		System.out.println("Get: " + response);
+		
+		assertEquals(response, true);
+	}
+
+	@Test(expected=StomtException.class)
+	public void deleteStomt_logout() throws ParseException, IOException, StomtException {
+		System.out.println("->TEST: deleteStomt_logout()");
+		
+		StomtClientTest.client.deleteStomt(StomtClientTest.stomt_id);
+		
+		System.out.println("Expect: User is not logged in - no accesstoken.");
+		System.out.print("Get: ");
+	}
+	
+	@Test(expected=StomtException.class)
+	public void deleteStomt_notOwner() throws ParseException, IOException, StomtException {
+		System.out.println("->TEST: deleteStomt_notOwner()");
+		
+		// create client and login
+		client = new StomtClient(StomtClientTest.appid);
+		client.login("test1","test1");
+		
+		client.deleteStomt(StomtClientTest.stomt_id);
+		
+		System.out.println("Expect: Forbidden Dude! This stomt is not yours!");
+		System.out.print("Get: ");
+	}
+
+	private String getRandomString() {
+		double random = Math.random() * 100000;
+		return Integer.toString((int) random);
+	}
+
+}
