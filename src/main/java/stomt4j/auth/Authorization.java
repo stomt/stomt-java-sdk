@@ -1,6 +1,8 @@
 package stomt4j.auth;
 
 /**
+ * Handles the Accesstoken and Refreshtoken of each Connection.
+ * 
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
 public class Authorization {
@@ -8,16 +10,30 @@ public class Authorization {
     private String accesstoken;
     private String refreshtoken;
     
+    /**
+     * Constructor Authorization as data wrapper.
+     */
     public Authorization() {
     	accesstoken = null;
     	refreshtoken = null;
     }
 
+    /**
+     * Constructor Authorization as data wrapper.
+     * 
+     * @param access The current {@code accesstoken}
+     * @param refresh The current {@code refreshtoken}
+     */
     public Authorization(String access, String refresh) {
         this.accesstoken = access;
         this.refreshtoken = refresh;
     }
     
+    /**
+     * Check if instance has set {@code accesstoken}.
+     * 
+     * @return {@code true} if instance has set an {@code accestoken}
+     */
     public boolean hasAccesstoken() {
     	if (this.accesstoken == null) {
     		return false;
@@ -26,18 +42,31 @@ public class Authorization {
     	}
     }
 
+    /**
+     * @param token Set {@code accesstoken}
+     */
     public void setAccesstoken(String token) {
     	accesstoken = token;
     }
     
+    /**
+     * @return {@code accesstoken}
+     */
     public String getAccesstoken() {
     	return this.accesstoken;
     }
 
+    /**
+     * @param token Set {@code refreshtoken}
+
+     */
     public void setRefreshtoken(String token) {
     	refreshtoken = token;
     }
     
+    /**
+     * @return The {@code refreshtoken}
+     */
     public String getRefreshtoken() {
     	return this.refreshtoken;
     }
@@ -49,6 +78,11 @@ public class Authorization {
     	return true;
     }
     
+	/**
+	 * A toString() method for {@link Authorization}.
+	 * 
+     * @return {@link Authorization} as String
+     */
     @Override
     public String toString() {
     	String auth = "[Accesstoken: ";

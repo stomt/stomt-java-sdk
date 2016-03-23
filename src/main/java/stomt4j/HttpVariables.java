@@ -1,14 +1,12 @@
 package stomt4j;
 
-// TODO: Implement Stomt Statuscodes
-
 /**
+ * Handles {@code static final String}s
+ * 
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
 public interface HttpVariables {
-	
 	  public static final String root = "https://test.rest.stomt.com";
-	  
 	  public static final String authentication = "/authentication";
 	  public static final String checkAvailability = "/checkAvailability";
 	  public static final String suggestedUsernames = "/suggestedUsernames";
@@ -21,4 +19,6 @@ public interface HttpVariables {
 	  public static final String feeds = "/feeds/";
 	  public static final String contentType = "application/json";
 	  public static final String images = "/images";
+	  
+	// TODO: Implement Stomt Statuscodes
 }

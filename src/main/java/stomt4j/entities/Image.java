@@ -23,7 +23,7 @@ public class Image {
 	}
 	
 	/**
-	 * Constructor for image-object
+	 * Constructor of {@link Image}.
 	 * 
 	 * @param image A image-object in json.
 	 */
@@ -120,7 +120,7 @@ public class Image {
 	}
 	
 	/**
-	 * An asString() method for the entity Image - used for unit tests.
+	 * An asString() method for the entity {@link Image} - used for unit tests.
 	 * 
 	 * @return An image object as String.
 	 */
@@ -131,7 +131,7 @@ public class Image {
 	
 	
 	/**
-	 * A toString() method for the entity Image - used for unit tests.
+	 * A toString() method for the entity {@link Image} - used for unit tests.
 	 * 
 	 * @return A condensed form of the image object as String representation.
 	 */

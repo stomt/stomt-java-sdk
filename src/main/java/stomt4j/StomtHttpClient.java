@@ -16,17 +16,27 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 /**
+ * The {@code StomtHttpClient} handles the HTTP-Connection.
+ * 
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
  */
 public class StomtHttpClient implements HttpVariables {
 
 	private final Map<String, String> requestHeaders;
 
+	/**
+	 * Constructor of the {@code StomtHttpClient}.
+	 * 
+	 * @param client The instance of {@code StomtClient} which handles all possible Requests.
+	 */
 	public StomtHttpClient(StomtClient client) {
 		requestHeaders = new HashMap<String, String>();
 		requestHeaders.put("appid", client.getAppid());
 	}
 
+	/**
+	 * @return The {@code requestHeaders} of this {@code StomtHttClient}.
+	 */
 	public Map<String, String> getRequestHeaders() {
 		return requestHeaders;
 	}
@@ -42,21 +52,18 @@ public class StomtHttpClient implements HttpVariables {
 	/**
 	 * Transform StomtHttpRequest to a valid HttpRequest and executes it.
 	 * 
-	 * @param request
-	 *            The {@code StomtHttpRequest}
+	 * @param request The {@code StomtHttpRequest}
 	 * @return The {@code HttpResponse}
 	 */
 	protected HttpResponse execute(StomtHttpRequest request) {
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		HttpResponse response = null;
 
+		// StomtHttpRequest to HttpRequest and execute
 		try {
 			if (request.getMethod() == RequestMethod.GET) {
-				HttpGet httpRequest = get(request); // StomtHttpRequest ->
-													// HttpRequest
+				HttpGet httpRequest = get(request); 
 				response = httpClient.execute(httpRequest);
-				// To do: HttpResponse -> StomtHttpResponse
-				// ... -> return type: StomtHttpResponse
 			} else if (request.getMethod() == RequestMethod.POST) {
 				HttpPost httpRequest = post(request);
 				response = httpClient.execute(httpRequest);
@@ -78,19 +85,24 @@ public class StomtHttpClient implements HttpVariables {
 		}
 		return response;
 	}
-
+	
 	/**
-	 * Generate get request.
+	 * Transform {@code StomtHttpRequest} to {@code HttpGet}.  .
+	 * 
+	 * @param request {@code StomtHttpRequest} as {@code HttpGet}
+	 * @return The valid HTTP-Request
 	 */
 	private HttpGet get(StomtHttpRequest request) {
 		HttpGet getRequest = new HttpGet(request.getPath());
-
 		setHeaders(getRequest, request);
 		return getRequest;
 	}
 
 	/**
-	 * Generate post request.
+	 * Transform {@code StomtHttpRequest} to {@code HttpPost}.  .
+	 * 
+	 * @param request {@code StomtHttpRequest} as {@code HttpPost}
+	 * @return The valid HTTP-Request
 	 */
 	private HttpPost post(StomtHttpRequest request) {
 		HttpPost httpRequest = new HttpPost(request.getPath());
@@ -102,19 +114,14 @@ public class StomtHttpClient implements HttpVariables {
 			System.out.println("Invalid Http body.");
 			e.printStackTrace();
 		}
-		// try {
-		// httpRequest.setEntity(new
-		// StringEntity(request.toString().toString()));
-		// } catch (UnsupportedEncodingException e) {
-		// System.out.println("Can not set entity for HTTP-Request!");
-		// e.printStackTrace();
-		// }
-		// // Evtl.? UrlEncodedFormEntity entity = buildEntityBody(params);
 		return httpRequest;
 	}
 
 	/**
-	 * Generate put request.
+	 * Transform {@code StomtHttpRequest} to {@code HttpPut}.  .
+	 * 
+	 * @param request {@code StomtHttpRequest} as {@code HttpPut}
+	 * @return The valid HTTP-Request
 	 */
 	private HttpPut put(StomtHttpRequest request) {
 		HttpPut httpRequest = new HttpPut(request.getPath());
@@ -130,7 +137,10 @@ public class StomtHttpClient implements HttpVariables {
 	}
 
 	/**
-	 * Generate delete request.
+	 * Transform {@code StomtHttpRequest} to {@code HttpDelete}.  .
+	 * 
+	 * @param request {@code StomtHttpRequest} as {@code HttpDelete}
+	 * @return The valid HTTP-Request
 	 */
 	private HttpDelete delete(StomtHttpRequest request) {
 		HttpDelete httpRequest = new HttpDelete(request.getPath());
@@ -139,12 +149,10 @@ public class StomtHttpClient implements HttpVariables {
 	}
 
 	/**
-	 * Set all headers defined in StomtHttpRequest.
+	 * Set all headers which are defined in StomtHttpRequest.
 	 * 
-	 * @param methodRequest
-	 *            The valid {@code HttpRequest}
-	 * @param request
-	 *            The {@code StomtHttpRequest}
+	 * @param methodRequest The HttpRequestMethod
+	 * @param request The {@code StomtHttpRequest}
 	 */
 	public void setHeaders(HttpRequestBase methodRequest, StomtHttpRequest request) {
 		for (Map.Entry<String, String> entry : request.getRequestHeaders().entrySet()) {
