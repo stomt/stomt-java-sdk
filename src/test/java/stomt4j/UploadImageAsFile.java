@@ -18,7 +18,7 @@ import stomt4j.entities.ImageContext;
 public class UploadImageAsFile {
 	
 	String random = null;
-	String sourceUri = "https://pixabay.com/static/uploads/photo/2012/04/26/19/43/profile-42914_960_720.png";
+	String sourceUri = "http://pixabay.com/static/uploads/photo/2012/04/26/19/43/profile-42914_960_720.png";
 	File img = null;
 	
 	@After
