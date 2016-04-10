@@ -1,37 +1,33 @@
 package stomt4j;
 
-import static org.junit.Assert.*;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-
 import org.apache.http.ParseException;
 import org.junit.After;
 import org.junit.Test;
 import stomt4j.entities.Image;
 import stomt4j.entities.ImageContext;
 
+import java.io.File;
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+
 
 public class UploadImageAsFile {
 	
-	String random = null;
-	String sourceUri = "http://pixabay.com/static/uploads/photo/2012/04/26/19/43/profile-42914_960_720.png";
-	File img = null;
+	private String random = null;
+	private File img = null;
 	
 	@After
 	public void tearDown() throws ParseException, IOException, StomtException {
 		// delete File image
-		deleteFile(img);
+		StomtClientTest.deleteFile(img);
 	}
 
 	@Test
 	public void uploadAvatarAsFile() throws ParseException, IOException, StomtException {
 
-		random = getRandomString();
-		img = generateFile(random);
+		random = StomtClientTest.getRandomString();
+		img = StomtClientTest.generateFile(random);
 		
 		System.out.println("-> TEST: uploadAvatarAsFile()");
 		
@@ -47,13 +43,13 @@ public class UploadImageAsFile {
 		
 		expect.setContext(ImageContext.avatar.toString());
 		
-		if (get.getUrl() == null || get.getUrl() == "") {
+		if (get.getUrl() == null || get.getUrl().equals("")) {
 			throw new StomtException("URL: Response unexpected!");
 		} else {
 			expect.setUrl(get.getUrl());
 		}
 		
-		if (get.getName() == null || get.getName() == "") {
+		if (get.getName() == null || get.getName().equals("")) {
 			throw new StomtException("NAME: Response unexpected!");
 		} else {
 			expect.setName(get.getName());
@@ -104,41 +100,6 @@ public class UploadImageAsFile {
 //		System.out.println("Get: " + get.toString());
 //		
 //		assertEquals(get.toString(), expect.toString());
-//	}	
-
-	public static void saveImage(String imageUrl, String destinationFile) throws IOException {
-		URL url = new URL(imageUrl);
-		InputStream is = url.openStream();
-		OutputStream os = new FileOutputStream(destinationFile);
-
-		byte[] b = new byte[2048];
-		int length;
-
-		while ((length = is.read(b)) != -1) {
-			os.write(b, 0, length);
-		}
-
-		is.close();
-		os.close();
-	}
-	
-	public void deleteFile(File toDelete) {
-		if (toDelete.exists()) {
-			toDelete.delete();
-		}
-	}
-
-	private File generateFile(String random) throws StomtException, IOException {
-	
-		String destinationFile = "image" + random + ".png";
-		saveImage(sourceUri, destinationFile);
-
-		return new File(destinationFile);
-	}
-	
-	private String getRandomString() {
-		double random = Math.random() * 100000;
-		return Integer.toString((int) random);
-	}
+//	}
 
 }

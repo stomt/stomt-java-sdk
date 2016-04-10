@@ -1,13 +1,15 @@
 package stomt4j;
 
-import static org.junit.Assert.*;
-import java.io.IOException;
 import org.apache.http.ParseException;
 import org.junit.Test;
 
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+
 public class DeleteStomt {
 
-	StomtClient client = null;
+	private StomtClient client = null;
 
 	@Test
 	public void deleteStomt_true() throws ParseException, IOException, StomtException {

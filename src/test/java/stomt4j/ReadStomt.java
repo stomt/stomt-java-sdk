@@ -1,12 +1,12 @@
 package stomt4j;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
 import org.apache.http.ParseException;
 import org.junit.Test;
-
 import stomt4j.entities.Stomt;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 public class ReadStomt {
 

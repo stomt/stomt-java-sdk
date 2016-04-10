@@ -1,18 +1,14 @@
 package stomt4j;
 
-import static org.junit.Assert.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.http.ParseException;
 import org.junit.Test;
 import stomt4j.entities.Stomt;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import static org.junit.Assert.assertEquals;
 
 public class CreateAnonymStomtWithImage {
 
@@ -25,49 +21,18 @@ public class CreateAnonymStomtWithImage {
 	private URL url = null;
 	private File img = null;
 	private URL imgUrl = null;
-	StomtClient client = new StomtClient(StomtClientTest.appid);
-	String sourceUri = "http://pixabay.com/static/uploads/photo/2012/04/26/19/43/profile-42914_960_720.png";
-
-	public static void saveImage(String imageUrl, String destinationFile) throws IOException {
-		URL url = new URL(imageUrl);
-		InputStream is = url.openStream();
-		OutputStream os = new FileOutputStream(destinationFile);
-
-		byte[] b = new byte[2048];
-		int length;
-
-		while ((length = is.read(b)) != -1) {
-			os.write(b, 0, length);
-		}
-
-		is.close();
-		os.close();
-	}
-	
-	public void deleteFile(File toDelete) {
-		if (toDelete.exists()) {
-			toDelete.delete();
-		}
-	}
-
-	private File generateFile(String random) throws StomtException, IOException {
-	
-		String destinationFile = "image" + random + ".png";
-		saveImage(sourceUri, destinationFile);
-
-		return new File(destinationFile);
-	}
+	private StomtClient client = new StomtClient(StomtClientTest.appid);
 
 	@Test
 	public void createAnonymStomtMinimalFalse_File()
 			throws ParseException, IOException, StomtException {
 		System.out.println("-> TEST: createAnonymStomtMinimalFalse_File()");
 
-		random = getRandomString();
+		random = StomtClientTest.getRandomString();
 		positive = false;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = generateFile(random);
+		img = StomtClientTest.generateFile(random);
 
 		Stomt stomtObject = client.createAnonymStomtWithImage(
 				positive, target_id, text, "stomt", img);
@@ -81,7 +46,7 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
-		deleteFile(img);
+		StomtClientTest.deleteFile(img);
 	}
 	
 	@Test
@@ -89,11 +54,11 @@ public class CreateAnonymStomtWithImage {
 			throws ParseException, IOException, StomtException {
 		System.out.println("-> TEST: createAnonymStomtMinimalPositive_File()");
 
-		random = getRandomString();
+		random = StomtClientTest.getRandomString();
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = generateFile(random);
+		img = StomtClientTest.generateFile(random);
 
 		Stomt stomtObject = client.createAnonymStomtWithImage(
 				positive, target_id, text, "stomt", img);
@@ -107,7 +72,7 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
-		deleteFile(img);
+		StomtClientTest.deleteFile(img);
 	}
 	
 	@Test
@@ -116,11 +81,11 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("-> TEST: createAnonymStomtWithUrl_File()");
 		
 
-		random = getRandomString();
+		random = StomtClientTest.getRandomString();
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = generateFile(random);
+		img = StomtClientTest.generateFile(random);
 		url = new URL("http://stomt.com");
 		
 		Stomt stomtObject = client.createAnonymStomtWithImage(
@@ -135,7 +100,7 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
-		deleteFile(img);
+		StomtClientTest.deleteFile(img);
 	}
 	
 	@Test
@@ -143,7 +108,7 @@ public class CreateAnonymStomtWithImage {
 			throws ParseException, IOException, StomtException {
 		System.out.println("-> TEST: createAnonymStomtMinimalPositive_Url()");
 
-		random = getRandomString();
+		random = StomtClientTest.getRandomString();
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
@@ -167,7 +132,7 @@ public class CreateAnonymStomtWithImage {
 			throws ParseException, IOException, StomtException {
 		System.out.println("-> TEST: createAnonymStomtMinimalPositiveWithUrl_Url()");
 
-		random = getRandomString();
+		random = StomtClientTest.getRandomString();
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
@@ -193,14 +158,14 @@ public class CreateAnonymStomtWithImage {
 			throws ParseException, IOException, StomtException {
 		System.out.println("-> TEST: createAnonymStomtMinimalPositive_Base64()");
 
-		random = getRandomString();
+		random = StomtClientTest.getRandomString();
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
-		img = generateFile(random);
+		img = StomtClientTest.generateFile(random);
 
 		Stomt stomtObject = client.createAnonymStomtWithImage(
-				positive, target_id, text, "stomt", FileToBase64(img));
+				positive, target_id, text, "stomt", StomtClientTest.fileToBase64(img));
 		stomt = stomtObject.toString();
 		
 		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
@@ -211,7 +176,7 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
-		deleteFile(img);
+		StomtClientTest.deleteFile(img);
 	}
 	
 	@Test
@@ -219,14 +184,14 @@ public class CreateAnonymStomtWithImage {
 			throws ParseException, IOException, StomtException {
 		System.out.println("-> TEST: createAnonymStomtWithUrl_Base64()");
 
-		random = getRandomString();
+		random = StomtClientTest.getRandomString();
 		positive = true;
 		target_id = "stomt-java";
 		text = "Java-SDK test " + random;
 		url = new URL("http://stomt.com");
-		img = generateFile(random);
+		img = StomtClientTest.generateFile(random);
 
-		Stomt stomtObject = client.createAnonymStomtWithImage(positive, target_id, text, url, "stomt", FileToBase64(img));
+		Stomt stomtObject = client.createAnonymStomtWithImage(positive, target_id, text, url, "stomt", StomtClientTest.fileToBase64(img));
 		stomt = stomtObject.toString();
 		
 		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
@@ -237,32 +202,7 @@ public class CreateAnonymStomtWithImage {
 		System.out.println("Get: " + stomt);
 
 		assertEquals(expected, stomt);
-		deleteFile(img);
-	}
-	
-
-	private String FileToBase64(File data) throws StomtException {
-		String imageDataString = null;
-		
-        try {
-        	// Reading an Image file from file system
-            FileInputStream fileInputStreamReader = new FileInputStream(data);
-            byte[] bytes = new byte[(int)data.length()];
-            fileInputStreamReader.read(bytes);
-            // Converting Image byte array into Base64 String
-            imageDataString = new String(Base64.encodeBase64(bytes));
-            fileInputStreamReader.close();
-        } catch (FileNotFoundException e) {
-           throw new StomtException(e.toString());
-        } catch (IOException e) {
-            throw new StomtException(e.toString());
-        }
-        return imageDataString;
-	}
-
-	private String getRandomString() {
-		double random = Math.random() * 100000;
-		return Integer.toString((int) random);
+		StomtClientTest.deleteFile(img);
 	}
 
 }

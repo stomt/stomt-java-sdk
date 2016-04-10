@@ -1,16 +1,15 @@
 package stomt4j;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.net.URL;
-
 import org.apache.http.ParseException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import stomt4j.entities.Stomt;
+
+import java.io.IOException;
+import java.net.URL;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de
@@ -28,7 +27,7 @@ public class CreateStomt {
 
 	@Before
 	public void setUp() throws ParseException, IOException, StomtException {
-		// resset
+		// reset
 		client = null;
 		expected = null;
 		stomt = null;

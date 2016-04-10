@@ -1,15 +1,14 @@
 package stomt4j;
 
-import static org.junit.Assert.*;
+import org.apache.http.ParseException;
+import org.junit.Test;
+import stomt4j.entities.Image;
+import stomt4j.entities.ImageContext;
 
 import java.io.IOException;
 import java.net.URL;
 
-import org.apache.http.ParseException;
-import org.junit.Test;
-
-import stomt4j.entities.Image;
-import stomt4j.entities.ImageContext;
+import static org.junit.Assert.assertEquals;
 
 public class UploadImageViaUrl {
 
@@ -17,7 +16,7 @@ public class UploadImageViaUrl {
 	@Test
 	public void uploadAvatarWithUrl() throws ParseException, IOException, StomtException {
 		
-		URL url = new URL("http://img3.wikia.nocookie.net/__cb20120915054011/fmabyond/images/0/0b/Blank_avatar_240x240.gif");
+		URL url = new URL(StomtClientTest.sample_image_url);
 		
 		System.out.println("-> TEST: uploadAvatarWithUrl()");
 		
@@ -33,13 +32,13 @@ public class UploadImageViaUrl {
 		
 		expect.setContext(ImageContext.avatar.toString());
 		
-		if (get.getUrl() == null || get.getUrl() == "") {
+		if (get.getUrl() == null || get.getUrl().equals("")) {
 			throw new StomtException("URL: Response unexpected!");
 		} else {
 			expect.setUrl(get.getUrl());
 		}
 		
-		if (get.getName() == null || get.getName() == "") {
+		if (get.getName() == null || get.getName().equals("")) {
 			throw new StomtException("NAME: Response unexpected!");
 		} else {
 			expect.setName(get.getName());

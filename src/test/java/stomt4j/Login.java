@@ -1,11 +1,12 @@
 package stomt4j;
 
-import static org.junit.Assert.*;
-import java.io.IOException;
 import org.apache.http.ParseException;
 import org.junit.Test;
-
 import stomt4j.entities.Target;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Christoph Weidemeyer - c.weidemeyer at gmx.de

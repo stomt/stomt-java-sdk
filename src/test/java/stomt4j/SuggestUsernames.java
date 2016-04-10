@@ -1,9 +1,10 @@
 package stomt4j;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import org.apache.http.ParseException;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class SuggestUsernames {
 
@@ -15,9 +16,9 @@ public class SuggestUsernames {
 		if (suggestions == null) {
 			throw new StomtException("suggestions is null.");
 		}
-		
-		for (int i = 0; i < suggestions.size(); i++) {
-			if (suggestions.get(i) == null || suggestions.get(i).getClass() != String.class) {
+
+		for (String suggestion : suggestions) {
+			if (suggestion == null || suggestion.getClass() != String.class) {
 				throw new StomtException("suggestion is null or not type String.");
 			}
 		}
