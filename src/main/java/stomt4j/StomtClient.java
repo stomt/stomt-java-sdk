@@ -21,6 +21,9 @@ import com.google.gson.JsonParser;
 import stomt4j.auth.*;
 import stomt4j.entities.*;
 
+// TODO: reduce and document exceptions
+// TODO: check class and method scopes
+
 /**
  * The StomtClient is needed to use the Stomt Java SDK.
  * After generate an instance of the StomtClient the user can execute the main methods of this SDK with {@code INSTANCE_OF_STOMTCLIENT.NAME_OF_METHOD()}.
@@ -93,17 +96,8 @@ public class StomtClient implements HttpVariables {
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + authentication,
 				httpClient.getRequestHeaders(), bodyParameters, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-
-		JsonObject data = o.getAsJsonObject("data");
+		JsonObject data = httpClient.executeAndParseData(request);
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
@@ -128,17 +122,8 @@ public class StomtClient implements HttpVariables {
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.PUT, root + authentication,
 				httpClient.getRequestHeaders(), bodyParameters, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-
-		JsonObject data = o.getAsJsonObject("data");
+		JsonObject data = httpClient.executeAndParseData(request);
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
@@ -163,17 +148,8 @@ public class StomtClient implements HttpVariables {
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + authentication + login,
 				httpClient.getRequestHeaders(), bodyParameters, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-
-		JsonObject data = o.getAsJsonObject("data");
+		JsonObject data = httpClient.executeAndParseData(request);
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 				
@@ -199,17 +175,8 @@ public class StomtClient implements HttpVariables {
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + authentication + login,
 				httpClient.getRequestHeaders(), bodyParameters, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-
-		JsonObject data = o.getAsJsonObject("data");
+		JsonObject data = httpClient.executeAndParseData(request);
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
@@ -237,17 +204,8 @@ public class StomtClient implements HttpVariables {
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + authentication + login,
 				httpClient.getRequestHeaders(), bodyParameters, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-
-		JsonObject data = o.getAsJsonObject("data");
+		JsonObject data = httpClient.executeAndParseData(request);
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
@@ -274,17 +232,8 @@ public class StomtClient implements HttpVariables {
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + authentication + login,
 				httpClient.getRequestHeaders(), bodyParameters, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-
-		JsonObject data = o.getAsJsonObject("data");
+		JsonObject data = httpClient.executeAndParseData(request);
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
@@ -311,17 +260,8 @@ public class StomtClient implements HttpVariables {
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.DELETE, root + authentication + login,
 				httpClient.getRequestHeaders(), null, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-
-		JsonObject data = o.getAsJsonObject("data");
+		JsonObject data = httpClient.executeAndParseData(request);
 		return Boolean.valueOf(data.get("success").getAsString());
 	}
 
@@ -343,17 +283,9 @@ public class StomtClient implements HttpVariables {
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.GET, builder.toString(),
 				httpClient.getRequestHeaders(), null, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
 
-		JsonObject data = o.getAsJsonObject("data");
+		JsonObject data = httpClient.executeAndParseData(request);
 		return Boolean.valueOf(data.get("success").getAsString());
 	}
 	
@@ -373,11 +305,9 @@ public class StomtClient implements HttpVariables {
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.GET, builder.toString(),
 				httpClient.getRequestHeaders(), null, this.auth);
+
 		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
+		JsonObject o = httpClient.parseResponse(response);
 
 		if (response.getStatusLine().getStatusCode() != 200) {
 			throw new StomtException(o);
@@ -409,17 +339,8 @@ public class StomtClient implements HttpVariables {
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + authentication + forgotPassword,
 				httpClient.getRequestHeaders(), bodyParameters, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-
-		JsonObject data = o.getAsJsonObject("data");
+		JsonObject data = httpClient.executeAndParseData(request);
 		return Boolean.valueOf(data.get("success").getAsString());
 	}
 
@@ -440,17 +361,8 @@ public class StomtClient implements HttpVariables {
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + authentication + resetPassword,
 				httpClient.getRequestHeaders(), bodyParameters, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-
-		JsonObject data = o.getAsJsonObject("data");
+		JsonObject data = httpClient.executeAndParseData(request);
 		auth.setAccesstoken(data.get("accesstoken").getAsString());
 		auth.setRefreshtoken(data.get("refreshtoken").getAsString());
 
@@ -517,18 +429,9 @@ public class StomtClient implements HttpVariables {
 			request = new StomtHttpRequest(RequestMethod.POST, root + stomts,
 					httpClient.getRequestHeaders(), bodyParameters, this.auth); 
 		}
-		
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-		
-		return new Stomt(o.getAsJsonObject("data"));
+		JsonObject data = httpClient.executeAndParseData(request);
+		return new Stomt(data);
 	}
 	
 	/*
@@ -1207,19 +1110,11 @@ public class StomtClient implements HttpVariables {
 	 * @throws StomtException
 	 */
 	public Stomt readStomt(String stomt_id) throws ParseException, IOException, StomtException {
-
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.GET, root + stomts + "/" + stomt_id,
 				httpClient.getRequestHeaders(), null, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
-		
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-		return new Stomt(o.getAsJsonObject("data"));
+
+		JsonObject data = httpClient.executeAndParseData(request);
+		return new Stomt(data);
 	}
 	
 	/**
@@ -1232,28 +1127,11 @@ public class StomtClient implements HttpVariables {
 	 * @throws StomtException
 	 */
 	public boolean deleteStomt(String stomt_id) throws ParseException, IOException, StomtException {
-		// No Accesstoken? -> User not logged in
-		if (!this.auth.hasAccesstoken()) {
-			throw new StomtException("User is not logged in - no accesstoken.");
-		}
-		
-		httpClient.addRequestHeader("accesstoken", this.auth.getAccesstoken());
-
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.DELETE, root + stomts + "/" + stomt_id,
 				httpClient.getRequestHeaders(), null, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-
-		JsonObject data = o.getAsJsonObject("data");
-
-		return Boolean.valueOf(data.get("success").getAsString());
+		JsonObject data = httpClient.executeAndParseData(request);
+		return data.get("success").getAsBoolean();
 	}
 
 	/*
@@ -1391,16 +1269,8 @@ public class StomtClient implements HttpVariables {
 	public String getFeed(String type) throws ParseException, IOException, StomtException {
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.GET, root + feeds + type.toLowerCase(),
 				httpClient.getRequestHeaders(), null, this.auth);
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
-		JsonArray data = o.getAsJsonArray("data");
+		JsonObject data = httpClient.executeAndParseData(request);
 		return data.getAsString();
 	}
 	
@@ -1641,19 +1511,9 @@ public class StomtClient implements HttpVariables {
 
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.POST, root + images,
 				httpClient.getRequestHeaders(), bodyParameters, this.auth);
-		
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity entity = response.getEntity();
-		String json = EntityUtils.toString(entity, "UTF-8");
-		JsonParser parser = new JsonParser();
-		JsonObject o = (JsonObject) parser.parse(json);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new StomtException(o);
-		}
+		JsonObject responseData = httpClient.executeAndParseData(request);
 
-		JsonObject responseData = o.getAsJsonObject("data");		
-			
 		Image responseImage = new Image(responseData.getAsJsonObject("images").getAsJsonObject(context));
 		responseImage.setContext(context);
 	

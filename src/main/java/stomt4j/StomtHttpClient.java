@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -14,6 +18,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
 /**
  * The {@code StomtHttpClient} handles the HTTP-Connection.
@@ -85,6 +90,24 @@ public class StomtHttpClient implements HttpVariables {
 		}
 		return response;
 	}
+
+	protected JsonObject parseResponse(HttpResponse response) throws IOException {
+		HttpEntity entity = response.getEntity();
+		String json = EntityUtils.toString(entity, "UTF-8");
+		JsonParser parser = new JsonParser();
+		return (JsonObject) parser.parse(json);
+	}
+
+	protected JsonObject executeAndParseData(StomtHttpRequest request) throws IOException, StomtException {
+		HttpResponse response = execute(request);
+		JsonObject o = parseResponse(response);
+
+		if (response.getStatusLine().getStatusCode() != 200) {
+			throw new StomtException(o);
+		}
+
+		return o.getAsJsonObject("data");
+	}
 	
 	/**
 	 * Transform {@code StomtHttpRequest} to {@code HttpGet}.
@@ -118,7 +141,7 @@ public class StomtHttpClient implements HttpVariables {
 	}
 
 	/**
-	 * Transform {@code StomtHttpRequest} to {@code HttpPut}.
+	 * Transform {@code StomtHttpRequest} to {@code HttpPut}.  .
 	 * 
 	 * @param request {@code StomtHttpRequest} as {@code HttpPut}
 	 * @return The valid HTTP-Request
@@ -137,7 +160,7 @@ public class StomtHttpClient implements HttpVariables {
 	}
 
 	/**
-	 * Transform {@code StomtHttpRequest} to {@code HttpDelete}.
+	 * Transform {@code StomtHttpRequest} to {@code HttpDelete}.  .
 	 * 
 	 * @param request {@code StomtHttpRequest} as {@code HttpDelete}
 	 * @return The valid HTTP-Request
