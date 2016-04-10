@@ -35,11 +35,7 @@ public class Authorization {
      * @return {@code true} if instance has set an {@code accestoken}
      */
     public boolean hasAccesstoken() {
-    	if (this.accesstoken == null) {
-    		return false;
-    	} else {
-    		return true;
-    	}
+		return this.accesstoken != null;
     }
 
     /**
@@ -72,11 +68,8 @@ public class Authorization {
     }
     
     public boolean isEnabled() {
-    	if (accesstoken == null) {
-    		return false;
-    	}
-    	return true;
-    }
+		return accesstoken != null;
+	}
     
 	/**
 	 * A toString() method for {@link Authorization}.

@@ -56,27 +56,25 @@ public class StomtHttpRequest {
 	 * @return The Body Parameters of the HTTP-Request as String
 	 */
 	private String getBodyParametersAsString() {
-		
-		StringBuffer buf = new StringBuffer("bodyParameters: [");
+
+		// TODO: compare with gson.toString()
+
+		StringBuilder buf = new StringBuilder("bodyParameters: [");
 		
 		 Iterator<Entry<String, Object>> it = bodyParameters.entrySet().iterator();
 		    while (it.hasNext()) {
 		        Map.Entry<String, Object> pair = (Map.Entry<String, Object>)it.next();
-		        buf.append(pair.getKey().toString());
+		        buf.append(pair.getKey());
 		        buf.append(" : ");
 		        buf.append(pair.getValue().toString());
 		        buf.append(",");
 
-		        
-		       
 		        it.remove(); // avoids a ConcurrentModificationException
 		    }
 		
 		buf.deleteCharAt(buf.length() - 1);
 		buf.append("]");
-		
-		
-		
+
 		return buf.toString();
 	}
 
@@ -105,8 +103,8 @@ public class StomtHttpRequest {
 	 * @return The Headers of the HTTP-Request as String
 	 */
 	private String getRequestHeadersAsString() {
-		// TODO: String Buffer ...
-		return null;
+		// TODO: String Buffer needed?
+		return this.requestHeaders.toString();
 	}
 
 	/**

@@ -2,6 +2,8 @@ package stomt4j.entities;
 
 import com.google.gson.JsonObject;
 
+import java.util.Arrays;
+
 /**
  * The entity Stomt.
  * 
@@ -24,9 +26,8 @@ public class Stomt {
 	private Target target = null;
 	private Highlight[] highlights = null;
 	private Target creator = null;
-	// TODO: Expand to url array - Backend does not support at moment
 	private String url = null;
-	private AgreedEntity agreed = null;	// only exists if agreed
+	private Agreed agreed = null;	// only exists if agreed
 	
 	/**
 	 * Constructor for stomt-objects
@@ -36,7 +37,7 @@ public class Stomt {
 	public Stomt (JsonObject stomt) {
 		
 		if (stomt.has("agreed")) {
-			this.agreed = new AgreedEntity(stomt.get("agreed").getAsJsonObject());
+			this.agreed = new Agreed(stomt.get("agreed").getAsJsonObject());
 			//stomt.remove("agreed");
 		}
 		
@@ -64,7 +65,7 @@ public class Stomt {
 		
 		this.anonym = stomt.get("anonym").getAsBoolean();
 		
-		if (anonym == true) {
+		if (anonym) {
 			this.creator = null;
 		} else {
 			this.creator = new Target(stomt.getAsJsonObject("creator"));
@@ -186,7 +187,7 @@ public class Stomt {
 	/**
 	 * @return The agreed-entity of the stomt
 	 */
-	public AgreedEntity getAgreed() {
+	public Agreed getAgreed() {
 		return agreed;
 	}
 	
@@ -209,21 +210,21 @@ public class Stomt {
 		if (labels == null) {
 			labelsString = "";
 		} else {
-			labelsString = labels.toString();
+			labelsString = Arrays.toString(labels);
 		}
 		
 		String agreementsString;
 		if (agreements == null) {
 			agreementsString = "";
 		} else {
-			agreementsString = agreements.toString();
+			agreementsString = Arrays.toString(agreements);
 		}
 		
 		String highlightsString;
 		if (highlights == null) {
 			highlightsString= "";
 		} else {
-			highlightsString = highlights.toString();
+			highlightsString = Arrays.toString(highlights);
 		}
 		
 		String creatorString;
@@ -253,28 +254,5 @@ public class Stomt {
 				+ anonym + ", target=" + target.toString() + ", highlights=" + highlightsString + ", creator="
 				+ creatorString + ", url=" + urlString + ", agreed=" + agreedString + "]";
 	}
-	
-	public static class AgreedEntity {
-		private boolean positive;
-		
-		/**
-		 * Constructor - used to handle Stomt-Objects in json-format.
-		 * 
-		 * @param agreed The AgreedEntity as Json-Object
-		 */
-		public AgreedEntity(JsonObject agreed) {
-			this.positive = agreed.get("positive").getAsBoolean();
-		}
-		
-		/**
-		 * A toString() method for the agreed entity - used for unit tests.
-		 * 
-		 * @return A String representation of the agreed entity
-		 */
-		@Override
-		public String toString() {
-			return "AgreedEntity [positive=" + positive + "]";
-		}
-		
-	}
+
 }

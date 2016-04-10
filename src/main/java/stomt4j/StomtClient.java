@@ -157,7 +157,7 @@ public class StomtClient implements HttpVariables {
 	 */
 	public Target login(String emailUsername, String password) throws ParseException, IOException, StomtException {
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
-		bodyParameters.put("login_method", new String("normal"));
+		bodyParameters.put("login_method", "normal");
 		bodyParameters.put("emailusername", emailUsername);
 		bodyParameters.put("password", password);
 
@@ -193,7 +193,7 @@ public class StomtClient implements HttpVariables {
 	 */
 	public Target loginFacebook(String fb_access_token, String fb_user_id) throws ParseException, IOException, StomtException {
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
-		bodyParameters.put("login_method", new String("facebook"));
+		bodyParameters.put("login_method", "facebook");
 		bodyParameters.put("fb_access_token", fb_access_token);
 		bodyParameters.put("fb_user_id", fb_user_id);
 
@@ -222,8 +222,8 @@ public class StomtClient implements HttpVariables {
 	 *  Normal authentication with reddit.
 	 * <br>For Connect with reddit you need to sign-in client-side to receive {@code code} and {@code state}.
 	 * 
-	 * @param code A one-time use code that may be exchanged for a bearer token. (c.f {@link https://github.com/reddit/reddit/wiki/OAuth2})
-	 * @param state A string of your choosing. (c.f {@link https://github.com/reddit/reddit/wiki/OAuth2})
+	 * @param code A one-time use code that may be exchanged for a bearer token. (c.f {@link "https://github.com/reddit/reddit/wiki/OAuth2"})
+	 * @param state A string of your choosing. (c.f {@link "https://github.com/reddit/reddit/wiki/OAuth2"})
 	 * @return The user-object
 	 * @throws ParseException
 	 * @throws IOException
@@ -231,7 +231,7 @@ public class StomtClient implements HttpVariables {
 	 */
 	public Target loginReddit(String code, String state) throws ParseException, IOException, StomtException {
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
-		bodyParameters.put("login_method", new String("reddit"));
+		bodyParameters.put("login_method", "reddit");
 		bodyParameters.put("code", code);
 		bodyParameters.put("state", state);
 
@@ -259,8 +259,8 @@ public class StomtClient implements HttpVariables {
 	 *  Normal authentication with Twitter.
 	 * <br>For Connect with twitter you need to sign-in client-side to receive {@code oauth_token} and {@code oauth_verifier}.
 	 * 
-	 * @param code A one-time use code that may be exchanged for a bearer token. (c.f {@link https://github.com/reddit/reddit/wiki/OAuth2})
-	 * @param state A string of your choosing. (c.f {@link https://github.com/reddit/reddit/wiki/OAuth2})
+	 * @param oauth_token A one-time use code that may be exchanged for a bearer token. (c.f {@link "https://github.com/reddit/reddit/wiki/OAuth2"})
+	 * @param oauth_verifier A string of your choosing. (c.f {@link "https://github.com/reddit/reddit/wiki/OAuth2"})
 	 * @return The user-object
 	 * @throws ParseException
 	 * @throws IOException
@@ -268,7 +268,7 @@ public class StomtClient implements HttpVariables {
 	 */
 	public Target loginTwitter(String oauth_token, String oauth_verifier) throws ParseException, IOException, StomtException {
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
-		bodyParameters.put("login_method", new String("twitter"));
+		bodyParameters.put("login_method", "twitter");
 		bodyParameters.put("oauth_token", oauth_token);
 		bodyParameters.put("oauth_verifier", oauth_verifier);
 
@@ -502,14 +502,14 @@ public class StomtClient implements HttpVariables {
 			// bodyParameters.put("lonlat", lonlat.toJson());
 		}
 		
-		bodyParameters.put("positive", new Boolean(positive));
+		bodyParameters.put("positive", positive);
 		bodyParameters.put("target_id", target_id);
 		bodyParameters.put("text", text);
-		bodyParameters.put("anonym", new Boolean(anonym));
+		bodyParameters.put("anonym", anonym);
 		
 		StomtHttpRequest request;
 		
-		if (anonym == true) {
+		if (anonym) {
 			request = new StomtHttpRequest(RequestMethod.POST, root + stomts,
 				httpClient.getRequestHeaders(), bodyParameters, null); 
 		} else {
@@ -1225,7 +1225,7 @@ public class StomtClient implements HttpVariables {
 	/**
 	 * Delete a single stomt.
 	 * 
-	 * @param The {@code stomt_id} of the stomt which should be deleted
+	 * @param stomt_id of the stomt which should be deleted
 	 * @return {@code true} if the stomt was deleted, otherwise {@code false}
 	 * @throws ParseException
 	 * @throws IOException
@@ -1424,7 +1424,7 @@ public class StomtClient implements HttpVariables {
 	 * @param category_id A category for the new Target (required, must be an existing {@code category_id})
 	 * @param parent_id The {@code target_id} of the parent if the new target is a sub-target (optional)
 	 * @param isPrivate {@code true} if the new Target is private, otherwise false (optional, default: false)
-	 * @return
+	 * @return Target
 	 */
 	public Target createTarget(String displayname, String username, String image, String category_id, String parent_id, boolean isPrivate) {
 		return null;
@@ -1437,7 +1437,7 @@ public class StomtClient implements HttpVariables {
 	 *  
 	 * @param src Providers Shorthandle (e.g. "tw")
 	 * @param src_id {@code username} at the providers platform: e.g. twitter.com/stomt -> "stomt"
-	 * @return
+	 * @return Target
 	 */
 	public Target preflight(String src, String src_id) {
 		return null;
@@ -1566,9 +1566,9 @@ public class StomtClient implements HttpVariables {
 	 * If notifications are seen by the user (e.g. the user views a notification overview) set the seen-attribute to {@code true}. 
 	 * If the user clicks/taps on a notification set the clicked-attribute to {@code true}.
 	 * 
-	 * @param id 
-	 * @param seen
-	 * @param clicked
+	 * @param id notification id
+	 * @param seen set true to mark as seed
+	 * @param clicked set true to mark as clicked
 	 * @return {@code true} if the update was successful, otherwise {@code false}
 	 */
 	public boolean updateNotifications(String id, boolean seen, boolean clicked) {
@@ -1600,7 +1600,7 @@ public class StomtClient implements HttpVariables {
 			throw new StomtException("You can not set data and url!");
 		}
 		
-		if (!ImageContextWork.contains(context.toLowerCase())) {	// Does context match enum?
+		if (!ImageContext.contains(context.toLowerCase())) {	// Does context match enum?
 			throw new StomtException("The attribut context is invalid!");
 		} 
 		
@@ -1631,7 +1631,7 @@ public class StomtClient implements HttpVariables {
 			throw new StomtException("URL is invalid!");
 		}
 		
-		Map<String, Object>[] contextArray = new Map[1];
+		Map[] contextArray = new Map[1];
 		contextArray[0] = contextInner;
 		
 		Map<String, Object> imagesInner = new HashMap<String, Object>();

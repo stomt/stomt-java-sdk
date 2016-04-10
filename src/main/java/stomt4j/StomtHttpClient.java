@@ -87,7 +87,7 @@ public class StomtHttpClient implements HttpVariables {
 	}
 	
 	/**
-	 * Transform {@code StomtHttpRequest} to {@code HttpGet}.  .
+	 * Transform {@code StomtHttpRequest} to {@code HttpGet}.
 	 * 
 	 * @param request {@code StomtHttpRequest} as {@code HttpGet}
 	 * @return The valid HTTP-Request
@@ -99,7 +99,7 @@ public class StomtHttpClient implements HttpVariables {
 	}
 
 	/**
-	 * Transform {@code StomtHttpRequest} to {@code HttpPost}.  .
+	 * Transform {@code StomtHttpRequest} to {@code HttpPost}.
 	 * 
 	 * @param request {@code StomtHttpRequest} as {@code HttpPost}
 	 * @return The valid HTTP-Request
@@ -118,7 +118,7 @@ public class StomtHttpClient implements HttpVariables {
 	}
 
 	/**
-	 * Transform {@code StomtHttpRequest} to {@code HttpPut}.  .
+	 * Transform {@code StomtHttpRequest} to {@code HttpPut}.
 	 * 
 	 * @param request {@code StomtHttpRequest} as {@code HttpPut}
 	 * @return The valid HTTP-Request
@@ -137,7 +137,7 @@ public class StomtHttpClient implements HttpVariables {
 	}
 
 	/**
-	 * Transform {@code StomtHttpRequest} to {@code HttpDelete}.  .
+	 * Transform {@code StomtHttpRequest} to {@code HttpDelete}.
 	 * 
 	 * @param request {@code StomtHttpRequest} as {@code HttpDelete}
 	 * @return The valid HTTP-Request
@@ -154,7 +154,7 @@ public class StomtHttpClient implements HttpVariables {
 	 * @param methodRequest The HttpRequestMethod
 	 * @param request The {@code StomtHttpRequest}
 	 */
-	public void setHeaders(HttpRequestBase methodRequest, StomtHttpRequest request) {
+	private void setHeaders(HttpRequestBase methodRequest, StomtHttpRequest request) {
 		for (Map.Entry<String, String> entry : request.getRequestHeaders().entrySet()) {
 			methodRequest.setHeader(entry.getKey(), entry.getValue());
 		}
