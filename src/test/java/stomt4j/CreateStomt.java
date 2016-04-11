@@ -65,7 +65,7 @@ public class CreateStomt {
 					+ " images=, lang=en, created_at=" + stomtObject.getCreated_at() +", amountAgreements=1, amountComments=0, "
 					+ "labels=, agreements=, anonym=false, target=Target [id=stomt-java, displayname=stomt-java, "
 					+ "category=Category [id=targets, displayname=Targets], images=" + stomtObject.getTarget().getImages() 
-					+ ", verified=false], highlights=, creator=" + stomtObject.getCreator() + ", url=, agreed=AgreedEntity [positive=true]]";
+					+ ", verified=false], highlights=, creator=" + stomtObject.getCreator() + ", url=, agreed=Agreed [positive=true]]";
 
 			System.out.println("Expect: " + expected);
 			System.out.println("Get: " + stomt);
@@ -90,7 +90,7 @@ public class CreateStomt {
 					+ " images=, lang=en, created_at=" + stomtObject.getCreated_at() +", amountAgreements=1, amountComments=0, "
 					+ "labels=, agreements=, anonym=false, target=Target [id=stomt-java, displayname=stomt-java, "
 					+ "category=Category [id=targets, displayname=Targets], images=" + stomtObject.getTarget().getImages() 
-					+ ", verified=false], highlights=, creator=" + stomtObject.getCreator() + ", url=, agreed=AgreedEntity [positive=true]]";
+					+ ", verified=false], highlights=, creator=" + stomtObject.getCreator() + ", url=, agreed=Agreed [positive=true]]";
 			
 			System.out.println("Expect: " + expected);
 			System.out.println("Get: " + stomt);
@@ -113,7 +113,7 @@ public class CreateStomt {
 					+ " images=, lang=en, created_at=" + stomtObject.getCreated_at() +", amountAgreements=1, amountComments=0, "
 					+ "labels=, agreements=, anonym=false, target=Target [id=stomt-java, displayname=stomt-java, "
 					+ "category=Category [id=targets, displayname=Targets], images=" + stomtObject.getTarget().getImages() 
-					+ ", verified=false], highlights=, creator=" + stomtObject.getCreator() + ", url=" + stomtObject.getUrl() + ", agreed=AgreedEntity [positive=true]]";
+					+ ", verified=false], highlights=, creator=" + stomtObject.getCreator() + ", url=" + stomtObject.getUrl() + ", agreed=Agreed [positive=true]]";
 			
 			System.out.println("Expect: " + expected);
 			System.out.println("Get: " + stomt);

@@ -16,7 +16,7 @@ public class UploadImageAsFile {
 	
 	private String random = null;
 	private File img = null;
-	
+
 	@After
 	public void tearDown() throws ParseException, IOException, StomtException {
 		// delete File image

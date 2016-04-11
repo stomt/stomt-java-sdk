@@ -36,7 +36,7 @@ public class StomtClientTest {
 	
 	// A single stomt_id and text which exists
 	public static final String stomt_id = "java-sdk-test-81637";	// stomt_id
-	public static final String stomt = "Java-SDK test 81637";		// text
+	public static final String stomt = "java-sdk-test-81637 ";		// text
 	public static final String sample_image_url = "http://pixabay.com/static/uploads/photo/2012/04/26/19/43/profile-42914_960_720.png";
 
 

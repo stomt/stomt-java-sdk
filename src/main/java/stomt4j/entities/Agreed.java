@@ -8,7 +8,7 @@ public class Agreed {
 	/**
 	 * Constructor - used to handle Stomt-Objects in json-format.
 	 *
-	 * @param agreed The AgreedEntity as Json-Object
+	 * @param agreed The Agreed as Json-Object
 	 */
 	public Agreed(JsonObject agreed) {
 		this.positive = agreed.get("positive").getAsBoolean();

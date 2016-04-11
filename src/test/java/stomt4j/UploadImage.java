@@ -1,6 +1,7 @@
 package stomt4j;
 
 import org.apache.http.ParseException;
+import org.junit.After;
 import org.junit.Test;
 import stomt4j.entities.Image;
 import stomt4j.entities.ImageContext;
@@ -13,6 +14,15 @@ import static org.junit.Assert.assertEquals;
 public class UploadImage {
 	
 	private String random = null;
+	private File img = null;
+
+	@After
+	public void tearDown() throws ParseException, IOException, StomtException {
+		// delete File image
+		if (img != null) {
+			StomtClientTest.deleteFile(img);
+		}
+	}
 
 	@Test
 	public void uploadAvatarWithString() throws ParseException, IOException, StomtException {
@@ -20,7 +30,7 @@ public class UploadImage {
 		System.out.println("-> TEST: uploadAvatarWithString()");
 
 		random = StomtClientTest.getRandomString();
-		File img = StomtClientTest.generateFile(random);
+		img = StomtClientTest.generateFile(random);
 		String myAvatar = StomtClientTest.fileToBase64(img);
 				
 		StomtClient stomtClient = new StomtClient(StomtClientTest.appid);		
@@ -53,7 +63,6 @@ public class UploadImage {
 		System.out.println("Get: " + get.toString());
 		
 		assertEquals(get.toString(), expect.toString());
-		StomtClientTest.deleteFile(img);
 	}
 	
 	@Test(expected=StomtException.class)
@@ -62,7 +71,7 @@ public class UploadImage {
 		System.out.println("-> TEST: uploadImageWrongContext() - StomtException");
 
 		random = StomtClientTest.getRandomString();
-		File img = StomtClientTest.generateFile(random);
+		img = StomtClientTest.generateFile(random);
 		String myAvatar = StomtClientTest.fileToBase64(img);
 				
 		StomtClient stomtClient = new StomtClient(StomtClientTest.appid);		
