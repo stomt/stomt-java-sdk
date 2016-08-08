@@ -11,3 +11,9 @@ We would love to see you contributing to our Java SDK. Feel free to fork it and 
 ## Author
 
 [Christoph Weidemeyer](https://github.com/ChrisWe)
+
+## More about stomt
+
+* On the web [www.stomt.com](https://www.stomt.com)
+* [stomt for iOS](http://stomt.co/ios)
+* [stomt for Android](http://stomt.co/android)
