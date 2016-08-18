@@ -44,7 +44,7 @@ public class CreateStomtWithImage {
 		
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+		expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
 				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=false, "
 				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=" + stomtObject.getCreator() + ", url=, agreed=" + stomtObject.getAgreed() + "]";
 		
@@ -76,7 +76,7 @@ public class CreateStomtWithImage {
 		
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+		expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
 				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=false, "
 				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=" + stomtObject.getCreator() + ", url=, agreed=" + stomtObject.getAgreed() + "]";
 		
@@ -109,7 +109,7 @@ public class CreateStomtWithImage {
 		
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+		expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
 				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=false, "
 				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=" + stomtObject.getCreator() + ", url=" + stomtObject.getUrl() + ", agreed=" + stomtObject.getAgreed() + "]";
 		
@@ -141,7 +141,7 @@ public class CreateStomtWithImage {
 		
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+		expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
 				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=false, "
 				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=" + stomtObject.getCreator() + ", url=, agreed=" + stomtObject.getAgreed() + "]";
 		
@@ -173,7 +173,7 @@ public class CreateStomtWithImage {
 		
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+		expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
 				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=false, "
 				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=" + stomtObject.getCreator() + ", url=" + stomtObject.getUrl() + ", agreed=" + stomtObject.getAgreed() + "]";
 		
@@ -204,7 +204,7 @@ public class CreateStomtWithImage {
 		
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+		expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
 				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=false, "
 				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=" + stomtObject.getCreator() + ", url=, agreed=" + stomtObject.getAgreed() + "]";
 		
@@ -237,7 +237,7 @@ public class CreateStomtWithImage {
 		
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
+		expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " + random + ", images=" + stomtObject.getImages() + ", "
 				+ "lang=en, created_at=" + stomtObject.getCreated_at() + ", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=false, "
 				+ "target=" + stomtObject.getTarget() + ", highlights=, creator=" + stomtObject.getCreator() + ", url=" + stomtObject.getUrl() + ", agreed=" + stomtObject.getAgreed() + "]";
 		

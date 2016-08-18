@@ -10,14 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.util.EntityUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import stomt4j.auth.*;
 import stomt4j.entities.*;
 
@@ -36,6 +33,8 @@ public class StomtClient implements HttpVariables {
 	private Authorization auth;
 	private StomtHttpClient httpClient;
 	private static final String base64 = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$";
+	
+	
 
 	/**
 	 * Constructor of the stomt client.
@@ -1501,6 +1500,7 @@ public class StomtClient implements HttpVariables {
 			throw new StomtException("URL is invalid!");
 		}
 		
+		@SuppressWarnings("rawtypes")
 		Map[] contextArray = new Map[1];
 		contextArray[0] = contextInner;
 		
@@ -1710,7 +1710,8 @@ public class StomtClient implements HttpVariables {
 	private boolean isUrl(String url) {
 		if (url.contains("http://") || url.contains("https://")) {
 			try {
-			    URL tryUrl = new URL(url);
+			    @SuppressWarnings("unused")
+				URL tryUrl = new URL(url);
 			} catch (MalformedURLException e) {
 			   return false;
 			}
