@@ -61,7 +61,7 @@ public class CreateStomt {
 			stomtObject = client.createStomt(positive, StomtClientTest.target_id, text);
 			stomt = stomtObject.toString();
 			
-			expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " +  random + ","
+			expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " +  random + ","
 					+ " images=, lang=en, created_at=" + stomtObject.getCreated_at() +", amountAgreements=1, amountComments=0, "
 					+ "labels=, agreements=, anonym=false, target=Target [id=stomt-java, displayname=stomt-java, "
 					+ "category=Category [id=targets, displayname=Targets], images=" + stomtObject.getTarget().getImages() 
@@ -86,7 +86,7 @@ public class CreateStomt {
 			stomtObject = client.createStomt(positive, StomtClientTest.target_id, text);
 			stomt = stomtObject.toString();
 			
-			expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " +  random + ","
+			expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " +  random + ","
 					+ " images=, lang=en, created_at=" + stomtObject.getCreated_at() +", amountAgreements=1, amountComments=0, "
 					+ "labels=, agreements=, anonym=false, target=Target [id=stomt-java, displayname=stomt-java, "
 					+ "category=Category [id=targets, displayname=Targets], images=" + stomtObject.getTarget().getImages() 
@@ -109,7 +109,7 @@ public class CreateStomt {
 			stomtObject = client.createStomt(positive, StomtClientTest.target_id, text, url);
 			stomt = stomtObject.toString();
 			
-			expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " +  random + ","
+			expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " +  random + ","
 					+ " images=, lang=en, created_at=" + stomtObject.getCreated_at() +", amountAgreements=1, amountComments=0, "
 					+ "labels=, agreements=, anonym=false, target=Target [id=stomt-java, displayname=stomt-java, "
 					+ "category=Category [id=targets, displayname=Targets], images=" + stomtObject.getTarget().getImages() 

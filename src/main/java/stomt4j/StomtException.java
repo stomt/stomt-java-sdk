@@ -8,8 +8,13 @@ import com.google.gson.JsonObject;
  */
 public class StomtException extends Throwable {
 
-	public StomtException(String s) {
-		System.out.println(s);
+	/**
+	 * Quick fix for {@code interface Serializable} - implemented by {@code class Throwable}
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public StomtException(String exception) {
+		System.out.println(exception);
 	}
 
 	public StomtException(JsonObject o) {

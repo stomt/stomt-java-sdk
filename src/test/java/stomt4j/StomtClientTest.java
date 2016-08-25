@@ -4,7 +4,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-
 import java.io.*;
 import java.net.URL;
 
@@ -39,7 +38,7 @@ public class StomtClientTest {
 	public static final String stomt = "java-sdk-test-81637 ";		// text
 	public static final String sample_image_url = "http://pixabay.com/static/uploads/photo/2012/04/26/19/43/profile-42914_960_720.png";
 
-
+	
 
 	/**
 	 * Encodes File data into base64 string.
@@ -96,6 +95,7 @@ public class StomtClientTest {
 
 	public static String getRandomString() {
 		double random = Math.random() * 100000;
+		random += random * 21 - 9;
 		return Integer.toString((int) random);
 	}
 }

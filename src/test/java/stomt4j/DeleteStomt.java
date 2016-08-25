@@ -35,7 +35,7 @@ public class DeleteStomt {
 	public void deleteStomt_logout() throws ParseException, IOException, StomtException {
 		System.out.println("->TEST: deleteStomt_logout()");
 		
-		System.out.println("Expect: User is not logged in - no accesstoken.");
+		System.out.println("Expect: Forbidden Dude! This stomt is not yours!");
 		System.out.print("Get: ");
 		
 		StomtClientTest.client.deleteStomt(StomtClientTest.stomt_id);
