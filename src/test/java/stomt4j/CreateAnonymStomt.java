@@ -36,7 +36,7 @@ public class CreateAnonymStomt {
 		Stomt stomtObject = StomtClientTest.client.createAnonymStomt(positive, target_id, text);
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " +  random + ", images=, lang=en, created_at=" + stomtObject.getCreated_at() +
+		expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " +  random + ", images=, lang=en, created_at=" + stomtObject.getCreated_at() +
 				", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, target=Target [id=stomt-java, displayname=stomt-java, "
 				+ "category=Category [id=targets, displayname=Targets],"
 				+ " images=" + stomtObject.getTarget().getImages()  + ", verified=false], highlights=, creator=, url=, agreed=]";
@@ -62,7 +62,7 @@ public class CreateAnonymStomt {
 		Stomt stomtObject = StomtClientTest.client.createAnonymStomt(positive, target_id, text);
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " +  random + ", images=, lang=en, created_at=" + stomtObject.getCreated_at() +
+		expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " +  random + ", images=, lang=en, created_at=" + stomtObject.getCreated_at() +
 				", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, target=Target [id=stomt-java, displayname=stomt-java, "
 				+ "category=Category [id=targets, displayname=Targets],"
 				+ " images=" + stomtObject.getTarget().getImages()  + ", verified=false], highlights=, creator=, url=, agreed=]";
@@ -89,7 +89,7 @@ public class CreateAnonymStomt {
 		Stomt stomtObject = StomtClientTest.client.createAnonymStomt(positive, target_id, text, url);
 		stomt = stomtObject.toString();
 		
-		expected = "Stomt [id=java-sdk-test-" + random + ", positive=" + positive + ", text=Java-SDK test " +  random + ", images=, lang=en, created_at=" + stomtObject.getCreated_at() +
+		expected = "Stomt [id=" + stomtObject.getId() + ", positive=" + positive + ", text=Java-SDK test " +  random + ", images=, lang=en, created_at=" + stomtObject.getCreated_at() +
 				", amountAgreements=1, amountComments=0, labels=, agreements=, anonym=true, target=Target [id=stomt-java, displayname=stomt-java, "
 				+ "category=Category [id=targets, displayname=Targets],"
 				+ " images=" + stomtObject.getTarget().getImages()  + ", verified=false], highlights=, creator=, url=" + url + ", agreed=]";
