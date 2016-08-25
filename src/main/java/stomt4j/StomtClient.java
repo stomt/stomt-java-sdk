@@ -10,18 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.util.EntityUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import stomt4j.auth.*;
 import stomt4j.entities.*;
 
-// TODO: reduce and document exceptions
 // TODO: check class and method scopes
 
 /**
@@ -73,7 +69,7 @@ public class StomtClient implements HttpVariables {
 	/*
 	 *  Authentification 
 	 */
-	
+		
 	/**
 	 * Register an user.
 	 * 
@@ -82,12 +78,11 @@ public class StomtClient implements HttpVariables {
 	 * @param password The desired password
 	 * @param displayname The desired displayname - used to display on stomt-platform
 	 * @return The user-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
 	public Target registerAnUser(String username, String email, String password, String displayname)
-			throws ParseException, IOException, StomtException {
+			throws IOException, StomtException {
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
 		bodyParameters.put("username", username);
 		bodyParameters.put("email", email);
@@ -112,11 +107,10 @@ public class StomtClient implements HttpVariables {
 	 * 
 	 * @param verification_code The verification code the user gets
 	 * @return The user-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Target verifyEmail(String verification_code) throws ParseException, IOException, StomtException {
+	public Target verifyEmail(String verification_code) throws IOException, StomtException {
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
 		bodyParameters.put("verification_code", verification_code);
 
@@ -136,11 +130,10 @@ public class StomtClient implements HttpVariables {
 	 * @param emailUsername The users email or username
 	 * @param password The users password
 	 * @return The user-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Target login(String emailUsername, String password) throws ParseException, IOException, StomtException {
+	public Target login(String emailUsername, String password) throws IOException, StomtException {
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
 		bodyParameters.put("login_method", "normal");
 		bodyParameters.put("emailusername", emailUsername);
@@ -163,11 +156,10 @@ public class StomtClient implements HttpVariables {
 	 * @param fb_access_token The accesstoken the user receive from Facebook
 	 * @param fb_user_id The user id the user receive from Facebook
 	 * @return The user-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Target loginFacebook(String fb_access_token, String fb_user_id) throws ParseException, IOException, StomtException {
+	public Target loginFacebook(String fb_access_token, String fb_user_id) throws IOException, StomtException {
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
 		bodyParameters.put("login_method", "facebook");
 		bodyParameters.put("fb_access_token", fb_access_token);
@@ -192,11 +184,10 @@ public class StomtClient implements HttpVariables {
 	 * @param code A one-time use code that may be exchanged for a bearer token. (c.f {@link "https://github.com/reddit/reddit/wiki/OAuth2"})
 	 * @param state A string of your choosing. (c.f {@link "https://github.com/reddit/reddit/wiki/OAuth2"})
 	 * @return The user-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Target loginReddit(String code, String state) throws ParseException, IOException, StomtException {
+	public Target loginReddit(String code, String state) throws IOException, StomtException {
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
 		bodyParameters.put("login_method", "reddit");
 		bodyParameters.put("code", code);
@@ -220,11 +211,10 @@ public class StomtClient implements HttpVariables {
 	 * @param oauth_token A one-time use code that may be exchanged for a bearer token. (c.f {@link "https://github.com/reddit/reddit/wiki/OAuth2"})
 	 * @param oauth_verifier A string of your choosing. (c.f {@link "https://github.com/reddit/reddit/wiki/OAuth2"})
 	 * @return The user-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Target loginTwitter(String oauth_token, String oauth_verifier) throws ParseException, IOException, StomtException {
+	public Target loginTwitter(String oauth_token, String oauth_verifier) throws IOException, StomtException {
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
 		bodyParameters.put("login_method", "twitter");
 		bodyParameters.put("oauth_token", oauth_token);
@@ -246,11 +236,10 @@ public class StomtClient implements HttpVariables {
 	 * Logout existing session.
 	 * 
 	 * @return true if logout succeed
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public boolean logout() throws ParseException, IOException, StomtException {
+	public boolean logout() throws IOException, StomtException {
 		// No Accesstoken? -> User not logged in
 		if (!this.auth.hasAccesstoken()) {
 			throw new StomtException("User is not logged in - no accesstoken.");
@@ -271,11 +260,10 @@ public class StomtClient implements HttpVariables {
 	 * @param property Check for existing {@code username} or {@code email}
 	 * @param value Value to check
 	 * @return true if {@code displayname} or {@code email} is still available
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public boolean checkAvailability(String property, String value) throws ParseException, IOException, StomtException {
+	public boolean checkAvailability(String property, String value) throws IOException, StomtException {
 		URIBuilder builder = new URIBuilder();
 		builder.setPath(root + authentication + checkAvailability);
 		builder.setParameter("property", property);
@@ -294,11 +282,10 @@ public class StomtClient implements HttpVariables {
 	 * 
 	 * @param fullname Suggest usernames based on {@code fullname}
 	 * @return An {@code ArrayList} with all suggested usernames
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public ArrayList<String> suggestUsernames(String fullname) throws ParseException, IOException, StomtException {
+	public ArrayList<String> suggestUsernames(String fullname) throws IOException, StomtException {
 		URIBuilder builder = new URIBuilder();
 		builder.setPath(root + authentication + suggestedUsernames);
 		builder.setParameter("fullname", fullname);
@@ -328,11 +315,10 @@ public class StomtClient implements HttpVariables {
 	 * 
 	 * @param usernameOrEmail The users username or email
 	 * @return true if username or email is valid
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public boolean forgotPassword(String usernameOrEmail) throws ParseException, IOException, StomtException {
+	public boolean forgotPassword(String usernameOrEmail) throws IOException, StomtException {
 
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
 		bodyParameters.put("usernameoremail", usernameOrEmail);
@@ -350,11 +336,10 @@ public class StomtClient implements HttpVariables {
 	 * @param resetcode The submitted resetcode
 	 * @param newPassword The new password
 	 * @return The user-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Target resetPassword(String resetcode, String newPassword) throws ParseException, IOException, StomtException {
+	public Target resetPassword(String resetcode, String newPassword) throws IOException, StomtException {
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
 		bodyParameters.put("resetcode", resetcode);
 		bodyParameters.put("newpassword", newPassword);
@@ -387,11 +372,10 @@ public class StomtClient implements HttpVariables {
 	 * @param img_name The name of the appended image
 	 * @param lonlat The GPS coordinates
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	private Stomt createStomt(boolean positive, String target_id, String text, URL url, boolean anonym, String img_name, LonLat lonlat) throws ParseException, IOException, StomtException {
+	private Stomt createStomt(boolean positive, String target_id, String text, URL url, boolean anonym, String img_name, LonLat lonlat) throws IOException, StomtException {
 		Map<String, Object> bodyParameters = new HashMap<String, Object>();
 		if (target_id == null) {
 			throw new StomtException("Target ID is required!");
@@ -448,11 +432,10 @@ public class StomtClient implements HttpVariables {
 	 * @param img_name The name of the appended image
 	 * @param lonlat The GPS coordinates
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomt(boolean positive, String target_id, String text, URL url, String img_name, LonLat lonlat) throws ParseException, IOException, StomtException {
+	public Stomt createStomt(boolean positive, String target_id, String text, URL url, String img_name, LonLat lonlat) throws IOException, StomtException {
 		return createStomt(positive, target_id, text, url, false, img_name, lonlat);
 	}
 	
@@ -465,11 +448,10 @@ public class StomtClient implements HttpVariables {
 	 * @param url The appended URL 
 	 * @param img_name The name of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomt(boolean positive, String target_id, String text, URL url, String img_name) throws ParseException, IOException, StomtException {
+	public Stomt createStomt(boolean positive, String target_id, String text, URL url, String img_name) throws IOException, StomtException {
 		return createStomt(positive, target_id, text, url, false, img_name, null);
 	}
 	
@@ -482,11 +464,10 @@ public class StomtClient implements HttpVariables {
 	 * @param url The appended URL
 	 * @param lonlat The GPS coordinates
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomt(boolean positive, String target_id, String text, URL url, LonLat lonlat) throws ParseException, IOException, StomtException {
+	public Stomt createStomt(boolean positive, String target_id, String text, URL url, LonLat lonlat) throws IOException, StomtException {
 		return createStomt(positive, target_id, text, url, false, null, lonlat);
 	}
 	
@@ -498,11 +479,10 @@ public class StomtClient implements HttpVariables {
 	 * @param text The text of a stomt
 	 * @param url The appended URL
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomt(boolean positive, String target_id, String text, URL url) throws ParseException, IOException, StomtException {
+	public Stomt createStomt(boolean positive, String target_id, String text, URL url) throws IOException, StomtException {
 		return createStomt(positive, target_id, text, url, false, null, null);
 	}
 	
@@ -513,11 +493,10 @@ public class StomtClient implements HttpVariables {
 	 * @param target_id To whom the stomt is adressed
 	 * @param text The text of a stomt
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomt(boolean positive, String target_id, String text) throws ParseException, IOException, StomtException {
+	public Stomt createStomt(boolean positive, String target_id, String text) throws IOException, StomtException {
 		return createStomt(positive, target_id, text, null, false, null, null);
 	}
 	
@@ -535,11 +514,10 @@ public class StomtClient implements HttpVariables {
 	 * @param imgUrl The URL of the appended image
 	 * @param lonlat The GPS - latitude, longitude
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, URL imgUrl, LonLat lonlat) throws ParseException, IOException, StomtException {	
+	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, URL imgUrl, LonLat lonlat) throws IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, url, false, img.getName(), lonlat);	
 	}
@@ -555,11 +533,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param imgUrl The URL of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, URL imgUrl) throws ParseException, IOException, StomtException {	
+	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, URL imgUrl) throws IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, url, false, img.getName(), null);	
 	}
@@ -574,11 +551,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param imgUrl The URL of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, URL imgUrl) throws ParseException, IOException, StomtException {	
+	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, URL imgUrl) throws IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, null, false, img.getName(), null);	
 	}
@@ -594,11 +570,10 @@ public class StomtClient implements HttpVariables {
 	 * @param imgUrl The URL of the appended image
 	 * @param lonlat The GPS - latitude, longitude
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, URL imgUrl, LonLat lonlat) throws ParseException, IOException, StomtException {	
+	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, URL imgUrl, LonLat lonlat) throws IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, null, false, img.getName(), lonlat);	
 	}
@@ -617,11 +592,10 @@ public class StomtClient implements HttpVariables {
 	 * @param data The Base64 String of the appended image
 	 * @param lonlat The GPS - latitude, longitude
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, String data, LonLat lonlat) throws ParseException, IOException, StomtException {	
+	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, String data, LonLat lonlat) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, false, img.getName(), lonlat);	
 	}
@@ -637,11 +611,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data The Base64 String of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, String data) throws ParseException, IOException, StomtException {	
+	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, String data) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, false, img.getName(), null);	
 	}
@@ -656,11 +629,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data The Base64 String of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, String data) throws ParseException, IOException, StomtException {	
+	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, String data) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, false, img.getName(), null);	
 	}
@@ -676,11 +648,10 @@ public class StomtClient implements HttpVariables {
 	 * @param data The Base64 String of the appended image
 	 * @param lonlat The GPS - latitude, longitude
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, String data, LonLat lonlat) throws ParseException, IOException, StomtException {	
+	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, String data, LonLat lonlat) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, false, img.getName(), lonlat);	
 	}
@@ -699,11 +670,10 @@ public class StomtClient implements HttpVariables {
 	 * @param data The file of the appended image
 	 * @param lonlat The GPS - latitude, longitude
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, File data, LonLat lonlat) throws ParseException, IOException, StomtException {	
+	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, File data, LonLat lonlat) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, false, img.getName(), lonlat);	
 	}
@@ -719,11 +689,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data The file of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, File data) throws ParseException, IOException, StomtException {	
+	public Stomt createStomtWithImage(boolean positive, String target_id, String text, URL url, String context, File data) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, false, img.getName(), null);	
 	}
@@ -738,11 +707,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data The file of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, File data) throws ParseException, IOException, StomtException {	
+	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, File data) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, false, img.getName(), null);	
 	}
@@ -758,11 +726,10 @@ public class StomtClient implements HttpVariables {
 	 * @param data The file of the appended image
 	 * @param lonlat The GPS - latitude, longitude
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, File data, LonLat lonlat) throws ParseException, IOException, StomtException {	
+	public Stomt createStomtWithImage(boolean positive, String target_id, String text, String context, File data, LonLat lonlat) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, false, img.getName(), lonlat);	
 	}
@@ -781,11 +748,10 @@ public class StomtClient implements HttpVariables {
 	 * @param img_name The name of the appended image
 	 * @param lonlat The GPS coordinates
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomt(boolean positive, String target_id, String text, URL url, String img_name, LonLat lonlat) throws ParseException, IOException, StomtException {
+	public Stomt createAnonymStomt(boolean positive, String target_id, String text, URL url, String img_name, LonLat lonlat) throws IOException, StomtException {
 		return createStomt(positive, target_id, text, url, true, img_name, lonlat);
 	}
 	
@@ -798,11 +764,10 @@ public class StomtClient implements HttpVariables {
 	 * @param url The appended URL 
 	 * @param img_name The name of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomt(boolean positive, String target_id, String text, URL url, String img_name) throws ParseException, IOException, StomtException {
+	public Stomt createAnonymStomt(boolean positive, String target_id, String text, URL url, String img_name) throws IOException, StomtException {
 		return createStomt(positive, target_id, text, url, true, img_name, null);
 	}
 	
@@ -815,11 +780,10 @@ public class StomtClient implements HttpVariables {
 	 * @param url The appended URL 
 	 * @param lonlat The GPS coordinates
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomt(boolean positive, String target_id, String text, URL url, LonLat lonlat) throws ParseException, IOException, StomtException {
+	public Stomt createAnonymStomt(boolean positive, String target_id, String text, URL url, LonLat lonlat) throws IOException, StomtException {
 		return createStomt(positive, target_id, text, url, true, null, lonlat);
 	}
 	
@@ -831,11 +795,10 @@ public class StomtClient implements HttpVariables {
 	 * @param text The text of a stomt
 	 * @param url The appended URL
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomt(boolean positive, String target_id, String text, URL url) throws ParseException, IOException, StomtException {
+	public Stomt createAnonymStomt(boolean positive, String target_id, String text, URL url) throws IOException, StomtException {
 		return createStomt(positive, target_id, text, url, true, null, null);
 	}
 	
@@ -846,11 +809,10 @@ public class StomtClient implements HttpVariables {
 	 * @param target_id To whom the stomt is adressed
 	 * @param text The text of a stomt
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomt(boolean positive, String target_id, String text) throws ParseException, IOException, StomtException {
+	public Stomt createAnonymStomt(boolean positive, String target_id, String text) throws IOException, StomtException {
 		return createStomt(positive, target_id, text, null, true, null, null);
 	}
 	
@@ -868,11 +830,10 @@ public class StomtClient implements HttpVariables {
 	 * @param imgUrl The URL of the appended image
 	 * @param lonlat The GPS - latitude, longitude
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, URL imgUrl, LonLat lonlat) throws ParseException, IOException, StomtException {	
+	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, URL imgUrl, LonLat lonlat) throws IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, url, true, img.getName(), lonlat);	
 	}
@@ -888,11 +849,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param imgUrl The URL of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, URL imgUrl) throws ParseException, IOException, StomtException {	
+	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, URL imgUrl) throws IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, url, true, img.getName(), null);	
 	}
@@ -907,11 +867,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param imgUrl The URL of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
 	 * @throws IOException
-	 * @throws StomtException
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, URL imgUrl) throws ParseException, IOException, StomtException {	
+	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, URL imgUrl) throws IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, null, true, img.getName(), null);	
 	}
@@ -927,11 +886,10 @@ public class StomtClient implements HttpVariables {
 	 * @param imgUrl The URL of the appended image
 	 * @param lonlat The GPS - latitude, longitude
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, URL imgUrl, LonLat lonlat) throws ParseException, IOException, StomtException {	
+	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, URL imgUrl, LonLat lonlat) throws IOException, StomtException {	
 		Image img = uploadImageViaUrl(context, imgUrl);
 		return createStomt(positive, target_id, text, null, true, img.getName(), lonlat);	
 	}
@@ -950,11 +908,10 @@ public class StomtClient implements HttpVariables {
 	 * @param data The Base64 String of the appended image
 	 * @param lonlat The GPS - latitude, longitude
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, String data, LonLat lonlat) throws ParseException, IOException, StomtException {	
+	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, String data, LonLat lonlat) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, true, img.getName(), lonlat);	
 	}
@@ -970,11 +927,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data The Base64 String of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, String data) throws ParseException, IOException, StomtException {	
+	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, String data) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, true, img.getName(), null);	
 	}
@@ -989,11 +945,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data The Base64 String of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, String data) throws ParseException, IOException, StomtException {	
+	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, String data) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, true, img.getName(), null);	
 	}
@@ -1009,11 +964,10 @@ public class StomtClient implements HttpVariables {
 	 * @param data The Base64 String of the appended image
 	 * @param lonlat The GPS - latitude, longitude
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, String data, LonLat lonlat) throws ParseException, IOException, StomtException {	
+	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, String data, LonLat lonlat) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, true, img.getName(), lonlat);	
 	}
@@ -1032,11 +986,10 @@ public class StomtClient implements HttpVariables {
 	 * @param data The file of the appended image
 	 * @param lonlat The GPS - latitude, longitude
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, File data, LonLat lonlat) throws ParseException, IOException, StomtException {	
+	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, File data, LonLat lonlat) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, true, img.getName(), lonlat);	
 	}
@@ -1052,11 +1005,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data The file of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, File data) throws ParseException, IOException, StomtException {	
+	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, URL url, String context, File data) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, url, true, img.getName(), null);	
 	}
@@ -1071,11 +1023,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data The file of the appended image
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, File data) throws ParseException, IOException, StomtException {	
+	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, File data) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, true, img.getName(), null);	
 	}
@@ -1091,11 +1042,10 @@ public class StomtClient implements HttpVariables {
 	 * @param data The file of the appended image
 	 * @param lonlat The GPS - latitude, longitude
 	 * @return The created stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, File data, LonLat lonlat) throws ParseException, IOException, StomtException {	
+	public Stomt createAnonymStomtWithImage(boolean positive, String target_id, String text, String context, File data, LonLat lonlat) throws IOException, StomtException {	
 		Image img = uploadImage(context, data);
 		return createStomt(positive, target_id, text, null, true, img.getName(), lonlat);	
 	}
@@ -1105,11 +1055,10 @@ public class StomtClient implements HttpVariables {
 	 * 
 	 * @param stomt_id The {@code stomt_id} of the stomt which is requested
 	 * @return The requested stomt-object
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public Stomt readStomt(String stomt_id) throws ParseException, IOException, StomtException {
+	public Stomt readStomt(String stomt_id) throws IOException, StomtException {
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.GET, root + stomts + "/" + stomt_id,
 				httpClient.getRequestHeaders(), null, this.auth);
 
@@ -1122,11 +1071,10 @@ public class StomtClient implements HttpVariables {
 	 * 
 	 * @param stomt_id of the stomt which should be deleted
 	 * @return {@code true} if the stomt was deleted, otherwise {@code false}
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public boolean deleteStomt(String stomt_id) throws ParseException, IOException, StomtException {
+	public boolean deleteStomt(String stomt_id) throws IOException, StomtException {
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.DELETE, root + stomts + "/" + stomt_id,
 				httpClient.getRequestHeaders(), null, this.auth);
 
@@ -1262,11 +1210,10 @@ public class StomtClient implements HttpVariables {
 	 * 
 	 * @param type The requested feed
 	 * @return A Json-String of stomt-objects
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws StomtException
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
 	 */
-	public String getFeed(String type) throws ParseException, IOException, StomtException {
+	public String getFeed(String type) throws IOException, StomtException {
 		StomtHttpRequest request = new StomtHttpRequest(RequestMethod.GET, root + feeds + type.toLowerCase(),
 				httpClient.getRequestHeaders(), null, this.auth);
 
@@ -1460,11 +1407,10 @@ public class StomtClient implements HttpVariables {
 	 * @param data Base64 encoded image
 	 * @param url External image URL - enables image-upload via URL
 	 * @return The uploaded image as stomt related image-object
-	 * @throws StomtException
-	 * @throws IOException 
-	 * @throws ParseException 
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
 	 */
-	private Image uploadImage(String id, String context, String data, URL url) throws StomtException, ParseException, IOException {
+	private Image uploadImage(String id, String context, String data, URL url) throws StomtException, IOException {
 		
 		if (data == null && url == null || data != null && url != null) {
 			throw new StomtException("You can not set data and url!");
@@ -1528,11 +1474,10 @@ public class StomtClient implements HttpVariables {
 	 * @param data The image file
 	 * @param url External image URL - enables image-upload via URL
 	 * @return The uploaded image as stomt related image-object
-	 * @throws StomtException
-	 * @throws IOException 
-	 * @throws ParseException 
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
 	 */
-	private Image uploadImageAsFile(String id, String context, File data, URL url) throws StomtException, ParseException, IOException {
+	private Image uploadImageAsFile(String id, String context, File data, URL url) throws StomtException, IOException {
 		
 		String imageDataString = null;
 		
@@ -1559,11 +1504,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param url External image URL.
 	 * @return The uploaded image as stomt related image-object
-	 * @throws StomtException
-	 * @throws IOException 
-	 * @throws ParseException 
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
 	 */
-	public Image uploadImageViaUrl(String id, String context, URL url) throws StomtException, ParseException, IOException {
+	public Image uploadImageViaUrl(String id, String context, URL url) throws StomtException, IOException {
 		return uploadImage(id, context, null, url);
 	}
 	
@@ -1572,11 +1516,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param url External image URL.
 	 * @return The uploaded image as stomt related image-object
-	 * @throws StomtException
-	 * @throws IOException 
-	 * @throws ParseException 
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
 	 */
-	public Image uploadImageViaUrl(String context, URL url) throws StomtException, ParseException, IOException {
+	public Image uploadImageViaUrl(String context, URL url) throws StomtException, IOException {
 		return uploadImage(null, context, null, url);
 	}
 	
@@ -1586,11 +1529,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data Base64 encoded image.
 	 * @return The uploaded image as stomt related image-object
-	 * @throws StomtException
-	 * @throws IOException 
-	 * @throws ParseException 
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
 	 */
-	public Image uploadImage(String id, String context, String data) throws StomtException, ParseException, IOException {
+	public Image uploadImage(String id, String context, String data) throws StomtException, IOException {
 		return uploadImage(id, context, data, null);	
 	}
 	
@@ -1599,11 +1541,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data Base64 encoded image.
 	 * @return The uploaded image as stomt related image-object
-	 * @throws StomtException
-	 * @throws IOException 
-	 * @throws ParseException 
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
 	 */
-	public Image uploadImage(String context, String data) throws StomtException, ParseException, IOException {
+	public Image uploadImage(String context, String data) throws StomtException, IOException {
 		return uploadImage(null, context, data, null);
 	}
 	
@@ -1613,11 +1554,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data The image file.
 	 * @return The uploaded image as stomt related image-object
-	 * @throws StomtException
-	 * @throws IOException 
-	 * @throws ParseException 
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
 	 */
-	public Image uploadImage(String id, String context, File data) throws StomtException, ParseException, IOException {
+	public Image uploadImage(String id, String context, File data) throws StomtException, IOException {
 		return uploadImageAsFile(id, context, data, null);	
 	}
 	
@@ -1626,11 +1566,10 @@ public class StomtClient implements HttpVariables {
 	 * @param context The specific context  (cf. {@code ImageContext.java})
 	 * @param data The image file.
 	 * @return The uploaded image as stomt related image-object
-	 * @throws StomtException
-	 * @throws IOException 
-	 * @throws ParseException 
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
 	 */
-	public Image uploadImage(String context, File data) throws StomtException, ParseException, IOException {
+	public Image uploadImage(String context, File data) throws StomtException, IOException {
 		return uploadImageAsFile(null, context, data, null);
 	}
 	

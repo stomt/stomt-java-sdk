@@ -91,6 +91,12 @@ public class StomtHttpClient implements HttpVariables {
 		return response;
 	}
 
+	/**
+	 * Transforms {@code HttpResponse} to a valid {@code JsonObject}.
+	 * @param response The {@code HttpResponse} from the stomt-Server
+	 * @return The {@code HttpResponse} as a valid {@code JsonObject}
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 */
 	protected JsonObject parseResponse(HttpResponse response) throws IOException {
 		HttpEntity entity = response.getEntity();
 		String json = EntityUtils.toString(entity, "UTF-8");
@@ -98,6 +104,13 @@ public class StomtHttpClient implements HttpVariables {
 		return (JsonObject) parser.parse(json);
 	}
 
+	/**
+	 * Executes the {@code StomtHttpRequest} by transforming it into a valid {@code HttpRequest}.
+	 * @param request The valid {@code StomtHttpRequest}
+	 * @return The {@code HttpResponse} as {@code JsonObject}
+	 * @throws IOException Throws an {@code IOException} if the {@code HttpResponse} is not valid Json
+	 * @throws StomtException Throws a {@code StomtException} if the status code is != 200 (eg. invalid request)
+	 */
 	protected JsonObject executeAndParseData(StomtHttpRequest request) throws IOException, StomtException {
 		HttpResponse response = execute(request);
 		JsonObject o = parseResponse(response);
