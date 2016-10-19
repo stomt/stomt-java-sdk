@@ -24,7 +24,7 @@ The most common action while using the SDK is to send a Stomt.
 ```Java
 // Create a stomt client object with your assigned application id (https://www.stomt.com/dev/apps).
 StomtClient stomtClient = new StomtClient("YOUR APPID");
-// Use the method `` `createAnonymStomt(...)` ``. This method is overloaded and can be used with different arguments.
+// Use the method 'createAnonymStomt(...)'. This method is overloaded and can be used with different arguments.
 // The following example only uses these arguments: boolean positive(“I wish”: positive=false and “I like”: positive=true), String targetID, String stomtText.
 stomtClient.createStomt(true, "sdk", "What I like about the target");
 ```
@@ -36,7 +36,7 @@ The most common action while using the SDK is to send a Stomt.
 StomtClient stomtClient = new StomtClient("YOUR APPID");
 // Login to your existing stomt account.
 stomtClient.login("YOUR USERNAME", "YOUR PASSWORD");
-// Use the method `` `createStomt(...)` ``. This method is overloaded and can be used with different arguments.
+// Use the method 'createStomt(...)'. This method is overloaded and can be used with different arguments.
 // The following example only uses these arguments: boolean positive(“I wish”: positive=false and “I like”: positive=true), String targetID, String stomtText.
 stomtClient.createStomt(false, "sdk", "What I wish for the target"");
 ```
